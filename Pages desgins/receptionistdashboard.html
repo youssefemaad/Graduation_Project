@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KineticFlow Reception Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f48525",
+              "background-light": "#f8f7f5",
+              "background-dark": "#221810",
+              "surface-dark": "#2c2117",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: "Space Grotesk", "Noto Sans", sans-serif;
+        }
+        /* Fluid background effect */
+        .fluid-bg {
+            background: radial-gradient(circle at 50% 50%, rgba(244, 133, 37, 0.05) 0%, rgba(34, 24, 16, 0) 50%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden">
+<div class="relative flex h-screen w-full bg-background-light dark:bg-background-dark overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="flex w-64 flex-col border-r border-[#493422]/30 bg-[#231910] dark:bg-[#231910] p-4 z-20 shadow-xl">
+<div class="flex items-center gap-3 px-2 py-4 mb-6">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-primary/50" data-alt="Abstract orange energy swirl logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBbguXnJyvKz9krqVB6acJYnW0JEBa16A-jFOR3w0qMO11QjZpEL6ck3nhi4CjX0idy6w0Rp0BjRh3nx2wKGATo7zQpNpVNP005SFH0KUeBVWHpovsSrujpaB-1vJXOuooz3SQrvg33wh4WnERIa3OzhSnC9xJkMIZIb6yaPWNGQ1g7ZSXGh0ttnLiH8rVjjZFQ5axoiHNODvoknO5KlD5YEbM4iftpiX8sxLycGhPAvY7icuM8W3Lsnf14CJWX43YawVsLaHG3Xeo");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-lg font-bold leading-tight tracking-tight uppercase">KineticFlow</h1>
+<p class="text-[#cbab90] text-xs font-normal tracking-wide opacity-80">Admin Portal</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 flex-1">
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl bg-primary text-white shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-bold tracking-wide">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-[#cbab90] hover:bg-[#493422]/50 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">qr_code_scanner</span>
+<p class="text-sm font-medium">Check-in/Out</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-[#cbab90] hover:bg-[#493422]/50 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">group</span>
+<p class="text-sm font-medium">Member Lookup</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-[#cbab90] hover:bg-[#493422]/50 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">schedule</span>
+<p class="text-sm font-medium">Schedule</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-[#cbab90] hover:bg-[#493422]/50 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">person_add</span>
+<p class="text-sm font-medium">Guest Access</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-[#cbab90] hover:bg-[#493422]/50 hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">confirmation_number</span>
+<p class="text-sm font-medium">Support</p>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-[#493422]/30">
+<div class="flex items-center gap-3 px-2">
+<div class="relative">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10" data-alt="Portrait of a smiling gym receptionist" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBA1iPp60YMm9U0FA6NEMLp4LVsTxwQbC_X5do11KzK09MroVMSNmG8QbNoO3K3YdS6_65myq4W0778IanZGJ8iOv47KBgOwGxVrlfd6pMdfjGT6KymRLWMj5eghGb_ZQdGyPzpE3a56NToy7_lqae8SLCRga0lHuD9zdTP8fLlmrdGQHXwBaE9Vu-dGxROH-ZsfgduwLfqUwjV8p7DF9p1COvHCVo209As2tipX6QRwaX2Tb54eHm2OHvKZfIgbsl7Q1UccAteMxU");'></div>
+<span class="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-[#231910] rounded-full"></span>
+</div>
+<div>
+<p class="text-white text-sm font-bold">Sarah Jenkins</p>
+<p class="text-[#cbab90] text-xs">Head Receptionist</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative fluid-bg">
+<!-- Abstract Background Element -->
+<div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Header -->
+<header class="flex items-center justify-between border-b border-[#493422]/30 px-8 py-5 backdrop-blur-sm z-10">
+<div>
+<h2 class="text-white text-2xl font-bold leading-tight tracking-tight">Reception Overview</h2>
+<p class="text-[#cbab90] text-sm">Wednesday, Oct 24 • <span class="text-primary font-bold">Live Status</span></p>
+</div>
+<div class="flex gap-3">
+<button class="flex size-10 items-center justify-center rounded-xl bg-[#2c2117] text-white hover:bg-[#493422] transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-primary rounded-full animate-pulse"></span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-xl bg-[#2c2117] text-white hover:bg-[#493422] transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Content Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+<div class="flex flex-col gap-8 max-w-[1400px] mx-auto">
+<!-- Stats Row -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Occupancy Card -->
+<div class="relative overflow-hidden rounded-2xl bg-[#2c2117] p-6 border border-[#493422]/50 group hover:border-primary/50 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-[#493422]/50 rounded-lg text-primary">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<span class="text-green-500 text-sm font-bold bg-green-500/10 px-2 py-1 rounded-md">+12% vs last hr</span>
+</div>
+<h3 class="text-[#cbab90] text-sm font-medium mb-1">Current Occupancy</h3>
+<div class="flex items-end gap-2">
+<span class="text-white text-3xl font-bold">78%</span>
+<span class="text-[#cbab90] text-sm mb-1">Capacity</span>
+</div>
+<div class="w-full bg-[#493422] h-1.5 mt-4 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 78%"></div>
+</div>
+<p class="text-xs text-[#cbab90] mt-2">142 members checked in</p>
+</div>
+<!-- Active Classes Card -->
+<div class="relative overflow-hidden rounded-2xl bg-[#2c2117] p-6 border border-[#493422]/50 group hover:border-primary/50 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-[#493422]/50 rounded-lg text-blue-400">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<span class="text-blue-400 text-sm font-bold bg-blue-400/10 px-2 py-1 rounded-md">Peak Time</span>
+</div>
+<h3 class="text-[#cbab90] text-sm font-medium mb-1">Active Classes</h3>
+<div class="flex items-end gap-2">
+<span class="text-white text-3xl font-bold">3</span>
+<span class="text-[#cbab90] text-sm mb-1">Active Now</span>
+</div>
+<div class="flex gap-2 mt-4">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full ring-2 ring-[#2c2117] bg-cover bg-center" data-alt="User avatar 1" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBx9YIi-WQn7AUOfyaPe15CYZ9RqYBgeyJA0UOnIQUcPg4tETp6GiezMK3UJ1WJQQn6q5-TK6cfjvkXLXeV0uP9346Gq8J66L9pFfvR0Q4pI5NRp5PQ6tDA0AmJG6V8wyoJs2k8Ciu-1vTA1q6wNIvH4iTHr7LH5a_bYPl1vQqBx8_FiHuxbaABLwIKyKuQrZlCCP3UVjyQhQ8paWwM-8QYFJf8URxZfsSuf-AIdo14l6BH3Oj_HuzipPzSk8AC-_T_EBryAS8BdxE")'></div>
+<div class="size-6 rounded-full ring-2 ring-[#2c2117] bg-cover bg-center" data-alt="User avatar 2" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBtIZ6KSqcc2ivDsMr_I_TiF2I7tkR-hIjk8rjlFG4BUwKVyThhFWWLrg6yFTYpChHTnwC8M4kgprBXYr1Lb3T94itXaenfGeo1rgNbBfW94nVNESjGQwqly64FS1BoPYXNM_XT_aplA6edP7o7DY_sDl2qBnziwzNWV6Emyze7L1JPAgmcJq0vpP6Xr2dkF8d-7_XW-jdLaml0JUruuJeWz_qkRKdkBDTKLix4_Iw_Th8hR5lMAo43gC-c1P0lkHH00jNxzGhrLxo")'></div>
+<div class="size-6 rounded-full ring-2 ring-[#2c2117] bg-[#493422] text-xs flex items-center justify-center text-white font-bold">+24</div>
+</div>
+<span class="text-xs text-[#cbab90] self-center">Members in class</span>
+</div>
+</div>
+<!-- Equipment Status Card -->
+<div class="relative overflow-hidden rounded-2xl bg-[#2c2117] p-6 border border-[#493422]/50 group hover:border-primary/50 transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-[#493422]/50 rounded-lg text-orange-300">
+<span class="material-symbols-outlined">monitor_heart</span>
+</div>
+<span class="text-orange-300 text-sm font-bold bg-orange-300/10 px-2 py-1 rounded-md">Maint. OK</span>
+</div>
+<h3 class="text-[#cbab90] text-sm font-medium mb-1">Cardio Zone</h3>
+<div class="flex items-end gap-2">
+<span class="text-white text-3xl font-bold">12</span>
+<span class="text-[#cbab90] text-sm mb-1">Treadmills Free</span>
+</div>
+<div class="mt-4 flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-[#493422] rounded text-xs text-[#cbab90]">Squat Racks: <span class="text-red-400 font-bold">Full</span></span>
+<span class="px-2 py-1 bg-[#493422] rounded text-xs text-[#cbab90]">Free Weights: <span class="text-yellow-400 font-bold">Busy</span></span>
+</div>
+</div>
+</section>
+<!-- Search & Actions -->
+<div class="w-full">
+<label class="group flex flex-col w-full relative">
+<div class="flex w-full items-stretch rounded-2xl bg-[#2c2117] border border-[#493422]/50 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 transition-all h-16 shadow-lg">
+<div class="text-[#cbab90] flex items-center justify-center pl-6 pr-4">
+<span class="material-symbols-outlined text-2xl group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="flex-1 bg-transparent border-none text-white placeholder:text-[#cbab90]/50 text-lg focus:ring-0 h-full" placeholder="Quick Member Search (Name, Tag ID, Phone)..."/>
+<div class="flex items-center pr-2">
+<button class="bg-primary hover:bg-orange-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-colors mr-2">
+                                    Lookup
+                                </button>
+</div>
+</div>
+</label>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full min-h-[500px]">
+<!-- Left Column: Traffic Feed -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-white text-xl font-bold">Real-time Traffic</h3>
+<div class="flex bg-[#2c2117] rounded-lg p-1">
+<button class="px-4 py-1.5 rounded-md bg-[#493422] text-white text-sm font-medium shadow-sm">Arrivals</button>
+<button class="px-4 py-1.5 rounded-md text-[#cbab90] hover:text-white text-sm font-medium">Departures</button>
+</div>
+</div>
+<!-- Traffic List -->
+<div class="bg-[#2c2117] rounded-2xl border border-[#493422]/30 overflow-hidden flex-1">
+<!-- List Item 1 -->
+<div class="flex items-center justify-between p-4 border-b border-[#493422]/30 hover:bg-[#493422]/20 transition-colors group cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-cover bg-center border-2 border-transparent group-hover:border-primary transition-colors" data-alt="Member portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD0BtcNlqLF8biDrEOI4TKNDNVi0PBAK18926POPsBXFqKrEY5oA0gzPhR6PC3GjY0dZkP-wUmDu4WCCb3AewXuo34I-xpPesa2ilN3oSZwstYIklQxnAkOeWuF7kSWBgkHClS3Ao86-DvrJx2z22Uq89z_4DHVy2nnbILSR_9tH6i2e16_boe6BzZBMRmxd-bxOZcO6Hoo2jeR1SnyEsGhuMsCfPn_3T5yUgpzfF5W8fw-4skQdOkiU4N-d53fymsMAVGH04b8Iu8")'></div>
+<div>
+<p class="text-white font-bold group-hover:text-primary transition-colors">James Wilson</p>
+<div class="flex items-center gap-2">
+<span class="bg-purple-500/20 text-purple-400 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Premium</span>
+<span class="text-[#cbab90] text-xs">ID: #8821</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-white font-medium text-sm">Check-in</p>
+<p class="text-[#cbab90] text-xs">Just now</p>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-center justify-between p-4 border-b border-[#493422]/30 hover:bg-[#493422]/20 transition-colors group cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-cover bg-center border-2 border-transparent group-hover:border-primary transition-colors" data-alt="Member portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBawTwsxyoyYHZMA6hTN1e3rnNqPAXOB80TTyeVENveHIDxoRIfUt40CrvekKYoiMpS4moQ_MuSyPmnsNE-8Sx5Br1lvaEN0fWVeSWVnaxJS-bkh87F6_99ssLMjkqIVu-0JWorcz2GZl7INWhFQ7k6Q9KbLSWFHIGzmqzte6X6RFSFdCotLfJT5jVrGcuFpEIjJQQEpxuMjV0dxcE94r1Beq94hTMpUlb-4LyZewQxzgwOJtfiQpNK90V9KQOeTCQmBEFdRz_U9Vo")'></div>
+<div>
+<p class="text-white font-bold group-hover:text-primary transition-colors">Elena Rodriguez</p>
+<div class="flex items-center gap-2">
+<span class="bg-blue-500/20 text-blue-400 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Standard</span>
+<span class="text-[#cbab90] text-xs">ID: #9932</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-white font-medium text-sm">Check-in</p>
+<p class="text-[#cbab90] text-xs">2 mins ago</p>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="flex items-center justify-between p-4 border-b border-[#493422]/30 hover:bg-[#493422]/20 transition-colors group cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-cover bg-center border-2 border-transparent group-hover:border-primary transition-colors" data-alt="Member portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAmVuKWu7DIE97Q1aLTziCkqN5-oejuVp9HZevfiChO--rZ3WIgIZvelGED9R6MBZ6LJwVL5svKIemcTQxTr09yLb6XbyokDyhzyAjJ2XPRBk7-dNZJDszF_oKxrA9vawt5FmQbj8oc1eBhhc5QWOpCyecWUfHMR5m2HdYDCPOr-CmfFv9GsF_5Gruo1KhRdNAhTmNedWOzS9vz9QOJIwM_sL5GSGnzlQjq9Lhl3ZrYCcFNBomJwEU3Ah3aYXrn9nWmemhV57maOT8")'></div>
+<div>
+<p class="text-white font-bold group-hover:text-primary transition-colors">Marcus Chen</p>
+<div class="flex items-center gap-2">
+<span class="bg-orange-500/20 text-orange-400 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Coach</span>
+<span class="text-[#cbab90] text-xs">Session: HIIT</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-white font-medium text-sm">Staff Entry</p>
+<p class="text-[#cbab90] text-xs">5 mins ago</p>
+</div>
+</div>
+<!-- List Item 4 -->
+<div class="flex items-center justify-between p-4 hover:bg-[#493422]/20 transition-colors group cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-cover bg-center border-2 border-transparent group-hover:border-primary transition-colors grayscale opacity-70" data-alt="Member portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYN6xt9w1Fzjm0VHMeAfu1DcXFfirJXXOPR0MIETmDIZqtNsr3bp4hre8yCkS7_L38Ty2Le2wbiWvuGyWiDx7IusiZLsXy4zjGYA6TBb-mfg8sAGCZikUX8TU1MG9cj4oqnGxtbPODmqX913QPpS7eDOdhPw5w53Aoe3OH0SKKZjQfSs_ry3Aj55h1S-aSCQlpDbxzDkOcJoLW6186EzlMShXqvcL7N7xmOPWUFTf_fcs6d1l2IJH6LZegv8jG-wfHN4uZKeExzsE")'></div>
+<div>
+<p class="text-white/70 font-bold group-hover:text-primary transition-colors">David Kim</p>
+<div class="flex items-center gap-2">
+<span class="bg-red-500/20 text-red-400 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Expired</span>
+<span class="text-[#cbab90] text-xs">ID: #1102</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<p class="text-red-400 font-medium text-sm flex items-center gap-1 justify-end"><span class="material-symbols-outlined text-[16px]">error</span> Denied</p>
+<p class="text-[#cbab90] text-xs">8 mins ago</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Schedule & Quick Actions -->
+<div class="flex flex-col gap-6">
+<!-- Upcoming Schedule -->
+<div class="bg-[#2c2117] rounded-2xl p-5 border border-[#493422]/30">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-white font-bold text-lg">Upcoming Classes</h3>
+<button class="text-primary text-sm font-medium hover:underline">View All</button>
+</div>
+<div class="space-y-4">
+<!-- Class Item -->
+<div class="flex gap-4 relative pl-4 border-l-2 border-[#493422]">
+<div class="absolute -left-[5px] top-0 size-2.5 rounded-full bg-primary ring-4 ring-[#2c2117]"></div>
+<div class="flex-1">
+<p class="text-xs text-[#cbab90] font-mono mb-1">10:00 AM • In 15 min</p>
+<h4 class="text-white font-bold text-base">Power Flow Yoga</h4>
+<p class="text-sm text-[#cbab90] mt-0.5">Studio A • Coach Sarah</p>
+</div>
+<div class="flex flex-col items-end justify-start">
+<span class="bg-primary/20 text-primary text-xs font-bold px-2 py-1 rounded">22/25</span>
+</div>
+</div>
+<!-- Class Item -->
+<div class="flex gap-4 relative pl-4 border-l-2 border-[#493422]">
+<div class="absolute -left-[5px] top-0 size-2.5 rounded-full bg-[#cbab90] ring-4 ring-[#2c2117]"></div>
+<div class="flex-1">
+<p class="text-xs text-[#cbab90] font-mono mb-1">11:30 AM</p>
+<h4 class="text-white font-bold text-base">HIIT Circuit</h4>
+<p class="text-sm text-[#cbab90] mt-0.5">Main Floor • Coach Mike</p>
+</div>
+<div class="flex flex-col items-end justify-start">
+<span class="bg-[#493422] text-[#cbab90] text-xs font-bold px-2 py-1 rounded">8/20</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Guest Pass Widget -->
+<div class="bg-gradient-to-br from-primary to-orange-700 rounded-2xl p-6 text-white relative overflow-hidden group">
+<div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+<span class="material-symbols-outlined text-[150px]">qr_code_2</span>
+</div>
+<h3 class="text-xl font-bold mb-2 relative z-10">New Guest Pass</h3>
+<p class="text-white/80 text-sm mb-6 max-w-[80%] relative z-10">Generate a temporary QR code for drop-in access or potential member tours.</p>
+<button class="w-full bg-white text-primary font-bold py-3 rounded-xl hover:bg-white/90 transition-colors flex items-center justify-center gap-2 relative z-10 shadow-lg">
+<span class="material-symbols-outlined">add_circle</span>
+                                Create Pass
+                            </button>
+</div>
+<!-- Support Tickets Quick View -->
+<div class="bg-[#2c2117] rounded-2xl p-5 border border-[#493422]/30 flex-1">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-yellow-500">warning</span>
+<h3 class="text-white font-bold">Alerts</h3>
+</div>
+<div class="bg-[#493422]/40 p-3 rounded-xl flex items-start gap-3">
+<div class="size-2 bg-red-500 rounded-full mt-1.5 shrink-0"></div>
+<div>
+<p class="text-white text-sm font-medium">Sauna Maintenance</p>
+<p class="text-[#cbab90] text-xs mt-1">Scheduled for 2:00 PM today. Notify members.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

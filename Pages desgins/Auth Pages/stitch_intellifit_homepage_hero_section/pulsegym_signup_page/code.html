@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - AI Powered Fitness</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3B82F6", // Electric Blue
+                        "secondary": "#10B981", // Vibrant Green
+                        "accent": "#F97316", // Orange
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cfdbe7; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3B82F6; 
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="font-display text-slate-900 antialiased bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Background Image with Overlay -->
+<div class="fixed inset-0 z-0">
+<img alt="Modern gym background" class="h-full w-full object-cover" data-alt="Modern gym interior with weights and equipment in blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7-fv4kkPkH_g88C1wyt08SY2F1XdjVG_7SBPqu-__O3eVoNRgSAnESETby-6x33JupcZg80LMDrEGOVJdvsypJFHTagxKV5U_ZEEt7HPz79L0hJ1-671eVrSI4jrWUJd3loGoLPfumy24h6b0h3V2FuMO7SJ_mq046ncUALNZrGXutLeFqiQKNho8vkZh57aS6pziu0h3yxLs7eHfEl93u86asRII-n2Ar5xxa7EpwQkcBg1piNndsV3YePunIDr9SPXUgbG4etM"/>
+<div class="absolute inset-0 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-sm"></div>
+</div>
+<!-- Content Wrapper -->
+<div class="relative z-10 flex h-full grow flex-col">
+<!-- Navbar -->
+<header class="flex items-center justify-between whitespace-nowrap px-6 py-4 lg:px-10 lg:py-5">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-[24px]">ecg_heart</span>
+</div>
+<div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">PulseGym</h2>
+<p class="hidden sm:block text-slate-500 text-xs font-medium tracking-wide uppercase">AI-Powered Fitness</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="hidden md:block text-sm font-medium text-slate-600 dark:text-slate-300">Already a member?</span>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 text-sm font-bold shadow-sm transition-all hover:bg-slate-50 dark:hover:bg-slate-700">
+<span class="truncate">Log in</span>
+</button>
+</div>
+</header>
+<!-- Main Content: Signup Form -->
+<main class="flex flex-1 items-center justify-center px-4 py-8 lg:px-8">
+<div class="glass-effect layout-content-container flex flex-col w-full max-w-[1000px] rounded-2xl border border-slate-200/60 shadow-2xl overflow-hidden md:flex-row">
+<!-- Left Side: Visual / Brand (Desktop Only) -->
+<div class="hidden md:flex md:w-5/12 relative bg-slate-900 text-white flex-col justify-between p-8 overflow-hidden group">
+<!-- Image Background for Sidebar -->
+<div class="absolute inset-0 z-0">
+<img alt="Fitness training" class="h-full w-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105" data-alt="Athlete running on treadmill with digital overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDS1GAWPMSCJDR-bnDT7Fv1aGYMEQNIGKlL3GnhGjDq4dcadGlrxHV1DKCBvUar8DvSToiePfNubIpYzl7QknNsgwUP8Stc1lUOCn96huMUaFbLG4ocphL7X5b7-4X1cSh0llt2pHJxVSZ7JB2BVmekCvr8dscY6UvoWgGtpxdj9AS_GB1zVhHFoNJMXNcK--ZPg5b58693nm9DpQlQQAbAP9T4Wckng-lWHVFfMtusvyZgULup1PWxBAMbOQay3UtbPon8vxNS3rY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-slate-900/40 mix-blend-multiply"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div>
+</div>
+<div class="relative z-10">
+<div class="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-xs font-bold backdrop-blur-md border border-white/10">
+<span class="material-symbols-outlined text-[16px] text-secondary">bolt</span>
+<span>AI-DRIVEN RESULTS</span>
+</div>
+</div>
+<div class="relative z-10 space-y-4">
+<h3 class="text-3xl font-bold leading-tight">Train smarter, <br/>not harder.</h3>
+<p class="text-slate-200 text-sm leading-relaxed max-w-[300px]">
+                                Join thousands of members using PulseGym's AI technology to optimize workouts and achieve human-centered results.
+                            </p>
+<div class="flex items-center gap-4 pt-4">
+<div class="flex -space-x-3">
+<img alt="User" class="h-10 w-10 rounded-full border-2 border-slate-900 object-cover" data-alt="User avatar 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByxdun5MQs8Dgsct57VF00-9lOygeQelTcw8XP-FnUWFodMjMEwzYzb-2pGtZrD5ms4iQ2GmYBrg8urICfm-0k3UJQQzu177azyqYb5sqpi4jKbqmVlYrcm2qeZLwzSCeOeH-Vgh9P3PMWvMkT5hf7wjsRkxCtXamqF0jjfkUqBzcuLW1l1Yvg6wZT-epoJE_d-3BA9tQ1-7HxuyzhbVcLOeWsvMB4-kkkOIO61rth0y39yyTF0frDrlCCIH3UZByfjozQvNXDdjY"/>
+<img alt="User" class="h-10 w-10 rounded-full border-2 border-slate-900 object-cover" data-alt="User avatar 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCygPbJDO85rYNQze3ENmgH6xhx5m-vFNIMuNt61gxVH3kXmM841yD17vLHX4vh6e3gKv_pRhRAXUrMZgQDYYtRt5rijumzmWFbP0W-pEGtVQzQT633M0rvwdbn96oTF-XEQt4mQyhoYYptakEE2KFh8lXy3bmXLPyCU5R-3QMr9PhK7JbD_zXi45Z7s3iNswVvMuwPYGwSo6dd7BtG4asST3DayG1FhG-wc88aHzgUT7jHwV8yJdSLBX2vYuZV3KKG-i3HZp8kqEs"/>
+<img alt="User" class="h-10 w-10 rounded-full border-2 border-slate-900 object-cover" data-alt="User avatar 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQUKnUyGrpwHnbB6_Oo-QfHlh8rCDOcJtE_ZW8u0-rJGQpYkOGKwLCQGFqSvQWBiq5e_2fOL7j7j56QzkQRRZuqMHCHIuhdBnhEPkenAJf3-w3jSzsaR7FZeoLu8g3sb0vCGzzuaxex_vPOxZs2UqD0cAPgTSCxmDXDrhtn-uVCyKTIvUs1ZFiJPH8w72bBPwWGhkWy_Msm15gRPkhwS44GZTL4Rx21oQ9MbJRFRDQBF507q23iMFLcHOoyVncjueOWrh0frCJF3M"/>
+</div>
+<div class="text-xs font-medium">
+<span class="block text-white text-lg font-bold">12k+</span>
+<span class="text-slate-300">Active Members</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Form -->
+<div class="flex-1 p-6 md:p-10 lg:p-12">
+<div class="max-w-[520px] mx-auto flex flex-col h-full">
+<!-- Header -->
+<div class="mb-8 text-center md:text-left">
+<h1 class="text-slate-900 text-3xl font-bold tracking-tight mb-2">Create Account</h1>
+<p class="text-slate-500 text-sm">Join the revolution in personalized fitness.</p>
+</div>
+<!-- Social Auth -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+<button class="flex items-center justify-center gap-2 h-12 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-colors text-slate-700 text-sm font-semibold">
+<img alt="Google" class="w-5 h-5" data-alt="Google Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7MoJ2kua5COq_upPjv5SZ0dF_EJBtmrhO61jPb1XeE4A7m-2ypfrnHkoCvlbTomddac0mJ-kimHg79ZIFQwiAOhpDf7ft20IYHdtn1Elv0xJMoRUm8uhomhWskrGO9JLKSGShvrLjz9IYGQOGtxbB5o7RS4JrRyTiLZtfcoxhNweufwH9QpIvExExUo7DDMWyGIuG-0jHo0AKBWzk71_qLhgBuBrk3IC4pOylYob4xCESUl4wTDTMONM0aIq6lD_rPz1iiL-mGaA"/>
+                                    Google
+                                </button>
+<button class="flex items-center justify-center gap-2 h-12 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-colors text-slate-700 text-sm font-semibold">
+<span class="material-symbols-outlined text-xl">ios</span>
+                                    Apple
+                                </button>
+</div>
+<div class="relative flex py-2 items-center mb-8">
+<div class="flex-grow border-t border-slate-200"></div>
+<span class="flex-shrink-0 mx-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">Or register with email</span>
+<div class="flex-grow border-t border-slate-200"></div>
+</div>
+<!-- Inputs -->
+<form action="#" class="space-y-5 flex-1">
+<!-- Name & Email -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<label class="block">
+<span class="text-slate-700 text-sm font-medium mb-1.5 block">Full Name</span>
+<div class="relative">
+<input class="form-input w-full rounded-lg border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-primary h-11 px-4 text-sm" placeholder="John Doe" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 text-[20px]">person</span>
+</div>
+</label>
+<label class="block">
+<span class="text-slate-700 text-sm font-medium mb-1.5 block">Phone</span>
+<div class="relative">
+<input class="form-input w-full rounded-lg border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-primary h-11 px-4 text-sm" placeholder="+1 (555) 000-0000" type="tel"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 text-[20px]">call</span>
+</div>
+</label>
+</div>
+<label class="block">
+<span class="text-slate-700 text-sm font-medium mb-1.5 block">Email Address</span>
+<div class="relative">
+<input class="form-input w-full rounded-lg border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-primary h-11 px-4 text-sm" placeholder="john@example.com" type="email"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 text-[20px]">mail</span>
+</div>
+</label>
+<!-- DOB & Gender -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<label class="block">
+<span class="text-slate-700 text-sm font-medium mb-1.5 block">Date of Birth</span>
+<div class="relative">
+<input class="form-input w-full rounded-lg border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-primary h-11 px-4 text-sm" type="date"/>
+</div>
+</label>
+<label class="block">
+<span class="text-slate-700 text-sm font-medium mb-1.5 block">Gender</span>
+<div class="relative">
+<select class="form-select w-full rounded-lg border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-primary h-11 px-4 text-sm">
+<option disabled="" selected="" value="">Select gender</option>
+<option value="male">Male</option>
+<option value="female">Female</option>
+<option value="other">Other</option>
+<option value="prefer-not-say">Prefer not to say</option>
+</select>
+</div>
+</label>
+</div>
+<!-- Password -->
+<label class="block">
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-slate-700 text-sm font-medium">Password</span>
+<span class="text-xs text-secondary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                            Strong
+                                        </span>
+</div>
+<div class="relative">
+<input class="form-input w-full rounded-lg border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-primary h-11 px-4 text-sm" placeholder="Create a password" type="password" value="Password123!"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-slate-400 cursor-pointer text-[20px]">visibility</span>
+</div>
+<!-- Password Strength Bar -->
+<div class="mt-2 flex gap-1 h-1">
+<div class="flex-1 bg-secondary rounded-full"></div>
+<div class="flex-1 bg-secondary rounded-full"></div>
+<div class="flex-1 bg-secondary rounded-full"></div>
+<div class="flex-1 bg-slate-200 rounded-full"></div>
+</div>
+</label>
+<!-- Terms -->
+<div class="flex items-start gap-3 pt-2">
+<input class="mt-1 rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+<p class="text-xs text-slate-500 leading-normal">
+                                        I agree to the <a class="text-primary font-medium hover:underline" href="#">Terms of Service</a> and <a class="text-primary font-medium hover:underline" href="#">Privacy Policy</a>. I consent to receive AI-generated fitness insights.
+                                    </p>
+</div>
+<!-- Submit Button -->
+<button class="group relative w-full flex items-center justify-center gap-2 bg-primary hover:bg-blue-600 text-white font-bold h-12 rounded-xl transition-all shadow-lg shadow-primary/40 mt-4" type="button">
+<span>Create Free Account</span>
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</form>
+</div>
+</div>
+</div>
+</main>
+<!-- Simple Footer -->
+<footer class="w-full py-6 text-center text-slate-500 text-xs relative z-10">
+<p>© 2024 PulseGym. All rights reserved.</p>
+</footer>
+</div>
+</div>
+</body></html>

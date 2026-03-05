@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - Progress Tracking</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "secondary": "#10B981",
+                        "accent": "#F97316",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cfdbe7;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden font-display">
+<!-- Background Image with Overlay -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="blurred gym background with vibrant lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHrNCKK5P3xRQhDzQRqqFQkzAI08xr-tnkW3PB1UPoivoEaXSOBAsBhF_NztuS-OZ-nRvS1gMfCPmTdTLCN-z-UadFvDDo1rMksKplZ1aSqJfdfnbaUVWmuV3gAuUMGooXubg_1bP_GMQfywIIh0CcVfoxva8XMJG1fiSdUNMqzPm2ipA4zTb5BPwrG1Pk2F5c7I2dPR8mzYO01lECDJHur_30bGHfHVP9zWLo9DpFtfThSn9SV4OCVY4_g-WutRxviQFRC-6EBIk'); filter: blur(8px);"></div>
+<div class="absolute inset-0 bg-white/90 dark:bg-background-dark/95"></div>
+</div>
+<!-- Main Content Wrapper -->
+<div class="relative z-10 flex h-full grow flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-3xl">monitor_heart</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">PulseGym</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-900 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-slate-900 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Schedule</a>
+<a class="text-slate-900 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Workouts</a>
+<a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary pb-0.5" href="#">Progress</a>
+<a class="text-slate-900 dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Community</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden lg:flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] shadow-lg shadow-primary/30 hover:bg-blue-600 transition-all">
+<span class="truncate">Log Workout</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white shadow-sm cursor-pointer" data-alt="user profile picture showing a smiling man" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDY5R9NCfwtVhW62CEwHeEiq_Fb8B9NJ44XnBfXZmsaAlOCCyHaogJETLIoe0wrC6UgGPN9vFhskpc778agJefm64qXtAjaoZIF3b0qT-ORfDqqXv6q3l9tdnP3UCaO1mAkwI9lINWEigZhlYY9FFcXZ5UPtsGXugcNbOG48e0cRiFCHbRx2Fjlh17KtEzHqBKp2xDaSS6MKbwYsletZyP7z5ZQEe1449FLPOQkkPKf9jbD31ytb5v8UG7cYSjc__jJd_YtGWtgjhw");'></div>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex flex-1 justify-center py-8 px-6 lg:px-20">
+<div class="flex flex-col max-w-[1200px] w-full gap-8">
+<!-- Page Heading & Actions -->
+<div class="flex flex-wrap items-end justify-between gap-4 bg-white/50 dark:bg-slate-800/50 p-6 rounded-2xl backdrop-blur-sm border border-slate-100 dark:border-slate-700 shadow-sm">
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Your Progress</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg font-normal leading-normal flex items-center gap-2">
+                            Great job, Alex! You're <span class="text-secondary font-bold">12% closer</span> to your goal this week. 
+                            <span class="material-symbols-outlined text-secondary text-sm">trending_up</span>
+</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-xl h-10 px-4 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm font-bold shadow-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors">
+<span class="material-symbols-outlined mr-2 text-lg">share</span>
+                            Share
+                        </button>
+<button class="flex items-center justify-center rounded-xl h-10 px-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined mr-2 text-lg">download</span>
+                            Export Report (PDF)
+                        </button>
+</div>
+</div>
+<!-- AI Insight Pill -->
+<div class="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-l-4 border-primary p-4 rounded-r-xl flex items-start gap-3">
+<div class="p-2 bg-primary/20 rounded-full text-primary">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary uppercase tracking-wider mb-1">AI Coach Insight</p>
+<p class="text-slate-700 dark:text-slate-300 text-sm">Based on your recent consistency, try increasing your cardio intensity by 5% next week to break through your current plateau. Your recovery metrics suggest you're ready for the push!</p>
+</div>
+</div>
+<!-- Tabs -->
+<div class="border-b border-slate-200 dark:border-slate-700">
+<div class="flex gap-8 px-4 overflow-x-auto">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-primary text-slate-900 dark:text-white pb-3 pt-2 min-w-[100px]" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Body Metrics</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 pb-3 pt-2 min-w-[100px] transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Performance</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 pb-3 pt-2 min-w-[100px] transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Consistency</p>
+</a>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Main Stats & Charts Column (Left) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Quick Stats Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+<!-- Card 1 -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-1 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">monitor_weight</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Current Weight</p>
+<div class="flex items-baseline gap-2">
+<p class="text-slate-900 dark:text-white text-3xl font-bold">78.5 <span class="text-lg font-medium text-slate-400">kg</span></p>
+</div>
+<div class="inline-flex items-center gap-1 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-md w-fit mt-2">
+<span class="material-symbols-outlined text-secondary text-sm">trending_down</span>
+<p class="text-secondary text-xs font-bold">-1.2% this month</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-1 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">opacity</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Body Fat</p>
+<div class="flex items-baseline gap-2">
+<p class="text-slate-900 dark:text-white text-3xl font-bold">15.2 <span class="text-lg font-medium text-slate-400">%</span></p>
+</div>
+<div class="inline-flex items-center gap-1 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-md w-fit mt-2">
+<span class="material-symbols-outlined text-secondary text-sm">trending_down</span>
+<p class="text-secondary text-xs font-bold">-0.5%</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-1 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">fitness_center</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Muscle Mass</p>
+<div class="flex items-baseline gap-2">
+<p class="text-slate-900 dark:text-white text-3xl font-bold">62.1 <span class="text-lg font-medium text-slate-400">kg</span></p>
+</div>
+<div class="inline-flex items-center gap-1 bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-md w-fit mt-2">
+<span class="material-symbols-outlined text-secondary text-sm">trending_up</span>
+<p class="text-secondary text-xs font-bold">+0.8%</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col gap-1 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">local_fire_department</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Streak</p>
+<div class="flex items-baseline gap-2">
+<p class="text-slate-900 dark:text-white text-3xl font-bold">12 <span class="text-lg font-medium text-slate-400">days</span></p>
+</div>
+<div class="inline-flex items-center gap-1 bg-orange-50 dark:bg-orange-900/30 px-2 py-1 rounded-md w-fit mt-2">
+<span class="material-symbols-outlined text-accent text-sm">local_fire_department</span>
+<p class="text-accent text-xs font-bold">On Fire!</p>
+</div>
+</div>
+</div>
+<!-- Main Chart Area -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Weight Trend</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Last 6 Months</p>
+</div>
+<div class="flex bg-slate-100 dark:bg-slate-700 rounded-lg p-1">
+<button class="px-3 py-1 text-xs font-bold rounded-md bg-white dark:bg-slate-600 shadow-sm text-slate-900 dark:text-white">6M</button>
+<button class="px-3 py-1 text-xs font-medium rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">1Y</button>
+<button class="px-3 py-1 text-xs font-medium rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">All</button>
+</div>
+</div>
+<!-- SVG Chart -->
+<div class="w-full h-[280px] relative">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 800 280">
+<!-- Grid Lines -->
+<line stroke="#e2e8f0" stroke-width="1" x1="0" x2="800" y1="280" y2="280"></line>
+<line stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="800" y1="210" y2="210"></line>
+<line stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="800" y1="140" y2="140"></line>
+<line stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="800" y1="70" y2="70"></line>
+<!-- Gradient Area -->
+<path d="M0,280 L0,120 Q100,100 200,130 T400,110 T600,80 T800,50 L800,280 Z" fill="url(#blueGradient)" opacity="0.2"></path>
+<!-- Chart Line -->
+<path d="M0,120 Q100,100 200,130 T400,110 T600,80 T800,50" fill="none" stroke="#2b8cee" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<!-- Data Points -->
+<circle cx="0" cy="120" fill="white" r="4" stroke="#2b8cee" stroke-width="2"></circle>
+<circle cx="200" cy="130" fill="white" r="4" stroke="#2b8cee" stroke-width="2"></circle>
+<circle cx="400" cy="110" fill="white" r="4" stroke="#2b8cee" stroke-width="2"></circle>
+<circle cx="600" cy="80" fill="white" r="4" stroke="#2b8cee" stroke-width="2"></circle>
+<circle cx="800" cy="50" fill="#2b8cee" r="6" stroke="white" stroke-width="2"></circle>
+<!-- Definitions -->
+<defs>
+<lineargradient id="blueGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#2b8cee"></stop>
+<stop offset="100%" stop-color="#2b8cee" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+<!-- Tooltip (Static for design) -->
+<div class="absolute top-[30px] right-0 bg-slate-900 text-white text-xs px-2 py-1 rounded shadow-lg transform -translate-x-1/2 -translate-y-full">
+                                    78.5kg
+                                    <div class="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45"></div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-xs font-medium text-slate-400 uppercase tracking-wide">
+<span>Jan</span>
+<span>Feb</span>
+<span>Mar</span>
+<span>Apr</span>
+<span>May</span>
+<span>Jun</span>
+</div>
+</div>
+<!-- Secondary Metrics Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Measurement History -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Measurements</h3>
+<a class="text-primary text-sm font-bold" href="#">View All</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-lg">accessibility_new</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Chest</p>
+<p class="text-xs text-slate-500">Last updated: 2 days ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-slate-900 dark:text-white">102 cm</p>
+<p class="text-xs font-bold text-secondary">-1.5 cm</p>
+</div>
+</div>
+<div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-lg">accessibility</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Waist</p>
+<p class="text-xs text-slate-500">Last updated: 2 days ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-slate-900 dark:text-white">85 cm</p>
+<p class="text-xs font-bold text-secondary">-2.0 cm</p>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-lg">do_not_step</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Arms</p>
+<p class="text-xs text-slate-500">Last updated: 2 days ago</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-slate-900 dark:text-white">38 cm</p>
+<p class="text-xs font-bold text-primary">+0.5 cm</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Goal Tracker -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Goals</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add</span> Add New
+                                    </button>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<p class="text-sm font-medium text-slate-900 dark:text-white">Reach 75kg Bodyweight</p>
+<p class="text-sm font-bold text-primary">82%</p>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 82%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<p class="text-sm font-medium text-slate-900 dark:text-white">Run 5k under 25m</p>
+<p class="text-sm font-bold text-accent">65%</p>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-accent rounded-full" style="width: 65%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<p class="text-sm font-medium text-slate-900 dark:text-white">30 Day Workout Streak</p>
+<p class="text-sm font-bold text-secondary">40%</p>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 40%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Column (Right) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Photo Progress Card -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Transformation</h3>
+<button class="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-slate-500">edit</span>
+</button>
+</div>
+<div class="relative h-64 rounded-xl overflow-hidden group cursor-col-resize select-none">
+<!-- After Image (Base) -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="fit person posing for after photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAdbKveGLk0yRtRdNvPXfubhKuap0M1i6KE0MqDovkr8CTvomlHAoSDnoz9_FczL9csbbhBuwMEjYKWYuYMILmvI8uO8LzQZhmzttJGGTZKdLewuwXk3tQ_c8yxgaqEUbJNvhe_vEMyNLgmhdNgJdSCI7LKUdSTQixe0YvgopxgPqvWoGl35v7-qyAP-RvaJW9sVcdGbmFnDvnPOWeguUqz6cm6m9n3z88MDc1l2l6IIgy5WAQWoYZQUb9hLYsqjki2oxoNJhVdaM8');"></div>
+<!-- Before Image (Clipped) -->
+<div class="absolute inset-0 bg-cover bg-center w-1/2 border-r-2 border-white" data-alt="person posing for before photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6-vhsp5nVRO8vD8y8uaF75cHc4FT_hLDrdWh5wZNxVslAjvjYVEDVbt4j_hqO-M76rY6EOLrhbZScivL_UFNy4JfC7h6_A24CVZ9Yrf9TEOSTrw_TIeOzLuB05s-lPNoZKYQwu82BQ6w6tiZT_uI4ABCcBUeAUscIa9pOykevGuy0GG1xvfuobArrwmRjAGf2oNEuZiG7V9wTkXKARJWc94BxJHTa4QSEa-yjrZShd6d1ZkMohc72e0_yFSN3yP1o8903KRICzm8');">
+<div class="absolute top-2 left-2 bg-black/60 text-white text-[10px] font-bold px-2 py-1 rounded">BEFORE</div>
+</div>
+<!-- Slider Handle -->
+<div class="absolute top-0 bottom-0 left-1/2 w-8 -ml-4 flex items-center justify-center">
+<div class="w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">code</span>
+</div>
+</div>
+<div class="absolute top-2 right-2 bg-primary/90 text-white text-[10px] font-bold px-2 py-1 rounded">AFTER</div>
+</div>
+<div class="flex justify-between mt-4">
+<p class="text-xs text-slate-500">Jan 1, 2023</p>
+<p class="text-xs text-slate-500">Jun 15, 2023</p>
+</div>
+<button class="w-full mt-4 py-2 border border-primary text-primary font-bold rounded-lg text-sm hover:bg-primary/5 transition-colors">
+                                Update Photos
+                            </button>
+</div>
+<!-- Personal Records (PRs) -->
+<div class="bg-primary rounded-2xl p-6 shadow-lg shadow-primary/30 text-white relative overflow-hidden">
+<!-- Background Pattern Decoration -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+<h3 class="text-lg font-bold mb-4 relative z-10">Personal Records</h3>
+<div class="space-y-4 relative z-10">
+<div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3">
+<div class="bg-white/20 p-2 rounded-lg">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<div class="flex-1">
+<p class="text-xs text-blue-100 font-medium">Bench Press</p>
+<p class="text-lg font-bold">100 kg</p>
+</div>
+<span class="text-xs bg-white/20 px-2 py-1 rounded text-white font-bold">NEW</span>
+</div>
+<div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 flex items-center gap-3">
+<div class="bg-white/20 p-2 rounded-lg">
+<span class="material-symbols-outlined">directions_run</span>
+</div>
+<div class="flex-1">
+<p class="text-xs text-blue-100 font-medium">5k Run</p>
+<p class="text-lg font-bold">24:30 min</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Consistency Heatmap -->
+<div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold mb-4">Consistency</h3>
+<div class="flex flex-wrap gap-1 justify-center mb-4">
+<!-- Mock Heatmap squares -->
+<div class="w-3 h-3 bg-slate-100 dark:bg-slate-700 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary/40 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary/60 rounded-sm"></div>
+<div class="w-3 h-3 bg-slate-100 dark:bg-slate-700 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary/20 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary/80 rounded-sm"></div>
+<div class="w-3 h-3 bg-slate-100 dark:bg-slate-700 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary/30 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary/50 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-slate-100 dark:bg-slate-700 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<!-- More rows to simulate calendar -->
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-slate-100 dark:bg-slate-700 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary/70 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary/90 rounded-sm"></div>
+<div class="w-3 h-3 bg-secondary rounded-sm"></div>
+<div class="w-3 h-3 bg-slate-100 dark:bg-slate-700 rounded-sm"></div>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500">
+<span class="material-symbols-outlined text-base">info</span>
+<p>You worked out 18 days this month.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

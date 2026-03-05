@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - Admin Coaches</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0dccf2",
+                        "secondary": "#10B981",
+                        "accent": "#F97316",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#101f22",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light text-[#0d191c] font-display overflow-hidden antialiased">
+<!-- Main Layout Wrapper -->
+<div class="flex h-screen w-full relative">
+<!-- Background Image with Blur Overlay -->
+<div class="absolute inset-0 z-0 bg-cover bg-center pointer-events-none" data-alt="Blurred background image of a modern gym interior with equipment" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYf7gOv225giwupSEZ7g3JrJXYGAXiNvQVVTv29gK_L8t6DI-F20o8MAnWq0-r14jLTJWPssOmpe7M99GzCpsbZUR9hKVS-YPN2MO9du8nFH1yaIMX3Wl_q28X0L8xwQxvKMKrGRgHiDX6NLRd6Fl5lXudFano2r78-0ZEhoBKYLetHgSaKIvZj0dHStPrbGz8_XR4_LR_9O3xjjrf0HWUCvfnb05JD1JOFchZY21SDhZnB4vIj1HSYrYm6ForvqrqxHtTLDumei4");'>
+</div>
+<div class="absolute inset-0 z-0 bg-white/90 backdrop-blur-md pointer-events-none"></div>
+<!-- Sidebar Navigation -->
+<aside class="relative z-10 w-64 bg-white/80 border-r border-[#e7f1f4] flex-none flex flex-col h-full backdrop-blur-sm">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary bg-opacity-20 flex items-center justify-center rounded-lg size-10 text-primary">
+<span class="material-symbols-outlined text-3xl">fitness_center</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-[#0d191c] text-lg font-bold leading-none tracking-tight">PulseGym</h1>
+<p class="text-[#498e9c] text-xs font-medium uppercase tracking-wider mt-1">Admin Console</p>
+</div>
+</div>
+<nav class="flex-1 px-4 flex flex-col gap-2 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-[#e7f1f4] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#498e9c] group-hover:text-primary">dashboard</span>
+<span class="text-[#0d191c] text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-[#e7f1f4] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#498e9c] group-hover:text-primary">group</span>
+<span class="text-[#0d191c] text-sm font-medium">Members</span>
+</a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-primary fill-1">sports_gymnastics</span>
+<span class="text-[#0d191c] text-sm font-bold">Coaches</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-[#e7f1f4] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#498e9c] group-hover:text-primary">calendar_month</span>
+<span class="text-[#0d191c] text-sm font-medium">Classes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-[#e7f1f4] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#498e9c] group-hover:text-primary">payments</span>
+<span class="text-[#0d191c] text-sm font-medium">Financials</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-[#e7f1f4] transition-colors group" href="#">
+<span class="material-symbols-outlined text-[#498e9c] group-hover:text-primary">settings</span>
+<span class="text-[#0d191c] text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-[#e7f1f4]">
+<button class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl h-10 px-4 bg-[#e7f1f4] hover:bg-[#dcebf0] text-[#0d191c] text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span>Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="relative z-10 flex-1 flex flex-col h-full overflow-hidden">
+<!-- Top Header -->
+<header class="h-16 flex items-center justify-between px-8 border-b border-[#e7f1f4] bg-white/60 backdrop-blur-sm shrink-0">
+<div class="flex items-center gap-4">
+<h2 class="text-[#0d191c] text-xl font-bold tracking-tight">Coaches Management</h2>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[#498e9c]">search</span>
+</div>
+<input class="block w-64 pl-10 pr-3 py-2 border-none rounded-xl bg-[#e7f1f4] text-sm placeholder-[#498e9c] focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="Search coaches, skills..." type="text"/>
+</div>
+<!-- Actions -->
+<button class="p-2 rounded-xl bg-white hover:bg-[#e7f1f4] text-[#0d191c] transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-accent rounded-full border border-white"></span>
+</button>
+<button class="p-2 rounded-xl bg-white hover:bg-[#e7f1f4] text-[#0d191c] transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<!-- Profile -->
+<div class="w-8 h-8 rounded-full bg-cover bg-center border-2 border-white shadow-sm" data-alt="Admin User Profile Picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSowoITLGRH1a6J3yTbH1J6qbyOQCmmdtsjPtOpAOe4ctkce2TSRYLWpOnWNVUc-96Vwsq4hbIj9ZXS7sjftTN08mkne7dbIsNDJdQhaoQFb6lkf85Bbl4Oft7sf1BTOH_k_JUfzNR6gxAGaL5HnwRgKiXjRiPu4NUsJwBJQGHEpVQsNZEE1H3j4XVNXlvnmhJZcXVjgn3r8oXl5OfvVPXLcRvtEl_1sgBhVCsurodJIS21DW3BQ-oxCZlQlvKvH1FjAh_CTOEKgU");'></div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8 scroll-smooth">
+<div class="max-w-7xl mx-auto flex flex-col gap-8">
+<!-- Stats Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-white rounded-xl p-6 border border-[#cee4e8] shadow-sm flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<p class="text-[#498e9c] text-sm font-medium">Total Active Coaches</p>
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1 rounded-lg text-lg">groups</span>
+</div>
+<div class="flex items-baseline gap-2 mt-2">
+<p class="text-[#0d191c] text-2xl font-bold">24</p>
+<p class="text-secondary text-sm font-medium flex items-center"><span class="material-symbols-outlined text-sm">trending_up</span> +2</p>
+</div>
+</div>
+<div class="bg-white rounded-xl p-6 border border-[#cee4e8] shadow-sm flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<p class="text-[#498e9c] text-sm font-medium">Avg. Coach Rating</p>
+<span class="material-symbols-outlined text-accent bg-accent/10 p-1 rounded-lg text-lg">star</span>
+</div>
+<div class="flex items-baseline gap-2 mt-2">
+<p class="text-[#0d191c] text-2xl font-bold">4.8</p>
+<p class="text-[#498e9c] text-xs font-normal">/ 5.0</p>
+<p class="text-secondary text-sm font-medium ml-auto">+0.1</p>
+</div>
+</div>
+<div class="bg-white rounded-xl p-6 border border-[#cee4e8] shadow-sm flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<p class="text-[#498e9c] text-sm font-medium">Total Revenue (Mo)</p>
+<span class="material-symbols-outlined text-secondary bg-secondary/10 p-1 rounded-lg text-lg">attach_money</span>
+</div>
+<div class="flex items-baseline gap-2 mt-2">
+<p class="text-[#0d191c] text-2xl font-bold">$42,500</p>
+<p class="text-secondary text-sm font-medium ml-auto">+12%</p>
+</div>
+</div>
+<div class="bg-white rounded-xl p-6 border border-[#cee4e8] shadow-sm flex flex-col gap-1">
+<div class="flex justify-between items-start">
+<p class="text-[#498e9c] text-sm font-medium">Top Performer</p>
+<span class="material-symbols-outlined text-[#FCD34D] bg-[#FCD34D]/10 p-1 rounded-lg text-lg">trophy</span>
+</div>
+<div class="mt-2">
+<p class="text-[#0d191c] text-xl font-bold truncate">Sarah Jenkins</p>
+<p class="text-[#498e9c] text-sm">5.0 Rating • HIIT</p>
+</div>
+</div>
+</section>
+<!-- Charts Section -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Revenue Chart -->
+<div class="bg-white rounded-xl border border-[#cee4e8] p-6 shadow-sm flex flex-col h-full">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-[#0d191c] font-bold text-lg">Revenue Distribution</h3>
+<p class="text-[#498e9c] text-sm">Performance vs Rating Correlation</p>
+</div>
+<div class="text-right">
+<p class="text-2xl font-bold text-[#0d191c]">$125k</p>
+<p class="text-secondary text-xs font-medium">YTD +15%</p>
+</div>
+</div>
+<!-- Custom CSS Bar Chart Visualization -->
+<div class="flex items-end justify-between h-48 gap-2 mt-auto px-2">
+<div class="w-full bg-[#e7f1f4] rounded-t-lg relative group h-[60%] hover:bg-primary/20 transition-all">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-black text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$8k</div>
+</div>
+<div class="w-full bg-[#e7f1f4] rounded-t-lg relative group h-[85%] hover:bg-primary/20 transition-all">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-black text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$11k</div>
+</div>
+<div class="w-full bg-primary/40 rounded-t-lg relative group h-[45%] hover:bg-primary/60 transition-all"></div>
+<div class="w-full bg-[#e7f1f4] rounded-t-lg relative group h-[70%] hover:bg-primary/20 transition-all"></div>
+<div class="w-full bg-primary rounded-t-lg relative group h-[95%] shadow-lg shadow-primary/30">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-black text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">Best Month</div>
+</div>
+<div class="w-full bg-[#e7f1f4] rounded-t-lg relative group h-[65%] hover:bg-primary/20 transition-all"></div>
+</div>
+<div class="flex justify-between mt-2 text-[#498e9c] text-xs font-medium">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+</div>
+</div>
+<!-- Top Coaches List -->
+<div class="bg-white rounded-xl border border-[#cee4e8] p-6 shadow-sm flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-[#0d191c] font-bold text-lg">Top 5 Coaches</h3>
+<button class="text-primary text-sm font-bold hover:underline">View All</button>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Coach Item -->
+<div class="flex items-center gap-4 p-2 rounded-lg hover:bg-[#f8fbfc] transition-colors">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="Sarah Jenkins Profile" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7xmTGyElR5Hzm7S1b_ubGqM6Uk8oJ0UStYEZsiE1Vdjon3tiMf8xaOdKCNy_Nu3bDZe9b5sjwiqJhGNboyP0OJ_7iYZ0eyZh_6cWJcchlpPNsU9rFO0KNJetaBeeM8akGeO31gkBoj5va6GNouzi5CXslFSevtzbV7DDoPCusTdVZXOtk7DEeEYrhFlhgF975StsOTrc9KaXS7dEpjc4RUUUnHBERUk-MquhewAER2VPnu_PN4AydbzftlcnY-dScxzmTsSN2Txk");'></div>
+<div class="flex-1">
+<p class="text-[#0d191c] font-bold text-sm">Sarah Jenkins</p>
+<p class="text-[#498e9c] text-xs">HIIT Specialist</p>
+</div>
+<div class="text-right">
+<p class="text-[#0d191c] font-bold text-sm">$15.2k</p>
+<div class="flex items-center justify-end gap-1 text-accent text-xs">
+<span class="material-symbols-outlined text-[14px] fill-1">star</span> 5.0
+                                        </div>
+</div>
+</div>
+<!-- Coach Item -->
+<div class="flex items-center gap-4 p-2 rounded-lg hover:bg-[#f8fbfc] transition-colors">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="Mike Ross Profile" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBnL5AyqfFwlmKaZUJ00Cw_0AYWw9lJ8Jem7nTsiV6TdZYEbP8H4uyQ9-mCuACu1i5Z83CgC-BPDAFjbmaEUU6IpWPw3WABMdaT0elXjjwIn7WygnCOeY9GDLkVF8mhWBiis-GcFJgRZfec3A7fNCYoPiIbnZV4xxoruv4JF6uMXmf2d7NhLvvb57RiK87pLsVaHOXJvwm4LtPXbTVO45Jsitu3OONcwSYx_RUueGDFGx9pC9zWCOxO3ovI1mVxOG15baZqDjsXUgg");'></div>
+<div class="flex-1">
+<p class="text-[#0d191c] font-bold text-sm">Mike Ross</p>
+<p class="text-[#498e9c] text-xs">Strength Training</p>
+</div>
+<div class="text-right">
+<p class="text-[#0d191c] font-bold text-sm">$12.8k</p>
+<div class="flex items-center justify-end gap-1 text-accent text-xs">
+<span class="material-symbols-outlined text-[14px] fill-1">star</span> 4.9
+                                        </div>
+</div>
+</div>
+<!-- Coach Item -->
+<div class="flex items-center gap-4 p-2 rounded-lg hover:bg-[#f8fbfc] transition-colors">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="Jessica Pearson Profile" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2FCKv6aegYyOJsM9Kh8CSoHQkuZRbotzYd-lgVbso6a3o_wYqSjuxRpcWTLB_XqSuXzyT1OLSEQS5llTUTE7z9gb_tdLVZ6lpzbAFMNKGYWwExAKkzm1G-AVCgsfeKI4K8KJY0xcLZ2V0UCocWqb12Xn3YAsV6ae0yCFOX-ct3PmwX7M-iDX7e3s_CtHXAwsBWfeFan_Rb7kjiRGo3coSxHS34fte1nwRNhz982rpyW2OlPtSDk_CEofnLTSWaHaLwtLtR7fwlNc");'></div>
+<div class="flex-1">
+<p class="text-[#0d191c] font-bold text-sm">Jessica Pearson</p>
+<p class="text-[#498e9c] text-xs">Yoga &amp; Mindfulness</p>
+</div>
+<div class="text-right">
+<p class="text-[#0d191c] font-bold text-sm">$10.5k</p>
+<div class="flex items-center justify-end gap-1 text-accent text-xs">
+<span class="material-symbols-outlined text-[14px] fill-1">star</span> 4.8
+                                        </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Coaches Table Section -->
+<section class="flex flex-col gap-4">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<h3 class="text-[#0d191c] text-xl font-bold">All Coaches</h3>
+<div class="flex items-center gap-3">
+<div class="relative">
+<select class="appearance-none h-10 pl-4 pr-10 rounded-xl bg-white border border-[#cee4e8] text-sm text-[#0d191c] font-medium focus:outline-none focus:border-primary">
+<option>All Specializations</option>
+<option>HIIT</option>
+<option>Strength</option>
+<option>Yoga</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<span class="material-symbols-outlined text-[#498e9c]">expand_more</span>
+</div>
+</div>
+<div class="relative">
+<select class="appearance-none h-10 pl-4 pr-10 rounded-xl bg-white border border-[#cee4e8] text-sm text-[#0d191c] font-medium focus:outline-none focus:border-primary">
+<option>Status: All</option>
+<option>Active</option>
+<option>On Leave</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+<span class="material-symbols-outlined text-[#498e9c]">expand_more</span>
+</div>
+</div>
+<button class="h-10 px-4 bg-primary text-[#0d191c] rounded-xl text-sm font-bold hover:bg-[#0bbad9] transition-colors flex items-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                                    Add New Coach
+                                </button>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-[#cee4e8] shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-[#f8fbfc] text-[#498e9c] text-xs font-bold uppercase tracking-wider border-b border-[#cee4e8]">
+<th class="py-4 px-6">Coach Name</th>
+<th class="py-4 px-6">Specialization</th>
+<th class="py-4 px-6">Rating</th>
+<th class="py-4 px-6">Clients</th>
+<th class="py-4 px-6">Revenue</th>
+<th class="py-4 px-6">Status</th>
+<th class="py-4 px-6 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#e7f1f4]">
+<!-- Row 1 -->
+<tr class="group hover:bg-[#f8fbfc] transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-cover bg-center" data-alt="Sarah Jenkins Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDSx8kvMFAbm_K0d8OljEBe0Hm6E8We1P4MoAIj_biuN5_Sw9rlO7BUCYjCXuvlJQpQHH6GbIUc4ijhVuYpiqmo4NaqgMwjzc2CE5_wpZiFVhKxBBCGadZn2OgzCxfbmPu4Do8uDzF4TDFA6U_ki9s4E_6EhTfxKw8z9ImRgPav5UXCDlqcQBJIuIS7au2sQTbmsdM276D0l8mIkREchwvdV-8hGK3POme9I1vpHlrAqgG7H_dsYAPBxrgvKGG60jF3BoAH64bHmH0");'></div>
+<div>
+<p class="text-[#0d191c] font-bold text-sm">Sarah Jenkins</p>
+<p class="text-[#498e9c] text-xs">sarah@pulsegym.com</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex gap-2">
+<span class="px-2 py-1 rounded-md bg-purple-100 text-purple-700 text-xs font-bold">HIIT</span>
+<span class="px-2 py-1 rounded-md bg-blue-100 text-blue-700 text-xs font-bold">Cardio</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-accent text-[18px] fill-1">star</span>
+<span class="text-[#0d191c] font-bold text-sm">5.0</span>
+<span class="text-[#498e9c] text-xs">(124)</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<p class="text-[#0d191c] font-medium text-sm">28 Active</p>
+</td>
+<td class="py-4 px-6">
+<p class="text-[#0d191c] font-bold text-sm">$15,200</p>
+<p class="text-secondary text-xs font-medium">+12%</p>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                                </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-[#498e9c] hover:bg-[#e7f1f4] transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-[#f8fbfc] transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-cover bg-center" data-alt="Mike Ross Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCZDyicW7WZLk2vaO61H46xNepF48jDVgXKzF_fmdyg5Ib0bf6_T3iieFSz0-6p37ZPbMISyY3E6gPH1_WNYnXQ8SYL8gQtyGr-d7RwHHkBfOO8nkjUJo3MGcPSNR_43MSa6LkAZ6UKxd_wiQbmzmbEcylplfioVK2wxdtJVJn5ymZa16NINvU7MLbqtaNWDht13eES1TbU4fDuZDopq2fDGBNVlmP8xQ8RGofeUldDTtlsSnp806ntXVDdaDaMPxj9WqCeXT2tYkA");'></div>
+<div>
+<p class="text-[#0d191c] font-bold text-sm">Mike Ross</p>
+<p class="text-[#498e9c] text-xs">mike.r@pulsegym.com</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex gap-2">
+<span class="px-2 py-1 rounded-md bg-orange-100 text-orange-700 text-xs font-bold">Strength</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-accent text-[18px] fill-1">star</span>
+<span class="text-[#0d191c] font-bold text-sm">4.9</span>
+<span class="text-[#498e9c] text-xs">(89)</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<p class="text-[#0d191c] font-medium text-sm">22 Active</p>
+</td>
+<td class="py-4 px-6">
+<p class="text-[#0d191c] font-bold text-sm">$12,800</p>
+<p class="text-secondary text-xs font-medium">+5%</p>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                                </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-[#498e9c] hover:bg-[#e7f1f4] transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-[#f8fbfc] transition-colors">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-cover bg-center grayscale" data-alt="David Chen Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuATptTDb6pHTaZGzSEWWA22r-oUUaF1zqura7GKbY2yFIP1iJb3y5isFrjfRw53Z9No9En4IH_zwWnhO6NDeYizliN0MIRnCXrUMczM4dH9fApUQGshFZdxz4CpwU79YfJW-CBge_NrLoecqWg--Gy1otk2_0zH3ikjNE39x2iVqWnRCZVKjKd6QWu-qZp6PhSuY74y2wgPsIMoeyvqP9fVw3sHZi1o-PXY1edEz7AFBFoxouVCkBbKJ4A89A0J7WKzYIoX-Yuhmxs");'></div>
+<div>
+<p class="text-[#0d191c] font-bold text-sm text-opacity-60">David Chen</p>
+<p class="text-[#498e9c] text-xs">david.c@pulsegym.com</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex gap-2">
+<span class="px-2 py-1 rounded-md bg-gray-100 text-gray-600 text-xs font-bold">CrossFit</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-gray-400 text-[18px] fill-1">star</span>
+<span class="text-[#0d191c] font-bold text-sm">4.7</span>
+<span class="text-[#498e9c] text-xs">(45)</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<p class="text-[#0d191c] font-medium text-sm">0 Active</p>
+</td>
+<td class="py-4 px-6">
+<p class="text-[#0d191c] font-bold text-sm">$4,200</p>
+<p class="text-red-500 text-xs font-medium">-15%</p>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold border border-accent/20">
+<span class="w-1.5 h-1.5 rounded-full bg-accent"></span> On Leave
+                                                </span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg text-[#498e9c] hover:bg-[#e7f1f4] transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between px-6 py-4 bg-[#f8fbfc] border-t border-[#cee4e8]">
+<span class="text-sm text-[#498e9c]">Showing 1-3 of 24 coaches</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-lg border border-[#cee4e8] bg-white text-sm font-medium hover:bg-[#e7f1f4] disabled:opacity-50" disabled="">Prev</button>
+<button class="px-3 py-1 rounded-lg border border-[#cee4e8] bg-white text-sm font-medium hover:bg-[#e7f1f4]">Next</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Coach Detail Preview / View Mode -->
+<section class="bg-white rounded-xl border border-[#cee4e8] shadow-lg overflow-hidden flex flex-col md:flex-row relative">
+<div class="absolute top-0 right-0 p-4">
+<button class="p-2 rounded-full hover:bg-[#f8fbfc] text-[#498e9c]">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Left Panel: Profile Info -->
+<div class="p-8 md:w-1/3 border-b md:border-b-0 md:border-r border-[#cee4e8] bg-gradient-to-b from-white to-[#f8fbfc]">
+<div class="flex flex-col items-center text-center">
+<div class="relative mb-4">
+<div class="w-32 h-32 rounded-full bg-cover bg-center border-4 border-white shadow-md" data-alt="Large profile picture of Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBQDVzH8gSKRluifmIOYE8EikIWsu6GcDni6uaM8Q3o8AStTT7gu5feP1PE4mmF0GHkbOsb4pgATiirAuY9EkmPuJ09xmL13Gw3ynfMNzIi_n1wgcUuTwb5jvs_D_em0iYh-FCJ7qGK90xi46z7RbVCwtMuMrZif109QiovoT-Wu4WfTp20R4hBhwXPG-nTnqtN06OQIhpso_eWjdusju41cW23OE1uud45m3OofMjfHR5BeJDPFPoqEh5bzdtlEDZAWK4Xm5ixKxU");'></div>
+<div class="absolute bottom-1 right-1 bg-secondary text-white p-1.5 rounded-full border-2 border-white">
+<span class="material-symbols-outlined text-[16px] block">verified</span>
+</div>
+</div>
+<h3 class="text-[#0d191c] text-xl font-bold">Sarah Jenkins</h3>
+<p class="text-[#498e9c] text-sm font-medium mb-4">Elite Personal Trainer</p>
+<div class="flex flex-wrap justify-center gap-2 mb-6">
+<span class="px-3 py-1 bg-white border border-[#cee4e8] rounded-full text-xs font-bold text-[#0d191c]">HIIT</span>
+<span class="px-3 py-1 bg-white border border-[#cee4e8] rounded-full text-xs font-bold text-[#0d191c]">Cardio</span>
+<span class="px-3 py-1 bg-white border border-[#cee4e8] rounded-full text-xs font-bold text-[#0d191c]">Nutrition</span>
+</div>
+<div class="grid grid-cols-2 gap-4 w-full mb-6">
+<div class="text-center p-3 rounded-xl bg-white border border-[#cee4e8]">
+<p class="text-[#498e9c] text-xs uppercase font-bold tracking-wider">Rating</p>
+<p class="text-[#0d191c] text-lg font-bold flex items-center justify-center gap-1">
+                                            5.0 <span class="material-symbols-outlined text-accent text-sm fill-1">star</span>
+</p>
+</div>
+<div class="text-center p-3 rounded-xl bg-white border border-[#cee4e8]">
+<p class="text-[#498e9c] text-xs uppercase font-bold tracking-wider">Clients</p>
+<p class="text-[#0d191c] text-lg font-bold">28</p>
+</div>
+</div>
+<div class="flex gap-2 w-full">
+<button class="flex-1 py-2 px-4 rounded-xl bg-primary text-[#0d191c] text-sm font-bold hover:bg-[#0bbad9] transition-colors">Assign Client</button>
+<button class="flex-1 py-2 px-4 rounded-xl border border-[#cee4e8] bg-white text-[#0d191c] text-sm font-bold hover:bg-[#f8fbfc] transition-colors">Profile</button>
+</div>
+</div>
+</div>
+<!-- Right Panel: Detailed Metrics -->
+<div class="p-8 md:w-2/3 flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h4 class="text-[#0d191c] text-lg font-bold">Performance Overview</h4>
+<div class="flex gap-2">
+<button class="text-xs font-bold text-primary border-b-2 border-primary pb-1">This Month</button>
+<button class="text-xs font-medium text-[#498e9c] pb-1 hover:text-[#0d191c]">Last 3 Months</button>
+</div>
+</div>
+<!-- Mini Chart -->
+<div class="h-32 flex items-end justify-between gap-1">
+<div class="w-full bg-primary/10 rounded-sm h-[40%]"></div>
+<div class="w-full bg-primary/20 rounded-sm h-[55%]"></div>
+<div class="w-full bg-primary/30 rounded-sm h-[45%]"></div>
+<div class="w-full bg-primary/40 rounded-sm h-[70%]"></div>
+<div class="w-full bg-primary/50 rounded-sm h-[60%]"></div>
+<div class="w-full bg-primary/60 rounded-sm h-[85%]"></div>
+<div class="w-full bg-primary rounded-sm h-[90%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#0d191c] text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                        $4,250 Revenue
+                                    </div>
+</div>
+<div class="w-full bg-primary/20 rounded-sm h-[75%]"></div>
+</div>
+<!-- Recent Activity / Clients -->
+<div>
+<h4 class="text-[#0d191c] text-sm font-bold mb-3">Recent Client Sessions</h4>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded-xl border border-[#cee4e8] hover:border-primary/30 transition-colors bg-white">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-gray-200 bg-cover" data-alt="Client avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC2aPUaIes8bRnpW1m_p-O3_DyLXp3B4ilMmduE7uUOhJcDZ60vmbCwM2u2AI_CWnlWJq178qT3Ighr__0k0xL7dJpgD1hGdptrVMWenmNDfQjIiDutXU89LP6PiuWqWlTPvb6b19EPpWoVqBl7boonwoZwfPbbWMILuY-tDSlJGHpVfKxVIQXo8IWvlVKoYwtEEC3jFkN6co6u4dHToRHi7WJJBFtc6PQNxdI7V8ugL-JCLx5V345kGkDQ36ROAMETPW1Q_0uM1js");'></div>
+<div>
+<p class="text-[#0d191c] text-sm font-bold">John Doe</p>
+<p class="text-[#498e9c] text-xs">HIIT Session • 10:00 AM</p>
+</div>
+</div>
+<span class="text-secondary text-xs font-bold bg-secondary/10 px-2 py-1 rounded">Completed</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl border border-[#cee4e8] hover:border-primary/30 transition-colors bg-white">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-gray-200 bg-cover" data-alt="Client avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDXcxqdNiHxMrk_ikyqz2vS1h02nX496VaoYXcet9aWvYORy8RDZxfNUdVBkp0c6vLj1bjsa6h5WxJ8f0bUGDxlZFGX6Ka9Q3Mx1-JTOoT769zwJC6pux8dnqx-DgD5n3w6MafvpbT-q9y8MKT6LsI79ZHcylGlrWAtw8emFj2q-G5eE6BeUaHcxqgnbswhFDgYvsu5Y4nZU8iA4j-gK99FEndPY3nJFk2tB2N4sFC3qcJSHIPLm8OnF0yegO0hQ_HpKYFioeVlYXs");'></div>
+<div>
+<p class="text-[#0d191c] text-sm font-bold">Emily Blunt</p>
+<p class="text-[#498e9c] text-xs">Cardio Check-in • 2:00 PM</p>
+</div>
+</div>
+<span class="text-accent text-xs font-bold bg-accent/10 px-2 py-1 rounded">Upcoming</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</body></html>

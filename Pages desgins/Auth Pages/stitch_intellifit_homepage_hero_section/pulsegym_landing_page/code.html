@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - AI-Powered Fitness</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#256af4",
+                        "secondary": "#10B981", 
+                        "accent": "#F97316",
+                        "background-light": "#f8f9fc",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d121c] font-display antialiased overflow-x-hidden selection:bg-primary/20 selection:text-primary">
+<!-- Navbar -->
+<nav class="fixed top-0 z-50 w-full px-4 py-4 md:px-8 flex justify-center">
+<div class="w-full max-w-[1280px] bg-white/80 backdrop-blur-md border border-white/20 shadow-sm rounded-full px-6 py-3 flex items-center justify-between transition-all duration-300 hover:shadow-md">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-10 bg-primary/10 rounded-full text-primary">
+<span class="material-symbols-outlined text-[24px]">ecg_heart</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-[#0d121c]">PulseGym</h1>
+</div>
+<!-- Desktop Links -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#features">Features</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#stats">Results</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#pricing">Pricing</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#reviews">Stories</a>
+</div>
+<!-- CTA -->
+<div class="flex items-center gap-3">
+<a class="hidden sm:flex text-sm font-bold text-primary hover:text-primary/80 transition-colors px-4" href="#">Log In</a>
+<button class="flex items-center justify-center h-10 px-6 bg-primary text-white text-sm font-bold rounded-full hover:bg-primary/90 transition-all hover:scale-105 shadow-lg shadow-primary/30">
+                    Get Started
+                </button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative min-h-[90vh] flex items-center justify-center pt-24 pb-12 px-4 md:px-8">
+<!-- Background with Overlay -->
+<div class="absolute inset-0 z-0 mx-4 mt-20 md:mx-8 rounded-3xl overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10"></div>
+<div class="w-full h-full bg-cover bg-center bg-no-repeat transform hover:scale-105 transition-transform duration-[20s]" data-alt="High energy gym athlete lifting weights with focus" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC_L5UCtfgSHLCnK_9SepCKx-leNBaUCTbZzyXhcRxm2d_EqL41XEm3gUnMxpO7oMVSSy5K7Rg7T9nBklYxYl6YiyB0TE3OsKkVPnwL-Ap8ueloZd-P6Q_ZB0YkG9U1QEUZAjklGAjSBcqdTUBmXfHWESeFasRahOtrUJqo1hR7rdkOFoFJnsIPZr6HaNVlg0AFsGnLmTueu5alNvPryPeDdsPvmkJ6RslSE24WyL2FSsLj-FLvZ6iOGwhDP5jRxErzU4zR-NmmdfY");'>
+</div>
+</div>
+<div class="relative z-10 w-full max-w-[1280px] flex flex-col md:flex-row items-center md:items-end justify-between gap-12 mt-20 md:mt-0 py-12 md:py-24 px-8 md:px-12 text-white">
+<div class="flex flex-col gap-6 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-sm border border-white/10 rounded-full w-fit">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-xs font-bold uppercase tracking-wider">New AI Engine v2.0 Live</span>
+</div>
+<h1 class="text-5xl md:text-7xl font-bold leading-[1.1] tracking-tighter">
+                    AI-Powered Fitness, <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#60a5fa]">Human-Centered</span> Results
+                </h1>
+<p class="text-lg md:text-xl text-gray-200 font-normal max-w-lg leading-relaxed">
+                    Experience the future of fitness with personalized AI coaching that adapts to your physiology in real-time.
+                </p>
+<div class="flex flex-wrap items-center gap-4 pt-4">
+<button class="h-14 px-8 bg-primary hover:bg-primary/90 text-white text-base font-bold rounded-full transition-all hover:scale-105 shadow-xl shadow-primary/20 flex items-center gap-2">
+<span>Join PulseGym</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<button class="h-14 px-8 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white text-base font-bold rounded-full transition-all flex items-center gap-2 group">
+<span class="material-symbols-outlined text-[24px] group-hover:text-secondary transition-colors">play_circle</span>
+<span>Watch Demo</span>
+</button>
+</div>
+</div>
+<!-- Floating Card Element (Decorative) -->
+<div class="hidden lg:flex flex-col gap-4 p-5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl w-64 shadow-2xl animate-bounce" style="animation-duration: 3s;">
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-gray-200">Today's Goal</span>
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+</div>
+<div class="flex items-end justify-between">
+<div>
+<p class="text-3xl font-bold">850</p>
+<p class="text-xs text-gray-300">Active Calories</p>
+</div>
+<div class="h-10 w-10 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="py-12 px-4 md:px-8 bg-background-light" id="stats">
+<div class="max-w-[1280px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Stat 1 -->
+<div class="flex flex-col gap-2 p-8 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-2 rounded-full bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<p class="text-gray-500 font-medium">Active Members</p>
+</div>
+<p class="text-5xl font-bold tracking-tight text-[#0d121c]">12k+</p>
+<div class="h-1 w-full bg-gray-100 rounded-full mt-4 overflow-hidden">
+<div class="h-full bg-primary w-[85%] rounded-full"></div>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="flex flex-col gap-2 p-8 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-2 rounded-full bg-secondary/10 text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<p class="text-gray-500 font-medium">AI Plans Created</p>
+</div>
+<p class="text-5xl font-bold tracking-tight text-[#0d121c]">58k+</p>
+<div class="h-1 w-full bg-gray-100 rounded-full mt-4 overflow-hidden">
+<div class="h-full bg-secondary w-[92%] rounded-full"></div>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="flex flex-col gap-2 p-8 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex items-center gap-3 mb-2">
+<div class="p-2 rounded-full bg-accent/10 text-accent group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<p class="text-gray-500 font-medium">Goal Success Rate</p>
+</div>
+<p class="text-5xl font-bold tracking-tight text-[#0d121c]">99%</p>
+<div class="h-1 w-full bg-gray-100 rounded-full mt-4 overflow-hidden">
+<div class="h-full bg-accent w-[99%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="py-20 px-4 md:px-8" id="features">
+<div class="max-w-[1280px] mx-auto flex flex-col gap-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<h2 class="text-4xl md:text-5xl font-bold text-[#0d121c] mb-6">Smarter Fitness Features</h2>
+<p class="text-lg text-gray-500 leading-relaxed">
+                        Unlock your potential with our cutting-edge AI technology designed to optimize every workout, nutrition plan, and recovery session.
+                    </p>
+</div>
+<button class="h-12 px-6 rounded-full border-2 border-gray-200 hover:border-primary hover:text-primary font-bold transition-colors whitespace-nowrap">
+                    Explore All Features
+                </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(300px,auto)]">
+<!-- Large Feature (Spans 2 cols) -->
+<div class="md:col-span-2 relative overflow-hidden rounded-[2rem] group cursor-pointer bg-black">
+<div class="absolute inset-0 bg-cover bg-center opacity-60 group-hover:opacity-40 transition-opacity duration-500" data-alt="Futuristic AI interface analyzing human body metrics" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAa4f0gg1C-dYJX16UMP7B8pqGyRUBzI_dHVwtlB7WHsyO726e4nQR9qIeIQcvSt9MfrFjWbmUEqgsobgjZT6R6UgjK4e1RdJ66f-PAjezRdmkJGZMXjz9GoiqrTzPdIDA5oqJQRmILjGrUC_MaNR9rEsMQanhxcCSRyqVZgX6R2vJaToqQk3yyUoA41H6ttWCgYxqng6-7FXZ3aXbhLVbXXbdZq-51MIyab8uIddfw13Kg3E8EjfkLoWy8_R0J_D3kYcPj_E7fNoA");'>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+<div class="relative h-full flex flex-col justify-end p-8 md:p-12 z-10">
+<div class="bg-primary/20 backdrop-blur-sm border border-primary/30 w-fit p-3 rounded-2xl mb-4 text-primary">
+<span class="material-symbols-outlined text-[32px]">psychology</span>
+</div>
+<h3 class="text-3xl font-bold text-white mb-2">AI Personal Coach</h3>
+<p class="text-gray-300 text-lg max-w-md">Our neural engine analyzes your form and fatigue in real-time, adjusting your sets and reps instantly.</p>
+</div>
+</div>
+<!-- Tall Feature -->
+<div class="relative overflow-hidden rounded-[2rem] bg-white border border-gray-200 p-8 flex flex-col justify-between group hover:border-primary/50 transition-colors">
+<div>
+<div class="bg-secondary/10 w-fit p-3 rounded-2xl mb-6 text-secondary">
+<span class="material-symbols-outlined text-[32px]">calendar_add_on</span>
+</div>
+<h3 class="text-2xl font-bold text-[#0d121c] mb-2">Smart Booking</h3>
+<p class="text-gray-500">Reserve your favorite squat rack or treadmill before you even leave home. No more waiting.</p>
+</div>
+<div class="mt-8 rounded-xl bg-gray-50 p-4 border border-gray-100">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="text-xs font-bold uppercase text-gray-400">Available Now</span>
+</div>
+<div class="space-y-2">
+<div class="h-2 bg-gray-200 rounded-full w-full"></div>
+<div class="h-2 bg-gray-200 rounded-full w-2/3"></div>
+</div>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="relative overflow-hidden rounded-[2rem] bg-[#101622] p-8 flex flex-col justify-between group">
+<div>
+<div class="bg-accent/20 w-fit p-3 rounded-2xl mb-6 text-accent">
+<span class="material-symbols-outlined text-[32px]">token</span>
+</div>
+<h3 class="text-2xl font-bold text-white mb-2">Token Economy</h3>
+<p class="text-gray-400">Earn $PULSE tokens for every milestone. Use them for membership discounts or gear.</p>
+</div>
+<div class="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+<span class="text-white font-bold">+500 PTS</span>
+<span class="text-xs text-gray-400">Today's Earnings</span>
+</div>
+</div>
+<!-- Feature 4 (Spans 2 cols) -->
+<div class="md:col-span-2 relative overflow-hidden rounded-[2rem] bg-background-light border border-gray-200 p-8 md:p-10 flex flex-col md:flex-row items-center gap-8 group">
+<div class="flex-1">
+<div class="bg-primary/10 w-fit p-3 rounded-2xl mb-6 text-primary">
+<span class="material-symbols-outlined text-[32px]">monitoring</span>
+</div>
+<h3 class="text-2xl font-bold text-[#0d121c] mb-2">Hyper-Detailed Analytics</h3>
+<p class="text-gray-500 mb-6">Visualize your gains with detailed charts. Track volume, intensity, and estimated 1RM progression over time.</p>
+<a class="text-primary font-bold hover:underline flex items-center gap-1" href="#">
+                            View Sample Report 
+                            <span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+<div class="flex-1 w-full h-full min-h-[200px] bg-white rounded-xl shadow-lg border border-gray-100 p-4 relative overflow-hidden">
+<!-- Pseudo Chart -->
+<div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary/10 to-transparent"></div>
+<svg class="w-full h-full text-primary" preserveaspectratio="none" viewbox="0 0 100 50">
+<path d="M0 40 Q 25 35 50 20 T 100 5" fill="none" stroke="currentColor" stroke-width="2"></path>
+</svg>
+<!-- Data points -->
+<div class="absolute top-[20%] left-[50%] w-3 h-3 bg-white border-2 border-primary rounded-full shadow-sm z-10"></div>
+<div class="absolute top-[10%] left-[98%] w-3 h-3 bg-primary rounded-full shadow-sm z-10 animate-ping"></div>
+<div class="absolute top-[10%] left-[98%] w-3 h-3 bg-primary rounded-full shadow-sm z-10"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-20 px-4 md:px-8 bg-white" id="pricing">
+<div class="max-w-[1280px] mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold text-[#0d121c] mb-4">Simple, Transparent Pricing</h2>
+<p class="text-lg text-gray-500">Choose the plan that fits your fitness journey.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+<!-- Basic Plan -->
+<div class="p-8 rounded-[2rem] border border-gray-200 bg-gray-50 hover:border-gray-300 transition-colors">
+<h3 class="text-xl font-bold text-gray-900 mb-2">Starter</h3>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="text-4xl font-bold text-[#0d121c]">$29</span>
+<span class="text-gray-500">/mo</span>
+</div>
+<p class="text-sm text-gray-500 mb-8">Perfect for beginners just starting their journey.</p>
+<button class="w-full py-3 rounded-full bg-white border border-gray-300 font-bold text-gray-700 hover:bg-gray-50 transition-colors mb-8">Get Started</button>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-sm text-gray-600">
+<span class="material-symbols-outlined text-secondary text-[20px]">check</span>
+                            Access to Gym Floor
+                        </li>
+<li class="flex items-center gap-3 text-sm text-gray-600">
+<span class="material-symbols-outlined text-secondary text-[20px]">check</span>
+                            Basic App Tracking
+                        </li>
+<li class="flex items-center gap-3 text-sm text-gray-600">
+<span class="material-symbols-outlined text-secondary text-[20px]">check</span>
+                            1 AI Plan / Month
+                        </li>
+</ul>
+</div>
+<!-- Pro Plan (Highlighted) -->
+<div class="relative p-8 md:p-10 rounded-[2rem] bg-[#0d121c] text-white shadow-2xl transform md:-translate-y-4 border border-gray-800">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full tracking-wider uppercase">
+                        Most Popular
+                    </div>
+<h3 class="text-xl font-bold text-white mb-2">Pro Athlete</h3>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="text-5xl font-bold text-white">$59</span>
+<span class="text-gray-400">/mo</span>
+</div>
+<p class="text-sm text-gray-400 mb-8">Unlock the full power of AI coaching and analytics.</p>
+<button class="w-full py-4 rounded-full bg-primary hover:bg-primary/90 font-bold text-white transition-colors shadow-lg shadow-primary/25 mb-8">Start Free Trial</button>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-sm text-gray-300">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+                            Unlimited AI Coaching
+                        </li>
+<li class="flex items-center gap-3 text-sm text-gray-300">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+                            Priority Equipment Booking
+                        </li>
+<li class="flex items-center gap-3 text-sm text-gray-300">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+                            Advanced Analytics &amp; Export
+                        </li>
+<li class="flex items-center gap-3 text-sm text-gray-300">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+                            2x Token Earnings
+                        </li>
+</ul>
+</div>
+<!-- Elite Plan -->
+<div class="p-8 rounded-[2rem] border border-gray-200 bg-gray-50 hover:border-gray-300 transition-colors">
+<h3 class="text-xl font-bold text-gray-900 mb-2">Elite</h3>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="text-4xl font-bold text-[#0d121c]">$99</span>
+<span class="text-gray-500">/mo</span>
+</div>
+<p class="text-sm text-gray-500 mb-8">For professional athletes and dedicated enthusiasts.</p>
+<button class="w-full py-3 rounded-full bg-white border border-gray-300 font-bold text-gray-700 hover:bg-gray-50 transition-colors mb-8">Contact Sales</button>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-sm text-gray-600">
+<span class="material-symbols-outlined text-secondary text-[20px]">check</span>
+                            Everything in Pro
+                        </li>
+<li class="flex items-center gap-3 text-sm text-gray-600">
+<span class="material-symbols-outlined text-secondary text-[20px]">check</span>
+                            1-on-1 Human Coach Review
+                        </li>
+<li class="flex items-center gap-3 text-sm text-gray-600">
+<span class="material-symbols-outlined text-secondary text-[20px]">check</span>
+                            Private Locker &amp; Laundry
+                        </li>
+<li class="flex items-center gap-3 text-sm text-gray-600">
+<span class="material-symbols-outlined text-secondary text-[20px]">check</span>
+                            Guest Passes (Unltd)
+                        </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Carousel -->
+<section class="py-20 px-4 md:px-8 bg-background-light overflow-hidden" id="reviews">
+<div class="max-w-[1280px] mx-auto">
+<div class="flex justify-between items-end mb-12">
+<h2 class="text-3xl md:text-4xl font-bold text-[#0d121c]">Community Wins</h2>
+<div class="flex gap-2">
+<button class="size-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="size-10 rounded-full bg-[#0d121c] text-white flex items-center justify-center hover:bg-black transition-colors">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Scroll Container -->
+<div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scrollbar-hide [-ms-overflow-style:none] [scrollbar-width:none]">
+<!-- Card 1 -->
+<div class="snap-center min-w-[320px] md:min-w-[400px] p-6 bg-white rounded-3xl border border-gray-200 flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex text-accent mb-4">
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+</div>
+<p class="text-lg text-gray-800 font-medium mb-6">"The AI coach pushed me past my plateau in weeks. I didn't think an app could understand my limits better than I did, but PulseGym proved me wrong."</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Sarah J" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPPe7dNiz7HAi8B1BHyDwa2JBTiiLyKhQrr5dJkZdiI8MU1nSr7fxot3OCRDbnVipjtl0jBDbPdV-cph0Boan8i2ZL1cnqM9D5WzNcG55V3jg2Ie6Gpj6nYbJStjDC9a9y64rmtZyHncCXInKLfRv5GXcF18OoWvIowq0ZMrAQTGRoWX4uzifGonBtw-ePQpGk9wWiPmjLafR60LK02YDtUz1aWticlI-pEDXazH6NfPq-LAF3rKXCZvmtjyBTTekGYQLycKEwV4s")'></div>
+<div>
+<p class="font-bold text-[#0d121c]">Sarah Jenkins</p>
+<p class="text-sm text-gray-500">Member since 2022</p>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="snap-center min-w-[320px] md:min-w-[400px] p-6 bg-white rounded-3xl border border-gray-200 flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex text-accent mb-4">
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+</div>
+<p class="text-lg text-gray-800 font-medium mb-6">"Being able to book the squat rack before I leave work is a game changer. No more awkward waiting around. Efficiency at its finest."</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Marcus T" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDhotrtzt5BvN7YJMTPPLqAs8a1_KpOsyt2IiLP5mgbPkwVzMEmHa4UZN3f4lmrfBnIfyFYhN8edYM_QSJX9j3i5BzVGt_BlRBRHLzdfJE2DZPWnBKCSd88BBDZXin-EpVjgHp43JFgt2HImmx-uFyNZiN-x_UP_7LmTK4Xs6sTlAxB3J90EYC94QDtVIHGryGoY-keYHqDJfRHQfs0eYaGT2l7SqxppwzQ1r27ozRTqqhMJFZ2vCXpVgI5TOr7UqoS5xzzBXlfnAA")'></div>
+<div>
+<p class="font-bold text-[#0d121c]">Marcus Thompson</p>
+<p class="text-sm text-gray-500">Pro Member</p>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="snap-center min-w-[320px] md:min-w-[400px] p-6 bg-white rounded-3xl border border-gray-200 flex flex-col justify-between shadow-sm">
+<div>
+<div class="flex text-accent mb-4">
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star</span>
+<span class="material-symbols-outlined text-[20px] fill-current">star_half</span>
+</div>
+<p class="text-lg text-gray-800 font-medium mb-6">"I actually look forward to cardio now because of the token rewards. Used my first payout to get a new pair of lifting straps. Amazing concept!"</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-full bg-gray-200 bg-cover bg-center" data-alt="Portrait of Elena R" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBDGzwsi3hVT_3Kt-B-1VuedOqmqkfHXLhGTA9wayMqS-hQgg9kUSmfv9OdArnXLa4IWbVIXEcI64lpufa7KXlcw11mxXM3owJW43iLnEnJrtt9nU2QI8VA4ZpjQArdbmv2HLrVguHMP-KyJbPqZpKy7UNHv2QiHZBZPQ_WHPOtk5H9iHHxg7Yc9OmHxSqx6P8IyIRE1FKCL21TWSn7poWV4xloxx_5xY40_cS57es1xzn1awqJes_cVMGtINcuJa7gBIZSWLg7Lm0")'></div>
+<div>
+<p class="font-bold text-[#0d121c]">Elena Rodriguez</p>
+<p class="text-sm text-gray-500">Token Enthusiast</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 pt-20 pb-10 px-4 md:px-8">
+<div class="max-w-[1280px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-2 mb-6">
+<div class="flex items-center justify-center size-8 bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined text-[18px]">ecg_heart</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-[#0d121c]">PulseGym</span>
+</div>
+<p class="text-gray-500 mb-6">AI-Powered fitness management for the modern athlete. Join the revolution.</p>
+<div class="flex gap-4">
+<a class="text-gray-400 hover:text-primary transition-colors" href="#">
+<span class="sr-only">Twitter</span>
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+</a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#">
+<span class="sr-only">Instagram</span>
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.468 4.08c.636-.247 1.363-.416 2.427-.465C8.901 3.534 9.255 3.52 12 3.52h.315zm-.131 1.8c-2.665 0-2.977.012-4.029.059-.971.045-1.503.207-1.856.344-.469.182-.803.4-1.15.748-.347.347-.566.68-.748 1.15-.137.353-.3.885-.344 1.857-.047 1.055-.059 1.368-.059 4.029 0 2.665.012 2.977.059 4.029.045.971.207 1.503.344 1.856.182.469.4.803.748 1.15.347.347.68.566 1.15.748.353.137.885.3 1.857.344 1.054.048 1.37.058 4.041.058 2.665 0 2.977-.012 4.029-.059.971-.045 1.503-.207 1.856-.344.469-.182.803-.4 1.15-.748.347-.347.566-.68.748-1.15.137-.353.3-.885.344-1.857.048-1.055.058-1.37.058-4.041 0-2.665-.012-2.977-.058-4.029-.045-.971-.207-1.503-.344-1.856a3.24 3.24 0 00-.748-1.15 3.19 3.19 0 00-1.15-.748c-.353-.137-.885-.3-1.857-.344-1.023-.047-1.351-.059-3.808-.059h-.53zm.131 4.36a5.84 5.84 0 110 11.68 5.84 5.84 0 010-11.68zm0 1.8a4.04 4.04 0 100 8.08 4.04 4.04 0 000-8.08zm6.495-3.325a1.08 1.08 0 110 2.16 1.08 1.08 0 010-2.16z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-[#0d121c] mb-6">Product</h4>
+<ul class="space-y-4">
+<li><a class="text-gray-500 hover:text-primary" href="#">Features</a></li>
+<li><a class="text-gray-500 hover:text-primary" href="#">Pricing</a></li>
+<li><a class="text-gray-500 hover:text-primary" href="#">Download App</a></li>
+<li><a class="text-gray-500 hover:text-primary" href="#">Hardware API</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-[#0d121c] mb-6">Company</h4>
+<ul class="space-y-4">
+<li><a class="text-gray-500 hover:text-primary" href="#">About Us</a></li>
+<li><a class="text-gray-500 hover:text-primary" href="#">Careers</a></li>
+<li><a class="text-gray-500 hover:text-primary" href="#">Blog</a></li>
+<li><a class="text-gray-500 hover:text-primary" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-[#0d121c] mb-6">Stay Updated</h4>
+<p class="text-sm text-gray-500 mb-4">Get the latest fitness tips and feature updates.</p>
+<div class="flex flex-col gap-2">
+<input class="h-10 px-4 rounded-lg bg-gray-50 border border-gray-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full text-sm" placeholder="Enter your email" type="email"/>
+<button class="h-10 px-4 bg-[#0d121c] text-white font-bold rounded-lg hover:bg-black transition-colors w-full text-sm">Subscribe</button>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-gray-400">© 2024 PulseGym Inc. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-sm text-gray-400 hover:text-[#0d121c]" href="#">Privacy Policy</a>
+<a class="text-sm text-gray-400 hover:text-[#0d121c]" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym Member Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3B82F6", /* Electric Blue */
+                        "secondary": "#10B981", /* Vibrant Green */
+                        "accent": "#F97316", /* Orange */
+                        "background-light": "#f8fafc", /* Slate 50/100 mix */
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-900 font-display antialiased h-screen overflow-hidden selection:bg-primary/20 selection:text-primary">
+<div class="flex h-full w-full">
+<!-- Sidebar Navigation -->
+<aside class="hidden w-64 flex-col border-r border-slate-200 bg-white lg:flex z-20">
+<div class="flex h-20 items-center gap-3 px-6">
+<div class="flex items-center justify-center size-10 rounded-xl bg-primary text-white">
+<span class="material-symbols-outlined icon-filled text-2xl">ecg_heart</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900">PulseGym</h1>
+</div>
+<div class="flex flex-1 flex-col justify-between overflow-y-auto px-4 py-4">
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg bg-primary/10 px-4 py-3 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined icon-filled">home</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-medium">Schedule</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-medium">AI Coach</span>
+<span class="ml-auto rounded-full bg-accent/10 px-2 py-0.5 text-xs font-bold text-accent">NEW</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-medium">Programs</span>
+</a>
+</nav>
+<div class="flex flex-col gap-4">
+<div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-4 text-white">
+<div class="absolute -right-2 -top-2 size-20 rounded-full bg-white/10 blur-xl"></div>
+<p class="mb-1 text-xs font-medium text-slate-400">Current Plan</p>
+<p class="text-sm font-bold">Premium Member</p>
+<div class="mt-3 h-1.5 w-full rounded-full bg-slate-700">
+<div class="h-full w-3/4 rounded-full bg-secondary"></div>
+</div>
+<p class="mt-2 text-xs text-slate-400">22 days left</p>
+</div>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-medium">Log out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex h-full flex-1 flex-col overflow-y-auto bg-background-light relative scroll-smooth">
+<!-- Sticky Top Header -->
+<header class="sticky top-0 z-10 flex h-20 w-full items-center justify-between border-b border-slate-200/60 bg-white/80 px-8 backdrop-blur-md">
+<div class="flex lg:hidden items-center gap-3">
+<button class="text-slate-500">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-bold text-xl text-slate-900">PulseGym</span>
+</div>
+<!-- Search (Hidden on mobile) -->
+<div class="hidden md:flex flex-1 max-w-md mx-4 relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors material-symbols-outlined text-[20px]">search</span>
+<input class="w-full rounded-full border-slate-200 bg-slate-50 py-2.5 pl-10 pr-4 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search for workouts, coaches..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative rounded-full p-2 text-slate-500 hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute right-2 top-2 size-2.5 rounded-full border-2 border-white bg-accent"></span>
+</button>
+<div class="h-8 w-px bg-slate-200"></div>
+<div class="flex items-center gap-3 cursor-pointer">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-slate-900 leading-none">Alex Doe</p>
+<p class="text-xs text-slate-500 mt-1">Level 4 Athlete</p>
+</div>
+<div class="size-10 rounded-full bg-cover bg-center border-2 border-white shadow-sm ring-1 ring-slate-200" data-alt="Profile picture of a smiling man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuChxxY_Q7ThqMzfQ96KqsaUMgno34IE1G67tGZrlYP3f2HviVa70moaEpFUB9TBOBJjtLFvXaB7-_VjNBjXK71p92JZt6Y28u-JwZbxiw_5rYtnxEFWeyuZPJRCqNfVOfoxsV9lFqUedJcTAJe2mUosPcBp-eeS53YqmdDIxw6GBKVM90mx_ewUe3gL1BBFjAOVJNT0PLhtnpHt9SJecMIAKFOk_eXWhQLhZ6rp35pyr92H0CWuzcXVspChDeyoEI0h9eoB5zytXHE');"></div>
+</div>
+</div>
+</header>
+<div class="container mx-auto max-w-7xl p-6 lg:p-8 space-y-8">
+<!-- Welcome & Hero Section -->
+<div class="relative overflow-hidden rounded-3xl bg-slate-900 text-white shadow-lg">
+<!-- Background Image with Blur -->
+<div class="absolute inset-0 z-0">
+<img class="h-full w-full object-cover opacity-60 blur-sm scale-105" data-alt="Blurred background of a modern gym with weights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUB_lQ7NqA1Z83AHjhCm9vLUt2soinJNxrmOl3u-vkf9m57R4zo9bXhELFKdyogLSCGb4j4B8mkUqmPNyyBjfRIo1MgZHeyh1_eQ-12WdhONaCOCFktylRIaT3b92VnXBGOqp2TlVcs9FjJ-W1NdQJiNkWKG1uan5gxlUYOq3jD-qLSXJGr32et_mGU-G56WII3R9L979c8F-RYc1SyhsnzyCTDF8aB9Z2me1AFKXQIPA76G-VQ0e8YMtdB3keUPzcdcMhXtQfxPw"/>
+<div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/60 to-transparent"></div>
+</div>
+<div class="relative z-10 flex flex-col justify-center p-8 md:p-12 min-h-[240px]">
+<div class="max-w-2xl animate-fade-in-up">
+<h2 class="text-4xl md:text-5xl font-black tracking-tight mb-2">Good Morning, Alex!</h2>
+<p class="text-lg text-slate-200 mb-6 font-light">You're crushing it! You've hit a <span class="font-bold text-secondary">14-day streak</span>. Let's keep the momentum going.</p>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-white shadow-lg shadow-primary/30 hover:bg-blue-600 transition-transform hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+                                    Resume Workout
+                                </button>
+<button class="flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 font-bold text-white backdrop-blur-md hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                                    View Schedule
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+<!-- Stat Card 1 -->
+<div class="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border border-slate-100 transition-all hover:shadow-md hover:border-primary/20">
+<div class="flex items-center justify-between mb-4">
+<div class="rounded-xl bg-primary/10 p-3 text-primary">
+<span class="material-symbols-outlined icon-filled">token</span>
+</div>
+<span class="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500 group-hover:bg-primary group-hover:text-white transition-colors">Wallet</span>
+</div>
+<p class="text-sm font-medium text-slate-500">Token Balance</p>
+<div class="flex items-end gap-2">
+<h3 class="text-3xl font-bold text-slate-900">120</h3>
+<button class="mb-1 text-xs font-bold text-primary hover:underline">Buy More</button>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border border-slate-100 transition-all hover:shadow-md hover:border-secondary/20">
+<div class="flex items-center justify-between mb-4">
+<div class="rounded-xl bg-secondary/10 p-3 text-secondary">
+<span class="material-symbols-outlined icon-filled">local_fire_department</span>
+</div>
+<span class="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500 group-hover:bg-secondary group-hover:text-white transition-colors">Streak</span>
+</div>
+<p class="text-sm font-medium text-slate-500">Current Streak</p>
+<div class="flex items-end gap-2">
+<h3 class="text-3xl font-bold text-slate-900">14 <span class="text-lg text-secondary">Days</span></h3>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border border-slate-100 transition-all hover:shadow-md hover:border-accent/20">
+<div class="flex items-center justify-between mb-4">
+<div class="rounded-xl bg-accent/10 p-3 text-accent">
+<span class="material-symbols-outlined">timer</span>
+</div>
+<span class="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500 group-hover:bg-accent group-hover:text-white transition-colors">Weekly</span>
+</div>
+<p class="text-sm font-medium text-slate-500">Activity Hours</p>
+<div class="flex items-center justify-between">
+<h3 class="text-3xl font-bold text-slate-900">4.5<span class="text-lg text-slate-400 font-normal">/6h</span></h3>
+<div class="h-10 w-10">
+<svg class="transform -rotate-90 size-full" viewbox="0 0 36 36">
+<path class="text-slate-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4"></path>
+<path class="text-accent" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="75, 100" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm border border-slate-100 transition-all hover:shadow-md hover:border-primary/20">
+<div class="flex items-center justify-between mb-4">
+<div class="rounded-xl bg-blue-100 p-3 text-blue-600">
+<span class="material-symbols-outlined">event_available</span>
+</div>
+<span class="rounded-full bg-slate-100 px-2 py-1 text-xs font-bold text-slate-500">Upcoming</span>
+</div>
+<p class="text-sm font-medium text-slate-500">Active Bookings</p>
+<div class="flex items-end gap-2">
+<h3 class="text-3xl font-bold text-slate-900">2 <span class="text-lg text-slate-400 font-normal">Sessions</span></h3>
+</div>
+</div>
+</div>
+<!-- Main Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Quick Actions & Chart -->
+<div class="lg:col-span-2 flex flex-col gap-8">
+<!-- Quick Actions -->
+<div>
+<h3 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bolt</span> Quick Actions
+                            </h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<button class="flex flex-col items-center justify-center gap-3 rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+<div class="rounded-full bg-blue-50 p-4 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined icon-filled text-3xl">smart_toy</span>
+</div>
+<span class="font-bold text-slate-800 text-sm">AI Coach Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+<div class="rounded-full bg-green-50 p-4 text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">person_add</span>
+</div>
+<span class="font-bold text-slate-800 text-sm">Book Coach</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+<div class="rounded-full bg-orange-50 p-4 text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">fitness_center</span>
+</div>
+<span class="font-bold text-slate-800 text-sm">Book Equipment</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+<div class="rounded-full bg-purple-50 p-4 text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">monitor_weight</span>
+</div>
+<span class="font-bold text-slate-800 text-sm">InBody Scan</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+<div class="rounded-full bg-slate-50 p-4 text-slate-600 group-hover:bg-slate-800 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">assignment</span>
+</div>
+<span class="font-bold text-slate-800 text-sm">View Programs</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 rounded-2xl bg-white p-6 shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+<div class="rounded-full bg-pink-50 p-4 text-pink-500 group-hover:bg-pink-500 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">auto_fix_high</span>
+</div>
+<span class="font-bold text-slate-800 text-sm">New Program</span>
+</button>
+</div>
+</div>
+<!-- Progress Chart Section -->
+<div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="text-lg font-bold text-slate-900">Progress Tracking</h3>
+<p class="text-sm text-slate-500">Weight &amp; Body Fat %</p>
+</div>
+<div class="flex rounded-lg bg-slate-100 p-1">
+<button class="rounded-md bg-white px-3 py-1 text-xs font-bold text-slate-900 shadow-sm">1M</button>
+<button class="rounded-md px-3 py-1 text-xs font-medium text-slate-500 hover:text-slate-900">3M</button>
+<button class="rounded-md px-3 py-1 text-xs font-medium text-slate-500 hover:text-slate-900">6M</button>
+</div>
+</div>
+<!-- Simple CSS Chart Representation -->
+<div class="relative h-64 w-full">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between">
+<div class="border-b border-dashed border-slate-100 w-full h-0"></div>
+<div class="border-b border-dashed border-slate-100 w-full h-0"></div>
+<div class="border-b border-dashed border-slate-100 w-full h-0"></div>
+<div class="border-b border-dashed border-slate-100 w-full h-0"></div>
+<div class="border-b border-dashed border-slate-100 w-full h-0"></div>
+</div>
+<!-- Data Line (SVG) -->
+<svg class="absolute inset-0 h-full w-full overflow-visible" preserveaspectratio="none">
+<!-- Gradient Area -->
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#3B82F6" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#3B82F6" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,200 C50,180 100,210 150,160 C200,110 250,140 300,100 C350,60 400,90 450,70 C500,50 550,60 600,40 L600,256 L0,256 Z" fill="url(#chartGradient)"></path>
+<path d="M0,200 C50,180 100,210 150,160 C200,110 250,140 300,100 C350,60 400,90 450,70 C500,50 550,60 600,40" fill="none" stroke="#3B82F6" stroke-linecap="round" stroke-width="3"></path>
+<!-- Points -->
+<circle cx="150" cy="160" fill="white" r="4" stroke="#3B82F6" stroke-width="2"></circle>
+<circle cx="300" cy="100" fill="white" r="4" stroke="#3B82F6" stroke-width="2"></circle>
+<circle cx="450" cy="70" fill="white" r="4" stroke="#3B82F6" stroke-width="2"></circle>
+<circle cx="600" cy="40" fill="#3B82F6" r="6" stroke="white" stroke-width="2"></circle>
+</svg>
+<!-- X Axis Labels -->
+<div class="absolute -bottom-6 flex w-full justify-between text-xs text-slate-400">
+<span>Week 1</span>
+<span>Week 2</span>
+<span>Week 3</span>
+<span>Week 4</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Timeline & Badges -->
+<div class="flex flex-col gap-8">
+<!-- Upcoming Schedule -->
+<div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-slate-900">Schedule</h3>
+<a class="text-xs font-bold text-primary hover:underline" href="#">View All</a>
+</div>
+<div class="relative pl-4 space-y-6 before:absolute before:left-4 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100">
+<!-- Item 1 -->
+<div class="relative pl-6">
+<div class="absolute left-[-5px] top-1.5 size-3 rounded-full border-2 border-white bg-secondary ring-2 ring-secondary/20"></div>
+<div class="rounded-xl bg-slate-50 p-4 hover:bg-slate-100 transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-slate-500">TODAY, 10:00 AM</span>
+<span class="rounded-md bg-secondary/10 px-2 py-0.5 text-[10px] font-bold text-secondary uppercase">Confirmed</span>
+</div>
+<h4 class="font-bold text-slate-900">HIIT Session</h4>
+<p class="text-sm text-slate-500">with Sarah Jenkins</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="relative pl-6">
+<div class="absolute left-[-5px] top-1.5 size-3 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="rounded-xl bg-white border border-slate-100 p-4 hover:bg-slate-50 transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-slate-500">TOMORROW, 6:00 PM</span>
+<span class="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500 uppercase">Pending</span>
+</div>
+<h4 class="font-bold text-slate-900">Yoga Flow</h4>
+<p class="text-sm text-slate-500">Studio B</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="relative pl-6">
+<div class="absolute left-[-5px] top-1.5 size-3 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="rounded-xl bg-white border border-slate-100 p-4 hover:bg-slate-50 transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="text-xs font-bold text-slate-500">SAT, 9:00 AM</span>
+</div>
+<h4 class="font-bold text-slate-900">Open Gym</h4>
+<p class="text-sm text-slate-500">Main Floor</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Achievement Badges -->
+<div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
+<h3 class="text-lg font-bold text-slate-900 mb-4">Recent Achievements</h3>
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<div class="flex min-w-[80px] flex-col items-center gap-2">
+<div class="flex size-14 items-center justify-center rounded-full bg-yellow-100 text-yellow-600 ring-4 ring-yellow-50">
+<span class="material-symbols-outlined icon-filled">emoji_events</span>
+</div>
+<span class="text-xs font-medium text-center text-slate-600">Early Bird</span>
+</div>
+<div class="flex min-w-[80px] flex-col items-center gap-2">
+<div class="flex size-14 items-center justify-center rounded-full bg-red-100 text-red-600 ring-4 ring-red-50">
+<span class="material-symbols-outlined icon-filled">fitness_center</span>
+</div>
+<span class="text-xs font-medium text-center text-slate-600">Heavy Lifter</span>
+</div>
+<div class="flex min-w-[80px] flex-col items-center gap-2">
+<div class="flex size-14 items-center justify-center rounded-full bg-slate-100 text-slate-400 grayscale">
+<span class="material-symbols-outlined">directions_run</span>
+</div>
+<span class="text-xs font-medium text-center text-slate-400">Marathoner</span>
+</div>
+<div class="flex min-w-[80px] flex-col items-center gap-2">
+<div class="flex size-14 items-center justify-center rounded-full bg-slate-100 text-slate-400 grayscale">
+<span class="material-symbols-outlined">workspace_premium</span>
+</div>
+<span class="text-xs font-medium text-center text-slate-400">Elite</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Spacing -->
+<div class="h-24"></div>
+</main>
+<!-- Floating AI Action Button -->
+<button class="fixed bottom-8 right-8 z-50 flex size-16 items-center justify-center rounded-full bg-primary text-white shadow-xl shadow-primary/40 transition-transform hover:scale-110 hover:rotate-3 active:scale-95 group">
+<span class="absolute inset-0 rounded-full bg-primary animate-ping opacity-20"></span>
+<span class="material-symbols-outlined text-3xl group-hover:hidden">smart_toy</span>
+<span class="material-symbols-outlined text-3xl hidden group-hover:block">chat_bubble</span>
+</button>
+</div>
+</body></html>

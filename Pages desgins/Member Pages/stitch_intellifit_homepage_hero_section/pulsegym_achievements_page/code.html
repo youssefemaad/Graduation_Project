@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym Achievements</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3B82F6", // Electric Blue
+                        "secondary": "#10B981", // Vibrant Green
+                        "accent": "#F97316", // Orange
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "sans": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-display text-slate-900 selection:bg-primary/20">
+<!-- Background Image with Blur -->
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat blur-md opacity-20 transform scale-105" data-alt="Blurred background image of a modern gym interior with weights and equipment" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7iAxugf-v8wGga3xvjMDenUWX0agZzexMhAdbK_So0W-YMw6SD5Y00zAuqc-FpHS8AVVmvISWmO5lUr4OZGfsl2hJiAJ1fce_sR8An1rbNnS1SWlJC8hlTYmQatfWSB_LowiTHGwt2agtHr7zU4IjjJMTZ9B8-S_5U2RWqFKFOMBlBGiCrd6Z6lgYecIiBumD8ixz9woFoqXQULnSajvZtYRHLcgncwQfCooiKiPqKnOtNMU8JwRysfduRq_534b5rdVL4swNJms');">
+</div>
+<div class="absolute inset-0 bg-white/60"></div>
+</div>
+<div class="relative z-10 flex min-h-screen flex-col">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 glass-panel border-b border-slate-200/50">
+<div class="flex items-center justify-between px-6 py-4 max-w-[1440px] mx-auto w-full">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center size-10 rounded-xl bg-primary text-white">
+<span class="material-symbols-outlined text-2xl">fitness_center</span>
+</div>
+<h2 class="text-xl font-black tracking-tight text-slate-900">PulseGym</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 hover:text-primary text-sm font-semibold transition-colors" href="#">Dashboard</a>
+<a class="text-slate-600 hover:text-primary text-sm font-semibold transition-colors" href="#">Schedule</a>
+<a class="text-primary text-sm font-bold bg-primary/10 px-3 py-1.5 rounded-full" href="#">Achievements</a>
+<a class="text-slate-600 hover:text-primary text-sm font-semibold transition-colors" href="#">Leaderboard</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex h-10 items-center justify-center rounded-xl bg-primary px-5 text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-blue-600 transition-all hover:scale-105 active:scale-95">
+                        Check In
+                    </button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-white shadow-md cursor-pointer" data-alt="User profile picture of a fit person smiling" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPv22ZJrCgA8ovrqsKJDR8fb69VG5ZUFbo7nCdNx0UKb8oYfctJr0xXfbOsPs-MlFdk0L3a5XgaFpMNOJyTnWpwrJQ2OF5ftyAv1Up21uar0BgG1okguKDSs02QE_dzh97G5FccsyVv80zknhyKP1CDMMj8VVuwkToBQ-pezMCwRUZGulWvk_KTLeo18MbMhHxitg2GcmgnmTIkDSg-qtOVdAuMyCxXu5dqtc063U9mPI0FPyHsUswyrLy5L0yBXs98_xvYHWpyhA");'>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-[1440px] mx-auto p-6 md:p-10">
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Left Column (Primary Content) -->
+<div class="flex flex-col flex-1 gap-8">
+<!-- Hero / Page Heading -->
+<div class="flex flex-wrap justify-between items-end gap-4 pb-4 border-b border-slate-200/60">
+<div class="flex flex-col gap-2">
+<h1 class="text-4xl md:text-5xl font-black tracking-tight text-slate-900">Your Trophy Case</h1>
+<p class="text-slate-500 text-lg font-medium">Keep pushing! You've earned <span class="text-primary font-bold">1,250 PulsePoints</span> this month.</p>
+</div>
+<button class="group flex items-center gap-2 h-10 px-4 rounded-xl bg-white border border-slate-200 text-slate-700 text-sm font-bold hover:bg-slate-50 hover:border-slate-300 transition-all">
+<span>View History</span>
+<span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+<!-- Quick Stats Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="glass-panel rounded-2xl p-6 flex flex-col gap-1 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="material-symbols-outlined text-3xl text-primary p-2 bg-blue-50 rounded-lg">military_tech</span>
+<span class="text-secondary text-xs font-bold bg-green-50 px-2 py-1 rounded-full">+2 new</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Total Badges</p>
+<p class="text-3xl font-black text-slate-900">24</p>
+</div>
+<div class="glass-panel rounded-2xl p-6 flex flex-col gap-1 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="material-symbols-outlined text-3xl text-accent p-2 bg-orange-50 rounded-lg">local_fire_department</span>
+<span class="text-secondary text-xs font-bold bg-green-50 px-2 py-1 rounded-full">+1 day</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Current Streak</p>
+<p class="text-3xl font-black text-slate-900">12 Days</p>
+</div>
+<div class="glass-panel rounded-2xl p-6 flex flex-col gap-1 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="material-symbols-outlined text-3xl text-purple-600 p-2 bg-purple-50 rounded-lg">public</span>
+<span class="text-secondary text-xs font-bold bg-green-50 px-2 py-1 rounded-full">+2%</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Global Rank</p>
+<p class="text-3xl font-black text-slate-900">Top 5%</p>
+</div>
+</div>
+<!-- Badges Grid -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">verified</span>
+                                Recent Unlocks
+                            </h3>
+<div class="flex gap-2">
+<button class="text-sm font-semibold text-slate-500 hover:text-primary transition-colors">All</button>
+<button class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors">Common</button>
+<button class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors">Rare</button>
+<button class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors">Legendary</button>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+<!-- Badge 1: Early Bird -->
+<div class="group relative flex flex-col items-center gap-3 p-6 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer">
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-slate-400 hover:text-primary" title="Share">
+<span class="material-symbols-outlined text-lg">share</span>
+</button>
+</div>
+<div class="size-16 rounded-full bg-gradient-to-br from-yellow-100 to-orange-100 text-orange-500 flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-4xl drop-shadow-sm">wb_twilight</span>
+</div>
+<div class="text-center">
+<h4 class="font-bold text-slate-900 leading-tight">Early Bird</h4>
+<p class="text-xs text-slate-400 mt-1">Earned Today</p>
+</div>
+<span class="px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Common</span>
+</div>
+<!-- Badge 2: Iron Lifter -->
+<div class="group relative flex flex-col items-center gap-3 p-6 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer">
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-slate-400 hover:text-primary" title="Share">
+<span class="material-symbols-outlined text-lg">share</span>
+</button>
+</div>
+<div class="size-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 text-primary flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-4xl drop-shadow-sm">fitness_center</span>
+</div>
+<div class="text-center">
+<h4 class="font-bold text-slate-900 leading-tight">Iron Lifter</h4>
+<p class="text-xs text-slate-400 mt-1">Oct 20, 2023</p>
+</div>
+<span class="px-2 py-0.5 rounded-md bg-blue-50 text-[10px] font-bold text-blue-600 uppercase tracking-wider">Rare</span>
+</div>
+<!-- Badge 3: 7-Day Streak -->
+<div class="group relative flex flex-col items-center gap-3 p-6 rounded-2xl bg-white shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer">
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-slate-400 hover:text-primary" title="Share">
+<span class="material-symbols-outlined text-lg">share</span>
+</button>
+</div>
+<div class="size-16 rounded-full bg-gradient-to-br from-green-100 to-emerald-100 text-secondary flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-4xl drop-shadow-sm">bolt</span>
+</div>
+<div class="text-center">
+<h4 class="font-bold text-slate-900 leading-tight">Week Warrior</h4>
+<p class="text-xs text-slate-400 mt-1">Oct 15, 2023</p>
+</div>
+<span class="px-2 py-0.5 rounded-md bg-green-50 text-[10px] font-bold text-secondary uppercase tracking-wider">Common</span>
+</div>
+<!-- Badge 4: Locked -->
+<div class="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-slate-50 border border-dashed border-slate-300 opacity-80 hover:opacity-100 transition-all cursor-pointer hover:bg-white">
+<div class="size-16 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-4xl">emoji_events</span>
+<div class="absolute -bottom-1 -right-1 bg-slate-500 text-white rounded-full p-1 size-6 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-xs">lock</span>
+</div>
+</div>
+<div class="text-center">
+<h4 class="font-bold text-slate-500 leading-tight">Marathoner</h4>
+<p class="text-xs text-slate-400 mt-1">Run 42km Total</p>
+</div>
+<div class="w-full bg-slate-200 rounded-full h-1.5 mt-1">
+<div class="bg-slate-400 h-1.5 rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<!-- Badge 5: Locked -->
+<div class="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-slate-50 border border-dashed border-slate-300 opacity-80 hover:opacity-100 transition-all cursor-pointer hover:bg-white">
+<div class="size-16 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center relative">
+<span class="material-symbols-outlined text-4xl">monitor_heart</span>
+<div class="absolute -bottom-1 -right-1 bg-slate-500 text-white rounded-full p-1 size-6 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-xs">lock</span>
+</div>
+</div>
+<div class="text-center">
+<h4 class="font-bold text-slate-500 leading-tight">Cardio King</h4>
+<p class="text-xs text-slate-400 mt-1">Burn 5000 kcal</p>
+</div>
+<div class="w-full bg-slate-200 rounded-full h-1.5 mt-1">
+<div class="bg-slate-400 h-1.5 rounded-full" style="width: 80%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Sidebar) -->
+<div class="w-full lg:w-96 flex flex-col gap-6">
+<!-- Next Milestones Panel -->
+<div class="glass-panel rounded-2xl p-6 shadow-sm">
+<h3 class="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">flag</span>
+                            Next Milestones
+                        </h3>
+<div class="flex flex-col gap-6">
+<!-- Milestone 1 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<div class="flex gap-2 items-center">
+<div class="p-1.5 rounded-lg bg-orange-100 text-accent">
+<span class="material-symbols-outlined text-sm">local_fire_department</span>
+</div>
+<p class="text-slate-700 font-bold text-sm">14-Day Streak</p>
+</div>
+<p class="text-slate-500 text-xs font-semibold">12/14</p>
+</div>
+<div class="rounded-full bg-slate-200 h-2.5 w-full overflow-hidden">
+<div class="h-full bg-accent rounded-full relative" style="width: 85%;">
+<div class="absolute top-0 right-0 bottom-0 w-full bg-white/20 animate-pulse"></div>
+</div>
+</div>
+<p class="text-slate-400 text-xs text-right">2 days left</p>
+</div>
+<!-- Milestone 2 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<div class="flex gap-2 items-center">
+<div class="p-1.5 rounded-lg bg-blue-100 text-primary">
+<span class="material-symbols-outlined text-sm">directions_run</span>
+</div>
+<p class="text-slate-700 font-bold text-sm">100k Club</p>
+</div>
+<p class="text-slate-500 text-xs font-semibold">68/100 km</p>
+</div>
+<div class="rounded-full bg-slate-200 h-2.5 w-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 68%;"></div>
+</div>
+</div>
+<!-- Milestone 3 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<div class="flex gap-2 items-center">
+<div class="p-1.5 rounded-lg bg-purple-100 text-purple-600">
+<span class="material-symbols-outlined text-sm">scale</span>
+</div>
+<p class="text-slate-700 font-bold text-sm">Goal Weight</p>
+</div>
+<p class="text-slate-500 text-xs font-semibold">3 kg to go</p>
+</div>
+<div class="rounded-full bg-slate-200 h-2.5 w-full overflow-hidden">
+<div class="h-full bg-purple-600 rounded-full" style="width: 90%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Leaderboard Panel -->
+<div class="glass-panel rounded-2xl p-0 shadow-sm overflow-hidden">
+<div class="p-5 border-b border-slate-100 bg-white/50">
+<h3 class="text-lg font-bold text-slate-900 flex items-center justify-between">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-yellow-500">trophy</span> Leaderboard</span>
+<span class="text-xs font-normal text-slate-500 bg-slate-100 px-2 py-1 rounded-full">Weekly</span>
+</h3>
+</div>
+<div class="flex flex-col">
+<!-- Top User -->
+<div class="flex items-center gap-3 p-4 bg-yellow-50/50 hover:bg-yellow-50 transition-colors cursor-pointer border-l-4 border-yellow-400">
+<span class="font-black text-yellow-600 w-5 text-center">1</span>
+<div class="size-9 rounded-full bg-cover bg-center border border-yellow-200" data-alt="Avatar of leaderboard winner Sarah" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3kMhkZVDrqFX7rZhYoKssyHcSnosY5PoRBKixh49rla9foypuxpThoG67dkXjmyLErOXxujRaG3i7MGgES5cfHRgB79_cY8jmc7-XxgPnMqYfZ99Fp1lpWAajbwskZs5GnR4XJsujP64iIrE_zHYZUifsRi7GmmI9_KCAPC2bMy-Rm9LU4TI5IY_7rkoQwTTEjgzmsHJpNS_A8o5u2vD1ejCODF_ntKlPxycz25An1nY80IM8l9Xwy1v8R2dgbpq-sftoFEjzepE');"></div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900">Sarah J.</p>
+<p class="text-xs text-slate-500">Elite Member</p>
+</div>
+<div class="text-right">
+<p class="text-sm font-black text-primary">2,850</p>
+<p class="text-[10px] font-bold text-slate-400 uppercase">pts</p>
+</div>
+</div>
+<!-- 2nd User -->
+<div class="flex items-center gap-3 p-4 hover:bg-slate-50 transition-colors cursor-pointer border-b border-slate-100 last:border-0">
+<span class="font-bold text-slate-400 w-5 text-center">2</span>
+<div class="size-9 rounded-full bg-cover bg-center bg-slate-200" data-alt="Avatar of leaderboard runner up Mike" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCGPPChKyDNhyhzbBgrRfM3lRoNd_a50RVuVVSJspE23FxHEaA0sTL0nGB4mwqr3E8zwNR7xcNyybBT5iJqlE49NB6-BZh-g8_h_HCDr_GSiL6tWeuP2HH2c1qaGGCeZ9IzYQrOVa2gIpSDg-dUnOuI6AxqRYZ6oKcf9OgJVALb-ML8v0_-5awacHfGWmpDDojatf81_27P3PDQQaEAmOzavnxLMFTV7pgCo02_ZPpzxkafRl1iQOeFhW7FKss_8oO9Xt-jd9Xe5UA');"></div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900">Mike T.</p>
+</div>
+<p class="text-sm font-bold text-slate-600">2,340</p>
+</div>
+<!-- 3rd User -->
+<div class="flex items-center gap-3 p-4 hover:bg-slate-50 transition-colors cursor-pointer border-b border-slate-100 last:border-0">
+<span class="font-bold text-slate-400 w-5 text-center">3</span>
+<div class="size-9 rounded-full bg-cover bg-center bg-slate-200" data-alt="Avatar of third place leaderboard user Alex" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCKviph0i7dKV1dMV79_2jfmO_MkpcC8837nI29mqh0XEeXIHkOBkxxyIC0i-AbfPp16i_aMNvfLkbta1xpL6DyT385MkAFL7RqBJM-PWBeeZ_Oivtb-DD_WzmlxxlJ_BnU-nXGuCteYepx9YJ-YHqBu6GN-Pkcl8OjZKXAj08F59G95-jk2h9cUkzbsNOhrPv73nRc4asmhLDH3syik6BWzFPrBJ79eVO_W8nuMdVw3AbJG7ejrr2Qp9g3fh1rfHo8YnNl0c5x7U0');"></div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900">Alex R.</p>
+</div>
+<p class="text-sm font-bold text-slate-600">2,100</p>
+</div>
+<!-- You (if not in top 3) -->
+<div class="flex items-center gap-3 p-4 bg-blue-50/50 mt-1">
+<span class="font-bold text-primary w-5 text-center">18</span>
+<div class="size-9 rounded-full bg-cover bg-center border-2 border-white shadow-sm" data-alt="Your own avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9fzY7NBBYK1riX2xCaW2SDEvcCtDdFmTHtOqwhA4s1Hq4GnACQp066jDjK7EMwgD00zCadG4dE1l1ErayW0oYJfqL7isUmS_CqHcYRTHyGtVLKStcYiYU8UXCeyIOhJT48kJwA2oACsEf5J1giSQPbGBGM-Tg612nAavmxeygwa5y08tABpsw-3aXFDawVuyX2JqeiwJvytlXSniq20SBQ80LpQ7_5lLyiyhPdCN7WBWXLdWXdwaO1o6xRj4x5JwswerJYFYf474');"></div>
+<div class="flex-1">
+<p class="text-sm font-bold text-slate-900">You</p>
+</div>
+<p class="text-sm font-bold text-primary">1,250</p>
+</div>
+</div>
+<div class="p-4 text-center bg-slate-50/50 border-t border-slate-100">
+<button class="text-xs font-bold text-primary hover:text-blue-700 transition-colors">View Full Leaderboard</button>
+</div>
+</div>
+<!-- Motivational Quote Card -->
+<div class="rounded-2xl p-6 bg-gradient-to-br from-primary to-blue-600 text-white shadow-lg relative overflow-hidden group">
+<div class="absolute -right-6 -bottom-6 opacity-20 transform rotate-12 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]">format_quote</span>
+</div>
+<h4 class="font-bold text-lg mb-2 relative z-10">Did you know?</h4>
+<p class="text-blue-100 text-sm leading-relaxed relative z-10 mb-4">
+                            "Consistency is key! Users who maintain a 7-day streak are 3x more likely to hit their monthly goals."
+                        </p>
+<button class="relative z-10 bg-white/20 hover:bg-white/30 text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors backdrop-blur-sm">
+                            Schedule Workout
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

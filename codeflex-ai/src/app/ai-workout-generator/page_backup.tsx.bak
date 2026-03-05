@@ -1,0 +1,727 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/components/ui/toast";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  Dumbbell,
+  Zap,
+  TrendingUp,
+  Calendar,
+  Target,
+  Heart,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  Sparkles,
+  Activity,
+  User,
+} from "lucide-react";
+import {
+  generateAIWorkoutPlan,
+  checkMLServiceHealth,
+  getUserStrengthProfile,
+  getLatestMuscleScan,
+  type GenerateAIWorkoutPlanRequest,
+  type AIWorkoutPlanResult,
+  type AIWorkoutDay,
+  type AIExercise,
+  type UserStrengthProfileDto,
+  type MuscleScanResultDto,
+} from "@/lib/api/workoutAI";
+
+function AIWorkoutGeneratorContent() {
+  const { user } = useAuth();
+  const { showToast } = useToast();
+
+  // Form State
+  const [fitnessLevel, setFitnessLevel] = useState<"Beginner" | "Intermediate" | "Advanced">("Intermediate");
+  const [goal, setGoal] = useState<"Muscle" | "Strength" | "WeightLoss" | "Cardio" | "Endurance">("Muscle");
+  const [daysPerWeek, setDaysPerWeek] = useState(4);
+  const [equipment, setEquipment] = useState<string[]>([]);  // Start empty - user must select equipment
+  const [injuries, setInjuries] = useState<string[]>([]);
+  const [includeUserContext, setIncludeUserContext] = useState(true);
+
+  // Generated Plan State
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedPlan, setGeneratedPlan] = useState<AIWorkoutPlanResult | null>(null);
+  const [selectedDay, setSelectedDay] = useState(0);
+
+  // User Context State
+  const [strengthProfile, setStrengthProfile] = useState<UserStrengthProfileDto | null>(null);
+  const [muscleScan, setMuscleScan] = useState<MuscleScanResultDto | null>(null);
+  const [mlServiceHealthy, setMlServiceHealthy] = useState<boolean | null>(null);
+
+  // Available Options
+  const equipmentOptions = [
+    "Barbell",
+    "Dumbbells",
+    "Cable Machine",
+    "Body Weight",
+    "Kettlebell",
+    "Resistance Bands",
+    "Pull-up Bar",
+    "Bench",
+  ];
+
+  const injuryOptions = [
+    "Lower Back",
+    "Shoulder",
+    "Knee",
+    "Wrist",
+    "Elbow",
+    "Hip",
+    "Ankle",
+  ];
+
+  // Check ML Service Health on Mount
+  useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        const response = await checkMLServiceHealth();
+        setMlServiceHealthy(response.success);
+        if (!response.success) {
+          console.warn("ML Service health check failed:", response);
+        }
+      } catch (error) {
+        console.error("ML Service unreachable:", error);
+        setMlServiceHealthy(false);
+      }
+    };
+    checkHealth();
+    // Re-check every 30 seconds
+    const interval = setInterval(checkHealth, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Load User Context (Strength Profile & Muscle Scan)
+  useEffect(() => {
+    if (user && includeUserContext) {
+      loadUserContext();
+    }
+  }, [user, includeUserContext]);
+
+  const loadUserContext = async () => {
+    if (!user) return;
+
+    try {
+      const [strengthRes, scanRes] = await Promise.all([
+        getUserStrengthProfile(user.userId),
+        getLatestMuscleScan(user.userId),
+      ]);
+
+      if (strengthRes.success && strengthRes.data) {
+        setStrengthProfile(strengthRes.data);
+      }
+
+      if (scanRes.success && scanRes.data) {
+        setMuscleScan(scanRes.data);
+      }
+    } catch (error) {
+      console.error("Failed to load user context:", error);
+    }
+  };
+
+  const handleGeneratePlan = async () => {
+    if (!user) {
+      showToast("Please log in to generate a workout plan", "error");
+      return;
+    }
+
+    // Check token exists
+    const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+    if (!token) {
+      showToast("⚠️ Authentication required. Please log in again.", "error", 6000);
+      // Optionally redirect to login
+      // window.location.href = '/login';
+      return;
+    }
+
+    // Check token balance (optional - remove if not using token system)
+    if (user.tokenBalance !== undefined && user.tokenBalance < 50) {
+      showToast("You need at least 50 tokens to generate an AI workout plan", "error");
+      return;
+    }
+
+    setIsGenerating(true);
+
+    try {
+      const request: GenerateAIWorkoutPlanRequest = {
+        userId: user.userId,
+        fitnessLevel,
+        goal,
+        daysPerWeek,
+        equipment,
+        injuries,
+        includeUserContext,
+        forceRegenerate: false,
+      };
+
+      const response = await generateAIWorkoutPlan(request);
+
+      if (response.success && response.data) {
+        setGeneratedPlan(response.data);
+        setSelectedDay(0);
+        showToast(
+          `${response.data.fromCache ? "Retrieved" : "Generated"} ${response.data.planName} in ${response.data.generationLatencyMs}ms!`,
+          "success"
+        );
+      } else {
+        // Handle API error response
+        const errorMsg = response.message || response.data?.errorMessage || "Failed to generate workout plan";
+        showToast(errorMsg, "error", 8000);
+      }
+    } catch (error: any) {
+      console.error("Error generating plan:", error);
+      
+      // Better error messages
+      let errorMessage = "Failed to generate workout plan";
+      
+      if (error.message?.includes("401") || error.message?.includes("Unauthorized")) {
+        errorMessage = "🔒 Your session has expired. Please log in again.";
+        // Optionally redirect to login after 3 seconds
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 3000);
+      } else if (error.message?.includes("Network error") || error.message?.includes("Cannot connect")) {
+        errorMessage = "⚠️ Cannot connect to server. Please make sure:\n• Backend is running on port 5025\n• ML service is running on port 5300";
+      } else if (error.message?.includes("503") || error.message?.includes("Service Unavailable")) {
+        errorMessage = "⚠️ ML service is currently unavailable. Please try again in a moment.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      showToast(errorMessage, "error", 8000); // Show for 8 seconds
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const toggleEquipment = (item: string) => {
+    setEquipment((prev) =>
+      prev.includes(item) ? prev.filter((e) => e !== item) : [...prev, item]
+    );
+  };
+
+  const toggleInjury = (item: string) => {
+    setInjuries((prev) =>
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full text-sm font-medium">
+            <Sparkles className="w-4 h-4" />
+            <span>Powered by Flan-T5 AI Model</span>
+          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            AI Workout Generator
+          </h1>
+          <p className="text-slate-600 max-w-2xl mx-auto">
+            Get a personalized workout plan tailored to your goals, fitness level, and available equipment.
+            Our AI analyzes your strength profile and muscle development to create the perfect plan.
+          </p>
+        </div>
+
+        {/* ML Service Status */}
+        {mlServiceHealthy !== null && (
+          <Card className={`p-4 border-l-4 ${
+            mlServiceHealthy 
+              ? 'border-green-500 bg-green-50' 
+              : 'border-red-500 bg-red-50'
+          }`}>
+            <div className="flex items-center gap-3">
+              {mlServiceHealthy ? (
+                <>
+                  <CheckCircle2 className="w-5 h-5 text-green-600" />
+                  <div>
+                    <p className="font-medium text-green-900">ML Service Active</p>
+                    <p className="text-sm text-green-700">AI model is ready to generate your workout plan</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <AlertCircle className="w-5 h-5 text-red-600" />
+                  <div>
+                    <p className="font-medium text-red-900">ML Service Offline</p>
+                    <p className="text-sm text-red-700">
+                      Please start the ML service on port 5300. Run: <code className="bg-red-100 px-1 rounded">python app_hybrid.py</code>
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
+          </Card>
+        )}
+
+        {/* User Context Preview */}
+        {includeUserContext && (strengthProfile || muscleScan) && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {strengthProfile && (
+              <Card className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
+                <div className="flex items-center gap-3 mb-3">
+                  <Activity className="w-5 h-5 text-purple-600" />
+                  <h3 className="font-semibold text-purple-900">Strength Profile Loaded</h3>
+                </div>
+                <p className="text-sm text-purple-700">
+                  {strengthProfile.exercises.length} exercises tracked · AI will recommend optimal weights
+                </p>
+              </Card>
+            )}
+            {muscleScan && (
+              <Card className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+                <div className="flex items-center gap-3 mb-3">
+                  <User className="w-5 h-5 text-blue-600" />
+                  <h3 className="font-semibold text-blue-900">Muscle Scan Available</h3>
+                </div>
+                <p className="text-sm text-blue-700">
+                  {muscleScan.underdevelopedMuscles?.length || 0} weak areas detected · Plan will focus on these
+                </p>
+              </Card>
+            )}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Configuration Panel */}
+          <div className="lg:col-span-1 space-y-6">
+            <Card className="p-6 space-y-6">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900 mb-4">Configure Your Plan</h2>
+              </div>
+
+              {/* Fitness Level */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700">
+                  <Target className="w-4 h-4 inline mr-2" />
+                  Fitness Level
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {(["Beginner", "Intermediate", "Advanced"] as const).map((level) => (
+                    <button
+                      key={level}
+                      onClick={() => setFitnessLevel(level)}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                        fitnessLevel === level
+                          ? "bg-blue-600 text-white shadow-lg scale-105"
+                          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                      }`}
+                    >
+                      {level}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Goal */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700">
+                  <Zap className="w-4 h-4 inline mr-2" />
+                  Primary Goal
+                </label>
+                <select
+                  value={goal}
+                  onChange={(e) => setGoal(e.target.value as any)}
+                  className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="Muscle">Build Muscle</option>
+                  <option value="Strength">Increase Strength</option>
+                  <option value="WeightLoss">Weight Loss</option>
+                  <option value="Cardio">Cardio & Endurance</option>
+                  <option value="Endurance">Endurance Training</option>
+                </select>
+              </div>
+
+              {/* Days Per Week */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700">
+                  <Calendar className="w-4 h-4 inline mr-2" />
+                  Days Per Week: {daysPerWeek}
+                </label>
+                <input
+                  type="range"
+                  min="3"
+                  max="6"
+                  value={daysPerWeek}
+                  onChange={(e) => setDaysPerWeek(Number(e.target.value))}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-slate-500">
+                  <span>3 days</span>
+                  <span>6 days</span>
+                </div>
+              </div>
+
+              {/* Equipment */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700">
+                  <Dumbbell className="w-4 h-4 inline mr-2" />
+                  Available Equipment
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  {equipmentOptions.map((item) => (
+                    <button
+                      key={item}
+                      onClick={() => toggleEquipment(item)}
+                      className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                        equipment.includes(item)
+                          ? "bg-green-600 text-white"
+                          : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Injuries */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700">
+                  <Heart className="w-4 h-4 inline mr-2" />
+                  Injuries to Avoid
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  {injuryOptions.map((item) => (
+                    <button
+                      key={item}
+                      onClick={() => toggleInjury(item)}
+                      className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                        injuries.includes(item)
+                          ? "bg-red-600 text-white"
+                          : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* User Context Toggle */}
+              <div className="flex items-center gap-3 pt-4 border-t">
+                <input
+                  type="checkbox"
+                  id="userContext"
+                  checked={includeUserContext}
+                  onChange={(e) => setIncludeUserContext(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <label htmlFor="userContext" className="text-sm text-slate-700">
+                  Include my strength profile & muscle scan data
+                </label>
+              </div>
+
+              {/* Generate Button */}
+              <Button
+                onClick={handleGeneratePlan}
+                disabled={isGenerating || !mlServiceHealthy || equipment.length === 0}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-6 text-lg font-semibold"
+              >
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                    Generating Your Plan...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Generate AI Workout Plan
+                  </>
+                )}
+              </Button>
+            </Card>
+          </div>
+
+          {/* Generated Plan Display */}
+          <div className="lg:col-span-2">
+            {!generatedPlan ? (
+              <Card className="p-12 text-center">
+                <div className="max-w-md mx-auto space-y-4">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto">
+                    <Dumbbell className="w-10 h-10 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-900">Ready to Get Started?</h3>
+                  <p className="text-slate-600">
+                    Configure your preferences on the left and click "Generate AI Workout Plan" to create your
+                    personalized training program.
+                  </p>
+                  <div className="grid grid-cols-3 gap-4 pt-6">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-600">8,103</div>
+                      <div className="text-xs text-slate-600">Exercises</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-600">&lt;50ms</div>
+                      <div className="text-xs text-slate-600">Response Time</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-600">100%</div>
+                      <div className="text-xs text-slate-600">Personalized</div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ) : (
+              <div className="space-y-6">
+                {/* Plan Header */}
+                <Card className="p-6 bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-2">{generatedPlan.planName}</h2>
+                      <div className="flex items-center gap-4 text-sm opacity-90">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          {generatedPlan.planData?.days?.length} days/week
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Zap className="w-4 h-4" />
+                          {goal} Focus
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <TrendingUp className="w-4 h-4" />
+                          {fitnessLevel}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs opacity-75">Generated in</div>
+                      <div className="text-2xl font-bold">{generatedPlan.generationLatencyMs}ms</div>
+                      {generatedPlan.fromCache && (
+                        <div className="text-xs opacity-75 mt-1">(From cache)</div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm bg-white/20 rounded-lg p-3">
+                    <CheckCircle2 className="w-5 h-5" />
+                    <span>{generatedPlan.modelVersion} • Plan ID: {generatedPlan.planId}</span>
+                  </div>
+                </Card>
+
+                {/* Day Selector */}
+                <div className="flex gap-2 overflow-x-auto pb-2">
+                  {generatedPlan.planData?.days?.map((day, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedDay(index)}
+                      className={`px-4 py-3 rounded-lg whitespace-nowrap font-medium transition-all ${
+                        selectedDay === index
+                          ? "bg-blue-600 text-white shadow-lg scale-105"
+                          : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+                      }`}
+                    >
+                      <div className="text-sm">Day {day.dayNumber || index + 1}</div>
+                      <div className={`text-xs ${selectedDay === index ? "opacity-90" : "opacity-60"}`}>
+                        {day.dayName || `Workout ${index + 1}`}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Exercises for Selected Day */}
+                {generatedPlan.planData?.days?.[selectedDay] && (
+                  <Card className="p-6">
+                    <div className="mb-6">
+                      <h3 className="text-xl font-bold text-slate-900 mb-2">
+                        {generatedPlan.planData.days[selectedDay].dayName || `Day ${selectedDay + 1}`}
+                      </h3>
+                      <p className="text-slate-600">
+                        Focus: {generatedPlan.planData.days[selectedDay].focus 
+                          || generatedPlan.planData.days[selectedDay].focusAreas?.join(', ') 
+                          || 'General Workout'}
+                      </p>
+                      {generatedPlan.planData.days[selectedDay].estimatedDurationMinutes && (
+                        <p className="text-sm text-slate-500 mt-1">
+                          Est. Duration: {generatedPlan.planData.days[selectedDay].estimatedDurationMinutes} min
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-4">
+                      {generatedPlan.planData.days[selectedDay].exercises?.length === 0 && (
+                        <div className="p-6 text-center text-slate-500 bg-slate-50 rounded-lg">
+                          <Dumbbell className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                          <p>No exercises generated for this day. Try regenerating the plan.</p>
+                        </div>
+                      )}
+                      {generatedPlan.planData.days[selectedDay].exercises?.map((exercise, idx) => (
+                        <div
+                          key={idx}
+                          className="p-5 bg-gradient-to-r from-slate-50 to-blue-50 rounded-lg border border-slate-200 hover:shadow-lg transition-all"
+                        >
+                          <div className="flex items-start gap-4">
+                            {/* Exercise Image */}
+                            {exercise.imageUrl && (
+                              <div className="flex-shrink-0">
+                                <img
+                                  src={exercise.imageUrl}
+                                  alt={exercise.name}
+                                  className="w-24 h-24 rounded-lg object-cover border-2 border-blue-200 shadow-sm"
+                                  onError={(e) => {
+                                    // Fallback if image fails to load
+                                    (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2'%3E%3Cpath d='M22 12h-4l-3 9L9 3l-3 9H2'/%3E%3C/svg%3E";
+                                  }}
+                                />
+                              </div>
+                            )}
+
+                            {/* Exercise Details */}
+                            <div className="flex-1">
+                              <h4 className="font-bold text-slate-900 text-xl mb-1">{exercise.name}</h4>
+                              
+                              {/* Description */}
+                              {exercise.description && (
+                                <p className="text-sm text-slate-700 mb-2 leading-relaxed">
+                                  {exercise.description}
+                                </p>
+                              )}
+                              
+                              {/* Equipment & Target Muscles */}
+                              <div className="flex flex-wrap gap-2 mb-3">
+                                {exercise.equipment && (
+                                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    {exercise.equipment}
+                                  </span>
+                                )}
+                                {exercise.targetMuscles && exercise.targetMuscles.map((muscle, i) => (
+                                  <span key={i} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    {muscle}
+                                  </span>
+                                ))}
+                              </div>
+
+                              {/* Notes */}
+                              {exercise.notes && (
+                                <p className="text-sm text-amber-700 bg-amber-50 px-3 py-2 rounded border border-amber-200 mb-3">
+                                  💡 {exercise.notes}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-3">
+                            <div className="text-center p-2 bg-white rounded">
+                              <div className="text-xs text-slate-500">Sets</div>
+                              <div className="text-lg font-bold text-blue-600">{exercise.sets}</div>
+                            </div>
+                            <div className="text-center p-2 bg-white rounded">
+                              <div className="text-xs text-slate-500">Reps</div>
+                              <div className="text-lg font-bold text-blue-600">{exercise.reps || "N/A"}</div>
+                            </div>
+                            {exercise.weightKg && (
+                              <div className="text-center p-2 bg-white rounded">
+                                <div className="text-xs text-slate-500">Weight</div>
+                                <div className="text-lg font-bold text-blue-600">{exercise.weightKg}kg</div>
+                              </div>
+                            )}
+                            {exercise.restSeconds ? (
+                              <div className="text-center p-2 bg-white rounded">
+                                <div className="text-xs text-slate-500">Rest</div>
+                                <div className="text-lg font-bold text-blue-600">{exercise.restSeconds}s</div>
+                              </div>
+                            ) : exercise.rest ? (
+                              <div className="text-center p-2 bg-white rounded">
+                                <div className="text-xs text-slate-500">Rest</div>
+                                <div className="text-lg font-bold text-blue-600">{exercise.rest}</div>
+                              </div>
+                            ) : null}
+                          </div>
+
+                          {exercise.tempo && (
+                            <div className="mt-2 text-sm text-slate-600">
+                              <span className="font-medium">Tempo:</span> {exercise.tempo}
+                            </div>
+                          )}
+
+                          {exercise.alternatives && exercise.alternatives.length > 0 && (
+                            <div className="mt-2 text-xs text-slate-500">
+                              <span className="font-medium">Alternatives:</span>{" "}
+                              {exercise.alternatives.join(", ")}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+                )}
+
+                {/* Progressive Overload Info */}
+                {generatedPlan.planData?.progressiveOverload && (
+                  <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+                    <h3 className="text-lg font-bold text-green-900 mb-3 flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5" />
+                      Progressive Overload Strategy
+                    </h3>
+                    <div className="space-y-2 text-sm text-green-800">
+                      {generatedPlan.planData.progressiveOverload.strategy && (
+                        <p>
+                          <span className="font-medium">Strategy:</span>{" "}
+                          {generatedPlan.planData.progressiveOverload.strategy}
+                        </p>
+                      )}
+                      {generatedPlan.planData.progressiveOverload.weeklyWeightIncreasePercent && (
+                        <p>
+                          <span className="font-medium">Weekly Increase:</span>{" "}
+                          {generatedPlan.planData.progressiveOverload.weeklyWeightIncreasePercent}%
+                        </p>
+                      )}
+                      {generatedPlan.planData.progressiveOverload.deloadSchedule && (
+                        <p>
+                          <span className="font-medium">Deload:</span>{" "}
+                          {generatedPlan.planData.progressiveOverload.deloadSchedule}
+                        </p>
+                      )}
+                      {generatedPlan.planData.progressiveOverload.notes && (
+                        <p className="pt-2 border-t border-green-200">
+                          {generatedPlan.planData.progressiveOverload.notes}
+                        </p>
+                      )}
+                    </div>
+                  </Card>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex gap-4">
+                  <Button
+                    onClick={handleGeneratePlan}
+                    variant="outline"
+                    className="flex-1"
+                    disabled={isGenerating}
+                  >
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Regenerate Plan
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      // TODO: Navigate to workout log or save plan
+                      showToast("Plan saved! Start your first workout.", "success");
+                    }}
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    <CheckCircle2 className="w-4 h-4 mr-2" />
+                    Start This Plan
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function AIWorkoutGeneratorPage() {
+  return (
+    <ProtectedRoute>
+      <AIWorkoutGeneratorContent />
+    </ProtectedRoute>
+  );
+}

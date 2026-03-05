@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KineticFlow - Progress Tracking</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48525",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221810",
+                        "surface-dark": "#2e2319", 
+                        "secondary-text": "#cbab90",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #221810; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #493422; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f48525; 
+        }
+        
+        .glass-panel {
+            background: rgba(46, 35, 25, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .neon-shadow {
+            box-shadow: 0 0 15px rgba(244, 133, 37, 0.15);
+        }
+        
+        .chart-grid-line {
+            stroke: rgba(203, 171, 144, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<!-- Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#493422] bg-[#231910] px-10 py-4 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em] hidden sm:block">KineticFlow</h2>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-secondary-text hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Dashboard</a>
+<a class="text-secondary-text hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Training</a>
+<a class="text-secondary-text hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Nutrition</a>
+<a class="text-white text-sm font-medium leading-normal border-b-2 border-primary pb-1" href="#">Progress</a>
+<a class="text-secondary-text hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Community</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-secondary-text hover:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20 cursor-pointer" data-alt="User profile picture showing a fit person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCK6tTargiB-ls1LemXjAeIdqOAN0gT6JFUPOQFhHqxKk6NeD4VYSaqQVr-GmC6_sbxkl9PNY-aNZCGfZMSSLMAPK2QLA034X7AV4HJLiiebs50QszigcF3LkmqeEN7vKbl5SWxGOxOi0nxmOSY9t5_W_2qqpEmPovqFeCPRNqaSg2C2mYlBPirK-hDJr-Cv29rFCbbnEHR_RmBUvZs_yUjIkm27J8JV-YRYkvH4_vEgT9CcIxyKzRJB9BVHDq9j3p6_iCnzIlnK9w");'></div>
+</div>
+</div>
+</header>
+<div class="layout-container flex h-full grow flex-col relative z-0">
+<!-- Ambient Background Glows -->
+<div class="absolute top-0 left-[20%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+<div class="absolute bottom-0 right-[10%] w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+<div class="px-6 md:px-12 lg:px-40 flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 gap-8">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-4xl md:text-5xl font-bold leading-tight tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-secondary-text">
+                                Your Progress Flow
+                            </h1>
+<p class="text-secondary-text text-base font-normal max-w-lg">
+                                Track your momentum and unleash your potential through data-driven insights.
+                            </p>
+</div>
+<!-- Date Range Chips -->
+<div class="glass-panel p-1.5 rounded-2xl flex flex-wrap gap-1">
+<button class="bg-primary text-white px-4 py-2 rounded-xl text-sm font-medium shadow-lg shadow-primary/20 transition-all hover:scale-105">
+                                Last 7 Days
+                            </button>
+<button class="text-secondary-text hover:text-white hover:bg-white/5 px-4 py-2 rounded-xl text-sm font-medium transition-all">
+                                Last 30 Days
+                            </button>
+<button class="text-secondary-text hover:text-white hover:bg-white/5 px-4 py-2 rounded-xl text-sm font-medium transition-all">
+                                Year to Date
+                            </button>
+<button class="text-secondary-text hover:text-white hover:bg-white/5 px-4 py-2 rounded-xl text-sm font-medium transition-all">
+                                All Time
+                            </button>
+</div>
+</div>
+<!-- Tabs -->
+<div class="border-b border-[#493422]">
+<div class="flex gap-8 overflow-x-auto pb-1 hide-scrollbar">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-primary text-white pb-3 min-w-20" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-bold tracking-wide">Overview</span>
+</div>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-secondary-text hover:text-white hover:border-white/20 pb-3 min-w-20 transition-all" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">waves</span>
+<span class="text-sm font-bold tracking-wide">Flows</span>
+</div>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-secondary-text hover:text-white hover:border-white/20 pb-3 min-w-20 transition-all" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">ecg_heart</span>
+<span class="text-sm font-bold tracking-wide">Biometrics</span>
+</div>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-transparent text-secondary-text hover:text-white hover:border-white/20 pb-3 min-w-20 transition-all" href="#">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">photo_camera_back</span>
+<span class="text-sm font-bold tracking-wide">Visuals</span>
+</div>
+</a>
+</div>
+</div>
+<!-- KPI Cards (Glassmorphic) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="glass-panel p-6 rounded-2xl relative overflow-hidden group hover:bg-[#2e2319]/60 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">monitor_weight</span>
+</div>
+<div class="flex flex-col gap-3 relative z-10">
+<div class="flex items-center gap-2 text-secondary-text text-sm uppercase tracking-wider font-semibold">
+                                    Weight Transformation
+                                </div>
+<div class="flex items-end gap-3">
+<span class="text-4xl font-bold text-white tracking-tighter">-5.2<span class="text-xl ml-1 text-secondary-text font-normal">kg</span></span>
+<span class="text-green-500 bg-green-500/10 px-2 py-1 rounded-md text-xs font-bold mb-1 flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_down</span> 2.5%
+                                    </span>
+</div>
+<div class="w-full bg-white/10 rounded-full h-1.5 mt-2">
+<div class="bg-primary h-1.5 rounded-full w-[75%] shadow-[0_0_10px_rgba(244,133,37,0.5)]"></div>
+</div>
+<p class="text-xs text-secondary-text mt-1">Approaching goal weight</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel p-6 rounded-2xl relative overflow-hidden group hover:bg-[#2e2319]/60 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">speed</span>
+</div>
+<div class="flex flex-col gap-3 relative z-10">
+<div class="flex items-center gap-2 text-secondary-text text-sm uppercase tracking-wider font-semibold">
+                                    Muscle Velocity
+                                </div>
+<div class="flex items-end gap-3">
+<span class="text-4xl font-bold text-white tracking-tighter">Top 10%</span>
+<span class="text-green-500 bg-green-500/10 px-2 py-1 rounded-md text-xs font-bold mb-1 flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">arrow_upward</span> 5.2%
+                                    </span>
+</div>
+<div class="w-full bg-white/10 rounded-full h-1.5 mt-2">
+<div class="bg-primary h-1.5 rounded-full w-[90%] shadow-[0_0_10px_rgba(244,133,37,0.5)]"></div>
+</div>
+<p class="text-xs text-secondary-text mt-1">Explosive power improving</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel p-6 rounded-2xl relative overflow-hidden group hover:bg-[#2e2319]/60 transition-colors">
+<div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">local_fire_department</span>
+</div>
+<div class="flex flex-col gap-3 relative z-10">
+<div class="flex items-center gap-2 text-secondary-text text-sm uppercase tracking-wider font-semibold">
+                                    Flow Consistency
+                                </div>
+<div class="flex items-end gap-3">
+<span class="text-4xl font-bold text-white tracking-tighter">12 Wks</span>
+<span class="text-primary bg-primary/10 px-2 py-1 rounded-md text-xs font-bold mb-1 flex items-center">
+<span class="material-symbols-outlined text-[14px] mr-1">local_fire_department</span> Streak
+                                    </span>
+</div>
+<div class="flex gap-1 mt-2">
+<div class="h-1.5 flex-1 rounded-full bg-primary shadow-[0_0_5px_rgba(244,133,37,0.5)]"></div>
+<div class="h-1.5 flex-1 rounded-full bg-primary shadow-[0_0_5px_rgba(244,133,37,0.5)]"></div>
+<div class="h-1.5 flex-1 rounded-full bg-primary shadow-[0_0_5px_rgba(244,133,37,0.5)]"></div>
+<div class="h-1.5 flex-1 rounded-full bg-primary shadow-[0_0_5px_rgba(244,133,37,0.5)]"></div>
+<div class="h-1.5 flex-1 rounded-full bg-primary shadow-[0_0_5px_rgba(244,133,37,0.5)]"></div>
+<div class="h-1.5 flex-1 rounded-full bg-white/10"></div>
+<div class="h-1.5 flex-1 rounded-full bg-white/10"></div>
+</div>
+<p class="text-xs text-secondary-text mt-1">5/7 days completed this week</p>
+</div>
+</div>
+</div>
+<!-- Main Chart Section -->
+<div class="glass-panel rounded-3xl p-8 border border-[#493422] shadow-2xl relative">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-white text-xl font-bold">Weight Over Time</h3>
+<p class="text-secondary-text text-sm">Target trajectory vs. actual measurements</p>
+</div>
+<div class="flex gap-2 bg-[#231910] p-1 rounded-lg border border-[#493422]">
+<button class="px-3 py-1.5 text-xs font-bold text-black bg-white rounded shadow-sm">Weight</button>
+<button class="px-3 py-1.5 text-xs font-medium text-secondary-text hover:text-white transition-colors">Body Fat %</button>
+<button class="px-3 py-1.5 text-xs font-medium text-secondary-text hover:text-white transition-colors">Muscle Mass</button>
+</div>
+</div>
+<!-- Simulated Chart -->
+<div class="relative h-[300px] w-full mt-4">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between text-xs text-secondary-text/50 font-mono">
+<div class="w-full border-b border-white/5 flex items-center"><span>85kg</span></div>
+<div class="w-full border-b border-white/5 flex items-center"><span>80kg</span></div>
+<div class="w-full border-b border-white/5 flex items-center"><span>75kg</span></div>
+<div class="w-full border-b border-white/5 flex items-center"><span>70kg</span></div>
+<div class="w-full border-b border-white/5 flex items-center"><span>65kg</span></div>
+</div>
+<!-- Chart Area -->
+<svg class="absolute inset-0 w-full h-full overflow-visible" preserveaspectratio="none">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#f48525" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#f48525" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Area Fill -->
+<path d="M0,225 Q150,200 300,180 T600,120 T900,100 T1200,75 L1200,300 L0,300 Z" fill="url(#chartGradient)"></path>
+<!-- Line Stroke -->
+<path class="drop-shadow-[0_0_10px_rgba(244,133,37,0.8)]" d="M0,225 Q150,200 300,180 T600,120 T900,100 T1200,75" fill="none" stroke="#f48525" stroke-linecap="round" stroke-width="3"></path>
+<!-- Data Points -->
+<circle class="hover:scale-150 transition-transform origin-center cursor-pointer" cx="300" cy="180" fill="#1a120b" r="6" stroke="#f48525" stroke-width="3"></circle>
+<circle class="hover:scale-150 transition-transform origin-center cursor-pointer" cx="600" cy="120" fill="#1a120b" r="6" stroke="#f48525" stroke-width="3"></circle>
+<circle class="drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] animate-pulse" cx="900" cy="100" fill="white" r="8" stroke="#f48525" stroke-width="0"></circle>
+</svg>
+<!-- Tooltip Simulation -->
+<div class="absolute top-[20%] left-[73%] bg-[#2e2319] border border-primary/30 p-3 rounded-lg shadow-xl backdrop-blur-md">
+<p class="text-xs text-secondary-text mb-1">Feb 24, 2024</p>
+<p class="text-lg font-bold text-white">72.4 kg</p>
+<p class="text-xs text-green-500 font-bold">-0.8 kg</p>
+</div>
+</div>
+<!-- X Axis -->
+<div class="flex justify-between mt-2 text-xs text-secondary-text font-mono uppercase tracking-widest px-2">
+<span>Jan</span>
+<span>Feb</span>
+<span>Mar</span>
+<span>Apr</span>
+<span>May</span>
+<span>Jun</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+<!-- Achievements Section -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center px-2">
+<h3 class="text-white text-xl font-bold">Achievements &amp; Milestones</h3>
+<a class="text-primary text-sm font-bold hover:underline" href="#">View All</a>
+</div>
+<div class="glass-panel rounded-2xl p-6 border border-[#493422]">
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<!-- Unlocked Badge 1 -->
+<div class="aspect-square rounded-full bg-gradient-to-br from-[#2e2319] to-black border-2 border-primary/50 flex flex-col items-center justify-center p-2 text-center group cursor-pointer hover:border-primary transition-all hover:scale-105 shadow-[0_0_15px_rgba(244,133,37,0.15)]">
+<span class="material-symbols-outlined text-3xl text-primary mb-1">fitness_center</span>
+<span class="text-[10px] font-bold text-white leading-tight">Heavy Lifter</span>
+<span class="text-[9px] text-secondary-text mt-1">Unlocked</span>
+</div>
+<!-- Unlocked Badge 2 -->
+<div class="aspect-square rounded-full bg-gradient-to-br from-[#2e2319] to-black border-2 border-primary/50 flex flex-col items-center justify-center p-2 text-center group cursor-pointer hover:border-primary transition-all hover:scale-105 shadow-[0_0_15px_rgba(244,133,37,0.15)]">
+<span class="material-symbols-outlined text-3xl text-primary mb-1">wb_twilight</span>
+<span class="text-[10px] font-bold text-white leading-tight">Early Riser</span>
+<span class="text-[9px] text-secondary-text mt-1">Unlocked</span>
+</div>
+<!-- Unlocked Badge 3 -->
+<div class="aspect-square rounded-full bg-gradient-to-br from-[#2e2319] to-black border-2 border-primary/50 flex flex-col items-center justify-center p-2 text-center group cursor-pointer hover:border-primary transition-all hover:scale-105 shadow-[0_0_15px_rgba(244,133,37,0.15)]">
+<span class="material-symbols-outlined text-3xl text-primary mb-1">local_fire_department</span>
+<span class="text-[10px] font-bold text-white leading-tight">Hot Streak</span>
+<span class="text-[9px] text-secondary-text mt-1">Unlocked</span>
+</div>
+<!-- Locked Badge -->
+<div class="aspect-square rounded-full bg-[#1a140e] border border-white/5 flex flex-col items-center justify-center p-2 text-center opacity-60">
+<span class="material-symbols-outlined text-3xl text-white/20 mb-1">lock</span>
+<span class="text-[10px] font-bold text-white/40 leading-tight">Marathoner</span>
+<span class="text-[9px] text-white/20 mt-1">Locked</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Visual Transformation Section -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-center px-2">
+<h3 class="text-white text-xl font-bold">Visual Transformation</h3>
+<button class="flex items-center gap-1 text-primary text-sm font-bold hover:underline">
+<span class="material-symbols-outlined text-sm">add_a_photo</span> Upload
+                                </button>
+</div>
+<div class="glass-panel rounded-2xl p-1 border border-[#493422] relative h-64 overflow-hidden group">
+<!-- Simulated Comparison Slider -->
+<div class="absolute inset-0 flex">
+<!-- Left Image (Before) -->
+<div class="w-1/2 h-full relative overflow-hidden bg-black">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 group-hover:scale-105 transition-transform duration-700" data-alt="Before photo of user physique from January" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBk0Zl-QQGl78eCHrEhKQhszSkkFQbjS9vBbHJQToDHKWgeHqY-0EWGYdxAUIaSHtUt6u5fS5LB9Zx66-460syj0DGxJEhTBT1xtSH8tQm6NulrJl_woBQoc2M4ga6D7-6lOK_OtoaAAchyNii9k74aY1HO_DGNUvTpxQigpWEBBOIgyq6F-H5mQoeSt-hizU9WZtitMG25rPt7UdZChNEjXZzDqNEjGrPMu318H9rxlZlK1tnOyev-kwyIrw3bg-JT952fAaqAXgA");'></div>
+<div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-mono border border-white/10">Jan 01</div>
+</div>
+<!-- Right Image (After) -->
+<div class="w-1/2 h-full relative overflow-hidden bg-black">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 group-hover:scale-105 transition-transform duration-700" data-alt="After photo of user physique current date" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAExSl2DeovBYYbSOnLA3c7mCuQCThf-OjbsMrD0ssx4ltYXbIkEDiktnVyNFhHUCfH94I6tZBFb19nFm9vVLIi9weDqRqMofbQOV4HkQZ8QCq0-7ytbChnVhp56iBWGKOV9m_LVG_Y61KQri81oBLmS-dquEusqlZoxmRC7oJ2jYc0oc-yKmXnIztGcn56PRCgJtPjlRgbL8AymEqnW8yNYgX0ngS6XJS5KjRdjcU8_93spHgs1_-Otbrg04VZe55tzPDM1vM1JUQ");'></div>
+<div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-mono border border-white/10">Today</div>
+</div>
+</div>
+<!-- Slider Handle -->
+<div class="absolute top-0 bottom-0 left-1/2 w-1 bg-white cursor-ew-resize flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.5)] z-20">
+<div class="size-8 rounded-full bg-primary border-4 border-white flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-[16px]">code</span>
+</div>
+</div>
+<!-- Overlay UI -->
+<div class="absolute top-4 left-4 right-4 flex justify-between pointer-events-none z-10">
+<div class="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
+<p class="text-[10px] text-secondary-text uppercase">Body Fat</p>
+<p class="text-sm font-bold text-white">18% <span class="text-white/40">→</span> <span class="text-primary">12%</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button for Mobile/Desktop -->
+<div class="fixed bottom-8 right-8 z-40">
+<button class="size-14 rounded-full bg-primary text-white shadow-[0_0_20px_rgba(244,133,37,0.4)] flex items-center justify-center hover:scale-110 transition-transform hover:shadow-[0_0_30px_rgba(244,133,37,0.6)]">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+</div>
+</body></html>

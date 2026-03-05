@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - InBody Tracking</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "secondary": "#10B981",
+                        "accent": "#F97316",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-900 overflow-hidden">
+<div class="flex h-screen w-full relative">
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col w-64 h-full bg-white border-r border-slate-200 shrink-0 z-20">
+<div class="p-6 pb-2">
+<div class="flex items-center gap-3">
+<div class="bg-primary/10 p-2 rounded-xl">
+<span class="material-symbols-outlined text-primary text-3xl">ecg_heart</span>
+</div>
+<div>
+<h1 class="text-slate-900 text-lg font-bold leading-tight">PulseGym</h1>
+<p class="text-slate-500 text-xs font-medium">AI-Powered Fitness</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2 px-4 py-6 overflow-y-auto no-scrollbar">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">fitness_center</span>
+<span class="text-sm font-medium">Workouts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">restaurant_menu</span>
+<span class="text-sm font-medium">Nutrition</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">monitor_weight</span>
+<span class="text-sm font-bold">InBody Tracking</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-primary transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">calendar_month</span>
+<span class="text-sm font-medium">Schedule</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<div class="flex items-center gap-3 mt-4 px-3">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="User profile picture of a woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCi19nvbCge_JnrfrjO2s8nBgFwgt61AUgktCjd4EgH2ls1IIyhih9H1VctIH32r2291N8lsh5qtvGS-cDgyj-VqD2T5i2CBxKYcMEmf4o-Ju1f7RLwZ-FbzMFKdOKPbg3Wuu9X5BXsjZFLRasZsIgdfPbGbehgBq2pKUviTNaYLYyBet5-m61JAHq5CmKhaYQmFG7o4gb1tr78XDX1N9hHYUieutynZ1RtumA7RSxXuZBmjhtWBhC2kFB0kETC9uid8nuoVyiI8ro')"></div>
+<div>
+<p class="text-sm font-bold text-slate-900">Sarah Jenkins</p>
+<p class="text-xs text-slate-500">Premium Member</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col relative h-full overflow-hidden">
+<!-- Background Image with Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Blurred modern gym interior background with weights" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCx8UeBHTBd8PW2MAODoALb9MjalZKH15ApqhRHH6799HV5__3291naArAHAJL154Wl1ymVA7__Hgl9XSCOZ5WiCXc9TzQObQorKqwc9vx8MWcuGZmsJHSzJoxJpG02owtii7wcwvP_85fZ-5fBTT1tRdW2Mi7zDfWQMhdQ4t38ufY3lU4rRr9e4oKKznZGdmeunv3H8KcreiBl1Vyw67Lw--lqqgTT9Hqd21Mlq86RCWyNHxtLoSnrOBTElDxzg8yF8BYJhqps8xw');"></div>
+<div class="absolute inset-0 bg-background-light/90 backdrop-blur-sm"></div>
+</div>
+<!-- Scrollable Content Area -->
+<div class="relative z-10 flex-1 overflow-y-auto p-4 md:p-8 lg:px-12">
+<div class="max-w-7xl mx-auto flex flex-col gap-8 pb-10">
+<!-- Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<h1 class="text-3xl font-black tracking-tight text-slate-900">My Body Composition</h1>
+<span class="bg-secondary/10 text-secondary text-xs font-bold px-2 py-1 rounded-full border border-secondary/20">HEALTHY RANGE</span>
+</div>
+<p class="text-slate-500 font-medium">Latest Scan: <span class="text-slate-900 font-semibold">Oct 24, 2023</span> • 8:45 AM</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-4 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm transition-all">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                                Export Report
+                            </button>
+<button class="bg-primary hover:bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2 shadow-md shadow-blue-500/30 transition-all">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+                                Schedule New Scan
+                            </button>
+</div>
+</div>
+<!-- Key Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Weight Card -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-40 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute -right-6 -top-6 bg-blue-50 w-24 h-24 rounded-full group-hover:scale-110 transition-transform"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div>
+<p class="text-slate-500 font-medium text-sm mb-1">Total Weight</p>
+<h3 class="text-4xl font-black text-slate-900 tracking-tight">75.4 <span class="text-lg text-slate-400 font-semibold">kg</span></h3>
+</div>
+<div class="bg-accent/10 p-2 rounded-full text-accent">
+<span class="material-symbols-outlined">trending_down</span>
+</div>
+</div>
+<div class="relative z-10 mt-auto flex items-center gap-2">
+<span class="bg-accent text-white text-xs font-bold px-1.5 py-0.5 rounded">-1.2%</span>
+<span class="text-slate-400 text-xs">vs last month</span>
+</div>
+</div>
+<!-- Muscle Card -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-40 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute -right-6 -top-6 bg-green-50 w-24 h-24 rounded-full group-hover:scale-110 transition-transform"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div>
+<p class="text-slate-500 font-medium text-sm mb-1">Skeletal Muscle Mass</p>
+<h3 class="text-4xl font-black text-slate-900 tracking-tight">34.2 <span class="text-lg text-slate-400 font-semibold">kg</span></h3>
+</div>
+<div class="bg-secondary/10 p-2 rounded-full text-secondary">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+</div>
+<div class="relative z-10 mt-auto flex items-center gap-2">
+<span class="bg-secondary text-white text-xs font-bold px-1.5 py-0.5 rounded">+2.0%</span>
+<span class="text-slate-400 text-xs">Great progress!</span>
+</div>
+</div>
+<!-- Body Fat Card -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-40 relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute -right-6 -top-6 bg-orange-50 w-24 h-24 rounded-full group-hover:scale-110 transition-transform"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div>
+<p class="text-slate-500 font-medium text-sm mb-1">Percent Body Fat</p>
+<h3 class="text-4xl font-black text-slate-900 tracking-tight">18.5 <span class="text-lg text-slate-400 font-semibold">%</span></h3>
+</div>
+<div class="bg-accent/10 p-2 rounded-full text-accent">
+<span class="material-symbols-outlined">trending_down</span>
+</div>
+</div>
+<div class="relative z-10 mt-auto flex items-center gap-2">
+<span class="bg-accent text-white text-xs font-bold px-1.5 py-0.5 rounded">-0.5%</span>
+<span class="text-slate-400 text-xs">Getting leaner</span>
+</div>
+</div>
+</div>
+<!-- Main Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Big Chart -->
+<div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-lg font-bold text-slate-900">Composition History</h3>
+<p class="text-sm text-slate-500">Last 6 Months Trend</p>
+</div>
+<div class="flex gap-2 bg-slate-100 p-1 rounded-lg">
+<button class="px-3 py-1 bg-white shadow-sm text-xs font-bold text-slate-900 rounded-md">Weight</button>
+<button class="px-3 py-1 text-xs font-medium text-slate-500 hover:text-slate-900">Muscle</button>
+<button class="px-3 py-1 text-xs font-medium text-slate-500 hover:text-slate-900">Fat %</button>
+</div>
+</div>
+<!-- Chart SVG Placeholder -->
+<div class="w-full h-64 relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 800 300">
+<defs>
+<lineargradient id="gradientPrimary" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#2b8cee" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#2b8cee" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid lines -->
+<line stroke="#f1f5f9" stroke-width="1" x1="0" x2="800" y1="50" y2="50"></line>
+<line stroke="#f1f5f9" stroke-width="1" x1="0" x2="800" y1="125" y2="125"></line>
+<line stroke="#f1f5f9" stroke-width="1" x1="0" x2="800" y1="200" y2="200"></line>
+<line stroke="#f1f5f9" stroke-width="1" x1="0" x2="800" y1="275" y2="275"></line>
+<!-- Chart Line -->
+<path d="M0 200 C 100 190, 150 220, 200 180 S 300 150, 400 160 S 550 140, 650 100 S 750 80, 800 60" fill="none" stroke="#2b8cee" stroke-linecap="round" stroke-width="4"></path>
+<!-- Fill area -->
+<path d="M0 200 C 100 190, 150 220, 200 180 S 300 150, 400 160 S 550 140, 650 100 S 750 80, 800 60 V 300 H 0 Z" fill="url(#gradientPrimary)"></path>
+<!-- Data Points -->
+<circle cx="200" cy="180" fill="white" r="4" stroke="#2b8cee" stroke-width="3"></circle>
+<circle cx="400" cy="160" fill="white" r="4" stroke="#2b8cee" stroke-width="3"></circle>
+<circle cx="650" cy="100" fill="#2b8cee" r="6" stroke="white" stroke-width="3"></circle>
+<circle cx="650" cy="100" fill="#2b8cee" opacity="0.2" r="12"></circle>
+</svg>
+<!-- Tooltip simulated -->
+<div class="absolute top-[25%] right-[20%] bg-slate-900 text-white text-xs px-2 py-1 rounded shadow-lg transform -translate-y-full">
+                                    75.4 kg
+                                    <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 border-4 border-transparent border-t-slate-900"></div>
+</div>
+</div>
+<div class="flex justify-between text-xs text-slate-400 font-medium mt-4 px-2">
+<span>May</span>
+<span>Jun</span>
+<span>Jul</span>
+<span>Aug</span>
+<span>Sep</span>
+<span>Oct</span>
+</div>
+</div>
+<!-- AI Insights Card -->
+<div class="bg-gradient-to-br from-indigo-900 to-primary rounded-2xl p-6 shadow-md text-white flex flex-col justify-between relative overflow-hidden">
+<!-- Abstract pattern bg -->
+<div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 20px 20px;"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-yellow-300">auto_awesome</span>
+<p class="text-xs font-bold uppercase tracking-wider text-blue-200">Pulse AI Insight</p>
+</div>
+<h3 class="text-xl font-bold leading-tight mb-3">Hypertrophy Goal On Track!</h3>
+<p class="text-blue-100 text-sm leading-relaxed mb-4">
+                                    Your skeletal muscle mass has increased by <strong class="text-white">2%</strong> this month. This aligns perfectly with your "Strength Builder" program.
+                                </p>
+<div class="bg-white/10 rounded-lg p-3 backdrop-blur-sm border border-white/10">
+<div class="flex gap-2 items-start">
+<span class="material-symbols-outlined text-orange-300 text-lg mt-0.5">warning</span>
+<div>
+<p class="text-xs font-bold text-orange-200 mb-0.5">Attention Needed</p>
+<p class="text-xs text-blue-100">Hydration levels dropped slightly (-1.5%). Increase water intake before morning sessions.</p>
+</div>
+</div>
+</div>
+</div>
+<button class="relative z-10 mt-6 w-full bg-white text-primary text-sm font-bold py-2.5 rounded-lg hover:bg-blue-50 transition-colors">
+                                View Recommendations
+                            </button>
+</div>
+</div>
+<!-- Secondary Metrics & Segmental Analysis -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+<!-- Detailed Metrics Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+<!-- Metric Item -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col gap-2 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">accessibility_new</span>
+<span class="text-xs font-bold uppercase">BMI</span>
+</div>
+<p class="text-2xl font-bold text-slate-900">23.4</p>
+<span class="text-xs text-secondary font-medium">Normal</span>
+</div>
+<!-- Metric Item -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col gap-2 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">water_drop</span>
+<span class="text-xs font-bold uppercase">Body Water</span>
+</div>
+<p class="text-2xl font-bold text-slate-900">46.2 L</p>
+<span class="text-xs text-accent font-medium">-0.5 L</span>
+</div>
+<!-- Metric Item -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col gap-2 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">egg_alt</span>
+<span class="text-xs font-bold uppercase">Protein</span>
+</div>
+<p class="text-2xl font-bold text-slate-900">12.8 kg</p>
+<span class="text-xs text-secondary font-medium">Optimal</span>
+</div>
+<!-- Metric Item -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col gap-2 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">diamond</span>
+<span class="text-xs font-bold uppercase">Minerals</span>
+</div>
+<p class="text-2xl font-bold text-slate-900">4.3 kg</p>
+<span class="text-xs text-slate-400 font-medium">Stable</span>
+</div>
+<!-- Metric Item -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col gap-2 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">monitor_heart</span>
+<span class="text-xs font-bold uppercase">Visceral Fat</span>
+</div>
+<p class="text-2xl font-bold text-slate-900">Level 4</p>
+<span class="text-xs text-secondary font-medium">Low Risk</span>
+</div>
+<!-- Metric Item -->
+<div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col gap-2 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">local_fire_department</span>
+<span class="text-xs font-bold uppercase">BMR</span>
+</div>
+<p class="text-2xl font-bold text-slate-900">1740 <span class="text-sm font-normal text-slate-500">kcal</span></p>
+</div>
+</div>
+<!-- Segmental Analysis -->
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-bold text-slate-900">Segmental Lean Analysis</h3>
+<button class="text-primary text-sm font-bold hover:underline">View Details</button>
+</div>
+<div class="flex flex-col sm:flex-row gap-8 items-center justify-center">
+<!-- Graphic representation -->
+<div class="relative w-32 h-64 bg-slate-100 rounded-3xl flex items-center justify-center">
+<!-- Silhouette simplified using CSS shapes -->
+<div class="flex flex-col items-center gap-1 w-full h-full p-4">
+<!-- Head -->
+<div class="w-10 h-10 rounded-full bg-slate-300"></div>
+<!-- Body -->
+<div class="flex gap-1 w-full justify-center flex-1">
+<!-- Left Arm -->
+<div class="w-4 h-24 bg-secondary rounded-full flex items-end justify-center pb-2">
+<div class="w-2 h-2 bg-white/50 rounded-full"></div>
+</div>
+<!-- Trunk -->
+<div class="w-12 h-32 bg-secondary rounded-xl flex items-center justify-center">
+<div class="w-8 h-20 bg-white/10 rounded-lg"></div>
+</div>
+<!-- Right Arm -->
+<div class="w-4 h-24 bg-secondary rounded-full flex items-end justify-center pb-2">
+<div class="w-2 h-2 bg-white/50 rounded-full"></div>
+</div>
+</div>
+<!-- Legs -->
+<div class="flex gap-1 w-full justify-center -mt-4">
+<div class="w-5 h-20 bg-secondary rounded-full"></div>
+<div class="w-5 h-20 bg-secondary rounded-full"></div>
+</div>
+</div>
+<!-- Label overlays -->
+<div class="absolute top-20 -left-12 bg-white shadow-sm px-2 py-1 rounded text-[10px] font-bold border border-slate-100 flex items-center gap-1"><div class="w-2 h-2 bg-secondary rounded-full"></div>3.4kg</div>
+<div class="absolute top-20 -right-12 bg-white shadow-sm px-2 py-1 rounded text-[10px] font-bold border border-slate-100 flex items-center gap-1">3.5kg<div class="w-2 h-2 bg-secondary rounded-full"></div></div>
+<div class="absolute bottom-10 -left-12 bg-white shadow-sm px-2 py-1 rounded text-[10px] font-bold border border-slate-100 flex items-center gap-1"><div class="w-2 h-2 bg-secondary rounded-full"></div>9.8kg</div>
+<div class="absolute bottom-10 -right-12 bg-white shadow-sm px-2 py-1 rounded text-[10px] font-bold border border-slate-100 flex items-center gap-1">9.7kg<div class="w-2 h-2 bg-secondary rounded-full"></div></div>
+</div>
+<!-- Legend/Table -->
+<div class="flex-1 w-full sm:w-auto space-y-3">
+<div class="flex justify-between items-center text-sm border-b border-slate-100 pb-2">
+<span class="text-slate-500">Segment</span>
+<span class="font-bold text-slate-900">Lean Mass</span>
+<span class="font-bold text-slate-900">Fat Mass</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-700 font-medium">Right Arm</span>
+<span class="font-semibold text-secondary">3.5 kg</span>
+<span class="text-slate-400">0.4 kg</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-700 font-medium">Left Arm</span>
+<span class="font-semibold text-secondary">3.4 kg</span>
+<span class="text-slate-400">0.4 kg</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-700 font-medium">Trunk</span>
+<span class="font-semibold text-secondary">26.4 kg</span>
+<span class="text-slate-400">4.2 kg</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-700 font-medium">Right Leg</span>
+<span class="font-semibold text-secondary">9.7 kg</span>
+<span class="text-slate-400">1.8 kg</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-700 font-medium">Left Leg</span>
+<span class="font-semibold text-secondary">9.8 kg</span>
+<span class="text-slate-400">1.8 kg</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- History Table -->
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+<div class="p-6 border-b border-slate-100 flex justify-between items-center">
+<h3 class="text-lg font-bold text-slate-900">Scan History</h3>
+<button class="text-primary text-sm font-bold hover:underline disabled:text-slate-300 disabled:no-underline" disabled="">Compare Selected (0)</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider font-semibold">
+<th class="p-4 w-10">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</th>
+<th class="p-4">Date</th>
+<th class="p-4">Weight</th>
+<th class="p-4">SMM</th>
+<th class="p-4">PBF</th>
+<th class="p-4">Score</th>
+<th class="p-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-sm">
+<tr class="group hover:bg-slate-50 transition-colors">
+<td class="p-4">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-4 font-bold text-slate-900">Oct 24, 2023</td>
+<td class="p-4">75.4 kg</td>
+<td class="p-4 text-secondary font-medium">34.2 kg</td>
+<td class="p-4 text-accent font-medium">18.5%</td>
+<td class="p-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">88/100</span></td>
+<td class="p-4 text-right">
+<button class="text-slate-400 hover:text-primary p-1"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 transition-colors">
+<td class="p-4">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-4 font-bold text-slate-900">Sep 24, 2023</td>
+<td class="p-4">76.3 kg</td>
+<td class="p-4 text-slate-600 font-medium">33.5 kg</td>
+<td class="p-4 text-slate-600 font-medium">18.6%</td>
+<td class="p-4"><span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold">85/100</span></td>
+<td class="p-4 text-right">
+<button class="text-slate-400 hover:text-primary p-1"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 transition-colors">
+<td class="p-4">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-4 font-bold text-slate-900">Aug 22, 2023</td>
+<td class="p-4">77.1 kg</td>
+<td class="p-4 text-slate-600 font-medium">33.0 kg</td>
+<td class="p-4 text-slate-600 font-medium">19.2%</td>
+<td class="p-4"><span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold">82/100</span></td>
+<td class="p-4 text-right">
+<button class="text-slate-400 hover:text-primary p-1"><span class="material-symbols-outlined text-[20px]">visibility</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

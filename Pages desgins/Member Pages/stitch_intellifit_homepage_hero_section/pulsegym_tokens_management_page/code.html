@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - Token Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;900&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "secondary": "#10B981",
+                        "accent": "#F97316",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for table if needed */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cfdbe7;
+            border-radius: 10px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background-light text-[#0d141b] font-display overflow-x-hidden">
+<!-- Background Image -->
+<div class="fixed inset-0 z-[-1] w-full h-full bg-cover bg-center" data-alt="Blurred modern gym interior background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDnoh34fQ7anGWVlEwd3LWI-BE8tYnyiz58fg3F8UJFW9EmNWicD5grU4tvsQlSvz4BlxFvZxMLKxNzxpZvJKjwIJFx83NHc0rkJ1T6gRnPUtNPaPSEm8K0opKQbHVY1ryszoZ1rG_iplRQxowLOODSF4-gFGlMjVcOfr-nJtlr0C72KkjA-o0qBZ6C0NzVb61J77Wyx7XsZDEcV3Py3UY3hpo9YcVMII3j_6x59u-Sggi8jR3uYU9n5vPp-0Vls_k6RNC_F7M7iCY');">
+<div class="absolute inset-0 bg-white/90"></div>
+</div>
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf3] bg-white/80 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#0d141b]">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-4xl">ecg_heart</span>
+</div>
+<h2 class="text-[#0d141b] text-xl font-bold leading-tight tracking-[-0.015em]">PulseGym</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64 hidden lg:flex">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm">
+<div class="text-[#4c739a] flex border-none bg-white items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141b] focus:outline-0 focus:ring-0 border-none bg-white focus:border-none h-full placeholder:text-[#4c739a] px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search classes, coaches..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden xl:flex items-center gap-9">
+<a class="text-[#0d141b] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-[#0d141b] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Classes</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Tokens</a>
+<a class="text-[#0d141b] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Coaching</a>
+<a class="text-[#0d141b] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Community</a>
+</div>
+<div class="flex gap-2">
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-white hover:bg-slate-50 border border-slate-100 shadow-sm transition-all text-[#0d141b]">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-white hover:bg-slate-50 border border-slate-100 shadow-sm transition-all text-[#0d141b]">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white shadow-md cursor-pointer" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAwKa8a6oPgSnDHt8Ov0NRWumW2kD7FJXhe0fntojYMt1aqeBcAuYXQWx4Lce4Lzm7oAXdgI7rG-DRlk-nfNbRTE6UQukpQKzGSmNxGrrFhHA20vJQgBBPGjP7twgrtMRFsPQ6MGog_7otaSgFzz63xIgClh8DKDkNCHMRhEYN0RHg0IDhht1pnjE7NVUGChp-mw6ycDUSYdqiBf9poyV6jwZIjkbxKnvYLp-Zjx6QjUYqm1BKynreRT3e-YcchRyvReFiIYvVNc-Q");'>
+</div>
+</div>
+</div>
+</header>
+<div class="flex-1 px-4 sm:px-6 lg:px-20 py-8">
+<div class="mx-auto max-w-7xl flex flex-col gap-8">
+<!-- Page Heading & Actions -->
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-[#0d141b] text-4xl font-black leading-tight tracking-[-0.033em]">My Wallet</h1>
+<p class="text-[#4c739a] text-base font-normal">Manage your tokens, top up, and track your fitness investment.</p>
+</div>
+<button class="flex items-center gap-2 bg-gradient-to-r from-accent to-orange-400 hover:to-orange-500 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-orange-200 transition-all hover:-translate-y-0.5">
+<span class="material-symbols-outlined text-[20px]">card_giftcard</span>
+                        Refer a Friend &amp; Earn 50
+                    </button>
+</div>
+<!-- Wallet Overview Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Balance Card -->
+<div class="glass-panel col-span-1 lg:col-span-2 rounded-2xl p-6 shadow-sm border border-[#e7edf3] relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-9xl">account_balance_wallet</span>
+</div>
+<div class="relative z-10 flex flex-col h-full justify-between gap-6">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-[#4c739a] font-medium text-sm uppercase tracking-wider mb-1">Current Balance</p>
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-black text-[#0d141b] tracking-tight">1,250</span>
+<span class="text-xl font-bold text-primary">Tokens</span>
+</div>
+<p class="text-[#4c739a] text-sm mt-1">≈ $125.00 USD value</p>
+</div>
+<div class="bg-green-100 text-secondary px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                    +500 this month
+                                </div>
+</div>
+<!-- Auto Refill Settings embedded -->
+<div class="bg-slate-50/80 rounded-xl p-4 border border-[#e7edf3]">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">autorenew</span>
+<p class="font-bold text-sm text-[#0d141b]">Auto-Refill</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Slider Component -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-xs text-[#4c739a]">
+<span>Threshold: 100 Tokens</span>
+<span>Refill Amount: 500</span>
+</div>
+<div class="relative flex h-2 w-full items-center rounded-full bg-[#cfdbe7]">
+<div class="h-full w-[32%] rounded-full bg-primary relative">
+<div class="absolute -right-2 -top-1.5 size-5 rounded-full bg-white border-2 border-primary shadow-sm cursor-pointer hover:scale-110 transition-transform"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Usage Analytics Mini -->
+<div class="glass-panel col-span-1 rounded-2xl p-6 shadow-sm border border-[#e7edf3] flex flex-col">
+<h3 class="font-bold text-lg mb-4 text-[#0d141b]">Spending Analysis</h3>
+<div class="flex items-center gap-6 h-full">
+<!-- CSS Pie Chart -->
+<div class="relative size-32 rounded-full shrink-0" style="background: conic-gradient(#2b8cee 0% 45%, #10B981 45% 70%, #F97316 70% 100%);">
+<div class="absolute inset-4 bg-white rounded-full flex items-center justify-center flex-col shadow-inner">
+<span class="text-xs text-gray-400">Total</span>
+<span class="font-bold text-sm">850</span>
+</div>
+</div>
+<div class="flex flex-col gap-3 text-sm flex-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-primary"></div>
+<span class="text-slate-600">Classes</span>
+</div>
+<span class="font-bold">45%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-secondary"></div>
+<span class="text-slate-600">Coaching</span>
+</div>
+<span class="font-bold">25%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-accent"></div>
+<span class="text-slate-600">Goods</span>
+</div>
+<span class="font-bold">30%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Purchase Packages Grid -->
+<div>
+<h3 class="text-xl font-bold text-[#0d141b] mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">shopping_bag</span>
+                        Purchase Packages
+                    </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+<!-- Starter -->
+<div class="bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition-shadow flex flex-col gap-4">
+<div>
+<h4 class="text-slate-500 font-medium text-sm uppercase tracking-wide">Starter</h4>
+<div class="flex items-baseline gap-1 mt-2">
+<span class="text-3xl font-bold text-slate-900">100</span>
+<span class="text-sm font-semibold text-slate-500">Tokens</span>
+</div>
+<div class="text-xl font-bold text-slate-900 mt-1">$10.00</div>
+</div>
+<ul class="flex-1 space-y-2">
+<li class="text-sm text-slate-600 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> Valid for 30 days</li>
+<li class="text-sm text-slate-600 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> Access to gym floor</li>
+</ul>
+<button class="w-full py-2.5 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-colors">Select</button>
+</div>
+<!-- Popular -->
+<div class="bg-white rounded-2xl p-6 border-2 border-accent/50 shadow-lg shadow-orange-100 relative flex flex-col gap-4 transform xl:-translate-y-2">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-white px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide">
+                                Most Popular
+                            </div>
+<div>
+<h4 class="text-accent font-medium text-sm uppercase tracking-wide">Fit Pro</h4>
+<div class="flex items-baseline gap-1 mt-2">
+<span class="text-3xl font-bold text-slate-900">500</span>
+<span class="text-sm font-semibold text-slate-500">Tokens</span>
+</div>
+<div class="text-xl font-bold text-slate-900 mt-1">$45.00 <span class="text-sm font-normal text-green-600 line-through ml-2">$50.00</span></div>
+</div>
+<ul class="flex-1 space-y-2">
+<li class="text-sm text-slate-600 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> Valid for 60 days</li>
+<li class="text-sm text-slate-600 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> Save 10% instantly</li>
+<li class="text-sm text-slate-600 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> Priority Booking</li>
+</ul>
+<button class="w-full py-2.5 rounded-xl bg-accent text-white font-bold hover:bg-orange-600 shadow-md shadow-orange-200 transition-colors">Purchase</button>
+</div>
+<!-- Premium -->
+<div class="bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition-shadow flex flex-col gap-4">
+<div>
+<h4 class="text-primary font-medium text-sm uppercase tracking-wide">Premium</h4>
+<div class="flex items-baseline gap-1 mt-2">
+<span class="text-3xl font-bold text-slate-900">1000</span>
+<span class="text-sm font-semibold text-slate-500">Tokens</span>
+</div>
+<div class="text-xl font-bold text-slate-900 mt-1">$85.00 <span class="text-sm font-normal text-green-600 line-through ml-2">$100.00</span></div>
+</div>
+<ul class="flex-1 space-y-2">
+<li class="text-sm text-slate-600 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> No expiry date</li>
+<li class="text-sm text-slate-600 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> Save 15% instantly</li>
+<li class="text-sm text-slate-600 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> 1 Free Guest Pass</li>
+</ul>
+<button class="w-full py-2.5 rounded-xl bg-primary text-white font-bold hover:bg-blue-600 shadow-md shadow-blue-200 transition-colors">Purchase</button>
+</div>
+<!-- Elite -->
+<div class="bg-gradient-to-b from-slate-900 to-slate-800 rounded-2xl p-6 text-white shadow-xl flex flex-col gap-4">
+<div>
+<h4 class="text-slate-300 font-medium text-sm uppercase tracking-wide flex items-center gap-1">
+<span class="material-symbols-outlined text-sm text-yellow-400">star</span> Elite
+                                </h4>
+<div class="flex items-baseline gap-1 mt-2">
+<span class="text-3xl font-bold text-white">2500</span>
+<span class="text-sm font-semibold text-slate-400">Tokens</span>
+</div>
+<div class="text-xl font-bold text-white mt-1">$200.00</div>
+</div>
+<ul class="flex-1 space-y-2">
+<li class="text-sm text-slate-300 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> Save 20% + Free Merch</li>
+<li class="text-sm text-slate-300 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> VIP Locker Access</li>
+<li class="text-sm text-slate-300 flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-sm">check_circle</span> AI Nutrition Plan</li>
+</ul>
+<button class="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold transition-colors backdrop-blur-sm">Join Elite</button>
+</div>
+</div>
+</div>
+<!-- Transaction & Detailed Stats Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Transaction Table -->
+<div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col h-full">
+<div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+<h3 class="text-lg font-bold text-[#0d141b]">Transaction History</h3>
+<button class="text-primary text-sm font-medium hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="bg-slate-50 text-slate-500 font-medium">
+<tr>
+<th class="px-6 py-3">Date</th>
+<th class="px-6 py-3">Description</th>
+<th class="px-6 py-3">Type</th>
+<th class="px-6 py-3 text-right">Amount</th>
+<th class="px-6 py-3 text-right">Balance</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 text-slate-500">Oct 24, 2023</td>
+<td class="px-6 py-4 font-medium text-slate-900">Personal Training - Sarah J.</td>
+<td class="px-6 py-4"><span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">Service</span></td>
+<td class="px-6 py-4 text-right font-medium text-red-500">-50</td>
+<td class="px-6 py-4 text-right text-slate-500">1,250</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 text-slate-500">Oct 23, 2023</td>
+<td class="px-6 py-4 font-medium text-slate-900">Protein Shake (Vanilla)</td>
+<td class="px-6 py-4"><span class="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-700/10">Goods</span></td>
+<td class="px-6 py-4 text-right font-medium text-red-500">-12</td>
+<td class="px-6 py-4 text-right text-slate-500">1,300</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 text-slate-500">Oct 20, 2023</td>
+<td class="px-6 py-4 font-medium text-slate-900">Monthly Auto-Refill</td>
+<td class="px-6 py-4"><span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Deposit</span></td>
+<td class="px-6 py-4 text-right font-bold text-secondary">+500</td>
+<td class="px-6 py-4 text-right text-slate-500">1,312</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 text-slate-500">Oct 18, 2023</td>
+<td class="px-6 py-4 font-medium text-slate-900">Guest Pass (John D.)</td>
+<td class="px-6 py-4"><span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">Service</span></td>
+<td class="px-6 py-4 text-right font-medium text-red-500">-30</td>
+<td class="px-6 py-4 text-right text-slate-500">812</td>
+</tr>
+<tr class="hover:bg-slate-50/50 transition-colors">
+<td class="px-6 py-4 text-slate-500">Oct 15, 2023</td>
+<td class="px-6 py-4 font-medium text-slate-900">Referral Bonus (Alice M.)</td>
+<td class="px-6 py-4"><span class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">Reward</span></td>
+<td class="px-6 py-4 text-right font-bold text-secondary">+50</td>
+<td class="px-6 py-4 text-right text-slate-500">842</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column: Chart + Pricing -->
+<div class="flex flex-col gap-6">
+<!-- Monthly Trend Chart -->
+<div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+<h3 class="font-bold text-lg mb-4 text-[#0d141b]">Monthly Spending</h3>
+<div class="flex items-end justify-between h-40 gap-2 pb-2">
+<!-- Bars -->
+<div class="w-full flex flex-col justify-end items-center gap-1 group">
+<div class="w-full bg-slate-100 rounded-t-sm h-[40%] group-hover:bg-primary/50 transition-colors relative">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs px-2 py-1 rounded pointer-events-none">200</div>
+</div>
+<span class="text-xs text-slate-400">May</span>
+</div>
+<div class="w-full flex flex-col justify-end items-center gap-1 group">
+<div class="w-full bg-slate-100 rounded-t-sm h-[60%] group-hover:bg-primary/50 transition-colors relative">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs px-2 py-1 rounded pointer-events-none">350</div>
+</div>
+<span class="text-xs text-slate-400">Jun</span>
+</div>
+<div class="w-full flex flex-col justify-end items-center gap-1 group">
+<div class="w-full bg-slate-100 rounded-t-sm h-[50%] group-hover:bg-primary/50 transition-colors relative">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs px-2 py-1 rounded pointer-events-none">280</div>
+</div>
+<span class="text-xs text-slate-400">Jul</span>
+</div>
+<div class="w-full flex flex-col justify-end items-center gap-1 group">
+<div class="w-full bg-slate-100 rounded-t-sm h-[80%] group-hover:bg-primary/50 transition-colors relative">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs px-2 py-1 rounded pointer-events-none">520</div>
+</div>
+<span class="text-xs text-slate-400">Aug</span>
+</div>
+<div class="w-full flex flex-col justify-end items-center gap-1 group">
+<div class="w-full bg-primary/20 rounded-t-sm h-[30%] group-hover:bg-primary/50 transition-colors relative">
+<div class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs px-2 py-1 rounded pointer-events-none">150</div>
+</div>
+<span class="text-xs text-primary font-bold">Sep</span>
+</div>
+</div>
+</div>
+<!-- Pricing Guide (Accordion Style but expanded) -->
+<div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex-1">
+<h3 class="font-bold text-lg mb-4 text-[#0d141b] flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">help</span>
+                                Quick Exchange Guide
+                            </h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center py-2 border-b border-slate-50 last:border-0">
+<span class="text-sm text-slate-600">Towel Rental</span>
+<span class="text-sm font-bold text-slate-900">2 Tokens</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-slate-50 last:border-0">
+<span class="text-sm text-slate-600">Protein Shake</span>
+<span class="text-sm font-bold text-slate-900">12 Tokens</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-slate-50 last:border-0">
+<span class="text-sm text-slate-600">Guest Pass</span>
+<span class="text-sm font-bold text-slate-900">30 Tokens</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-slate-50 last:border-0">
+<span class="text-sm text-slate-600">Personal Coach (1hr)</span>
+<span class="text-sm font-bold text-slate-900">50 Tokens</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

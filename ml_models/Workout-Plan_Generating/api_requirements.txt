@@ -1,0 +1,8 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+torch==2.10.0+cpu
+transformers==4.57.3
+peft==0.18.1
+asyncpg==0.29.0
+

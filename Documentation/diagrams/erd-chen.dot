@@ -1,0 +1,132 @@
+digraph IntelliFit_ERD {
+    graph [
+        fontname  = "Helvetica"
+        rankdir   = TB
+        ranksep   = 0.5
+        nodesep   = 0.28
+        splines   = line
+        size      = "22,13"
+        ratio     = compress
+        pad       = 0.4
+    ]
+    node [fontname="Helvetica", fontsize=11, margin="0.15,0.1"]
+    edge [fontname="Helvetica", fontsize=9,  arrowhead=none]
+
+    //  ENTITIES 
+    USER [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="USER",                penwidth=2, width=1.5,  height=0.55]
+    MP   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="MEMBER\nPROFILE",    penwidth=2, width=1.6,  height=0.65]
+    CP   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="COACH\nPROFILE",     penwidth=2, width=1.6,  height=0.65]
+    SP   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="SUBSCRIPTION\nPLAN", penwidth=2, width=1.9,  height=0.65]
+    PAY  [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="PAYMENT",            penwidth=2, width=1.4,  height=0.55]
+    EQ   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="EQUIPMENT",          penwidth=2, width=1.5,  height=0.55]
+    BK   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="BOOKING",            penwidth=2, width=1.4,  height=0.55]
+    EX   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="EXERCISE",           penwidth=2, width=1.4,  height=0.55]
+    WP   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="WORKOUT\nPLAN",      penwidth=2, width=1.6,  height=0.65]
+    AI   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="AI WORKOUT\nPLAN",   penwidth=2, width=1.9,  height=0.65]
+    NP   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="NUTRITION\nPLAN",    penwidth=2, width=1.6,  height=0.65]
+    ML   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="MEAL",               penwidth=2, width=1.3,  height=0.55]
+    IG   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="INGREDIENT",         penwidth=2, width=1.5,  height=0.55]
+    IB   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="INBODY\nMEASUREMENT",penwidth=2, width=2.05, height=0.65]
+    AC   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="AI CHAT\nLOG",       penwidth=2, width=1.5,  height=0.65]
+    NT   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="NOTIFICATION",       penwidth=2, width=1.8,  height=0.55]
+    CR   [shape=box, style="filled,bold", fillcolor="#4472C4", fontcolor=white, label="COACH\nREVIEW",      penwidth=2, width=1.5,  height=0.65]
+
+    //  USER ATTRIBUTES 
+    u_id   [shape=ellipse, label="UserID (PK)",   penwidth=1.5, width=1.2, height=0.42]
+    u_mail [shape=ellipse, label="Email",         penwidth=1.5, width=0.9, height=0.42]
+    u_role [shape=ellipse, label="Role",          penwidth=1.5, width=0.8, height=0.42]
+    u_tok  [shape=ellipse, label="TokenBalance",  penwidth=1.5, width=1.4, height=0.42]
+
+    //  RELATIONSHIPS 
+    rHM  [shape=diamond, style=filled, fillcolor="#FFD966", label="has",         penwidth=1.5, width=1.0, height=0.52]
+    rHC  [shape=diamond, style=filled, fillcolor="#FFD966", label="has",         penwidth=1.5, width=1.0, height=0.52]
+    rSUB [shape=diamond, style=filled, fillcolor="#FFD966", label="subscribes",  penwidth=1.5, width=1.4, height=0.52]
+    rPAY [shape=diamond, style=filled, fillcolor="#FFD966", label="pays",        penwidth=1.5, width=1.0, height=0.52]
+    rHWP [shape=diamond, style=filled, fillcolor="#FFD966", label="has",         penwidth=1.5, width=1.0, height=0.52]
+    rHAI [shape=diamond, style=filled, fillcolor="#FFD966", label="has AI plan", penwidth=1.5, width=1.4, height=0.52]
+    rHNP [shape=diamond, style=filled, fillcolor="#FFD966", label="follows",     penwidth=1.5, width=1.1, height=0.52]
+    rIB  [shape=diamond, style=filled, fillcolor="#FFD966", label="measured",    penwidth=1.5, width=1.2, height=0.52]
+    rCHT [shape=diamond, style=filled, fillcolor="#FFD966", label="chats",       penwidth=1.5, width=1.0, height=0.52]
+    rNTF [shape=diamond, style=filled, fillcolor="#FFD966", label="receives",    penwidth=1.5, width=1.2, height=0.52]
+    rCRE [shape=diamond, style=filled, fillcolor="#FFD966", label="creates",     penwidth=1.5, width=1.1, height=0.52]
+    rUSE [shape=diamond, style=filled, fillcolor="#FFD966", label="uses",        penwidth=1.5, width=1.0, height=0.52]
+    rCWP [shape=diamond, style=filled, fillcolor="#FFD966", label="contains",    penwidth=1.5, width=1.2, height=0.52]
+    rBOK [shape=diamond, style=filled, fillcolor="#FFD966", label="books",       penwidth=1.5, width=1.0, height=0.52]
+    rNM  [shape=diamond, style=filled, fillcolor="#FFD966", label="contains",    penwidth=1.5, width=1.2, height=0.52]
+    rMI  [shape=diamond, style=filled, fillcolor="#FFD966", label="uses",        penwidth=1.5, width=1.0, height=0.52]
+    rREV [shape=diamond, style=filled, fillcolor="#FFD966", label="reviews",     penwidth=1.5, width=1.1, height=0.52]
+
+    //  RANK GROUPINGS (controls rows) 
+    { rank=same; u_id; u_mail; u_role; u_tok }
+    // USER sits between attrs and first relationship row (auto-ranked by edges)
+    { rank=same; rHM;  rHC;  rHWP; rSUB; rPAY; rHAI; rHNP; rIB;  rCHT; rNTF }
+    { rank=same; MP;   CP;   WP;   SP;   PAY;  AI;   NP;   IB;   AC;   NT   }
+    { rank=same; rCRE; rCWP; rREV; rNM }
+    { rank=same; EX;   CR;   ML }
+    { rank=same; rUSE; rMI }
+    { rank=same; EQ;   IG }
+    { rank=same; rBOK }
+    { rank=sink;  BK }
+
+    //  ATTRIBUTE  USER 
+    u_id   -> USER
+    u_mail -> USER
+    u_role -> USER
+    u_tok  -> USER
+
+    //  USER  MAIN RELATIONSHIPS 
+    USER -> rHM  [label=" 1"]
+    rHM  -> MP   [label="1 "]
+
+    USER -> rHC  [label=" 1"]
+    rHC  -> CP   [label="1 "]
+
+    USER -> rSUB [label=" N"]
+    rSUB -> SP   [label="1 "]
+
+    USER -> rPAY [label=" 1"]
+    rPAY -> PAY  [label="N "]
+
+    USER -> rHWP [label=" 1"]
+    rHWP -> WP   [label="N "]
+
+    USER -> rHAI [label=" 1"]
+    rHAI -> AI   [label="N "]
+
+    USER -> rHNP [label=" 1"]
+    rHNP -> NP   [label="N "]
+
+    USER -> rIB  [label=" 1"]
+    rIB  -> IB   [label="N "]
+
+    USER -> rCHT [label=" 1"]
+    rCHT -> AC   [label="N "]
+
+    USER -> rNTF [label=" 1"]
+    rNTF -> NT   [label="N "]
+
+    //  SECONDARY EDGES 
+    CP -> rCRE   [label=" 1"]
+    rCRE -> EX   [label="N "]
+
+    WP -> rCWP   [label=" 1"]
+    rCWP -> EX   [label="N "]
+
+    CP   -> rREV [label=" N"]
+    USER -> rREV [label=" M", constraint=false]
+    rREV -> CR
+
+    NP -> rNM    [label=" 1"]
+    rNM -> ML    [label="N "]
+
+    //  LOWER EDGES 
+    EX -> rUSE   [label=" N"]
+    rUSE -> EQ   [label="1 "]
+
+    ML -> rMI    [label=" N"]
+    rMI -> IG    [label="M "]
+
+    EQ   -> rBOK [label=" N"]
+    USER -> rBOK [label=" 1", constraint=false]
+    rBOK -> BK
+}

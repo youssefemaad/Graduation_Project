@@ -1,0 +1,165 @@
+# TensorFlow Model Configuration
+# IntelliFit AI Nutrition & Workout Models
+
+
+# ===== Nutrition Model Configuration =====
+nutrition_model:
+  # Model Architecture
+  architecture:
+    input_dim: 10  # Features: age, weight, height, gender, activity_level, etc.
+    hidden_layers: [128, 256, 128, 64]
+    dropout_rates: [0.3, 0.3, 0.2, 0.0]
+    output_dim: 4  # calories, protein, carbs, fats
+    activation: 'relu'
+    output_activation: 'linear'
+  
+  # Training Parameters
+  training:
+    batch_size: 32
+    epochs: 100
+    learning_rate: 0.001
+    optimizer: 'adam'
+    loss: 'custom_nutrition_loss'
+    validation_split: 0.15
+    early_stopping_patience: 10
+    reduce_lr_patience: 5
+    reduce_lr_factor: 0.5
+  
+  # Data Processing
+  data:
+    train_split: 0.70
+    val_split: 0.15
+    test_split: 0.15
+    shuffle: true
+    random_state: 42
+  
+  # Nutritional Constraints
+  constraints:
+    protein_calories_ratio:
+      min: 0.15  # 15% of total calories from protein
+      max: 0.30  # 30% of total calories from protein
+    carbs_calories_ratio:
+      min: 0.40
+      max: 0.60
+    fats_calories_ratio:
+      min: 0.20
+      max: 0.35
+    constraint_weight: 10.0  # Weight of constraint loss
+  
+  # Feature Engineering
+  features:
+    categorical: ['gender', 'activity_level', 'fitness_goal', 'diet_type']
+    numerical: ['age', 'weight', 'height', 'bmi', 'tdee']
+    scaling_method: 'standard'  # 'standard', 'minmax', or 'robust'
+
+# ===== Workout Model Configuration =====
+workout_model:
+  # Model Architecture (LSTM for sequential planning)
+  architecture:
+    input_dim: 8
+    lstm_units: [64, 128, 64]
+    dense_layers: [128, 64]
+    dropout_rate: 0.3
+    output_dim: 20  # Top 20 exercise recommendations
+  
+  # Training Parameters
+  training:
+    batch_size: 16
+    epochs: 50
+    learning_rate: 0.0005
+    optimizer: 'adam'
+    validation_split: 0.15
+  
+  # Features
+  features:
+    categorical: ['fitness_level', 'fitness_goal', 'available_equipment']
+    numerical: ['age', 'weight', 'height', 'bmi', 'days_per_week']
+
+# ===== Data Paths =====
+paths:
+  # Raw Data
+  raw_data:
+    nutrition: '../Datasets/raw/diet_recommendations.csv'
+    exercises: '../Datasets/raw/free_exercise_db.json'
+    fitness: '../Datasets/raw/fitness_exercises.csv'
+  
+  # Processed Data
+  processed_data:
+    nutrition_train: '../Datasets/processed/nutrition_train.csv'
+    nutrition_val: '../Datasets/processed/nutrition_val.csv'
+    nutrition_test: '../Datasets/processed/nutrition_test.csv'
+    workout_train: '../Datasets/processed/workout_train.csv'
+  
+  # Models
+  models:
+    nutrition_output: './serving/nutrition_model/1/'
+    workout_output: './serving/workout_model/1/'
+    preprocessor: './serving/preprocessor.pkl'
+  
+  # Logs
+  logs:
+    tensorboard: './logs/tensorboard/'
+    training: './logs/training/'
+    evaluation: './logs/evaluation/'
+
+# ===== TensorFlow Serving Configuration =====
+serving:
+  model_name: 'nutrition_model'
+  model_version: 1
+  port: 8501
+  rest_api_port: 8501
+  grpc_port: 8500
+
+# ===== Embeddings Configuration =====
+embeddings:
+  # Use a lightweight, high-quality free model from sentence-transformers
+  # `all-MiniLM-L6-v2` -> 384 dimensions and fast CPU inference for production
+  model_name: 'sentence-transformers/all-MiniLM-L6-v2'
+  dimension: 384
+  batch_size: 64
+  use_gpu: false
+  api_port: 5100
+
+# ===== Preprocessing Configuration =====
+preprocessing:
+  # Missing Value Handling
+  missing_values:
+    strategy: 'median'  # 'mean', 'median', 'mode', 'drop'
+    threshold: 0.5  # Drop columns with >50% missing
+  
+  # Outlier Detection
+  outliers:
+    method: 'iqr'  # 'iqr' or 'zscore'
+    iqr_multiplier: 1.5
+    zscore_threshold: 3
+  
+  # Feature Scaling
+  scaling:
+    method: 'standard'  # 'standard', 'minmax', 'robust'
+    clip_values: true
+    clip_std: 3
+
+# ===== Evaluation Metrics =====
+metrics:
+  nutrition:
+    - 'mae'
+    - 'mse'
+    - 'rmse'
+    - 'r2_score'
+    - 'constraint_violation_rate'
+  
+  workout:
+    - 'accuracy'
+    - 'precision'
+    - 'recall'
+    - 'f1_score'
+
+# ===== Experiment Tracking =====
+experiment:
+  tracking: false  # Set to true to enable MLflow/W&B
+  experiment_name: 'intellifit-ml'
+  run_name: 'nutrition-model-v1'
+  tags:
+    project: 'graduation-project'
+    model_type: 'nutrition'
+    framework: 'tensorflow'

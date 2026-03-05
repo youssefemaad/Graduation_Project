@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KineticFlow - Coach Profile</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48525",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221810",
+                        "surface-dark": "#2e231b",
+                        "surface-light": "#3a2e24",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark mode vibe */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #221810; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a2e24; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f48525; 
+        }
+        
+        .glass-panel {
+            background: rgba(46, 35, 27, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .booking-glass {
+            background: rgba(30, 20, 15, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(244, 133, 37, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Pulse animation for the primary button */
+        @keyframes subtle-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(244, 133, 37, 0.4); }
+            50% { box-shadow: 0 0 0 4px rgba(244, 133, 37, 0.1); }
+        }
+        .btn-pulse {
+            animation: subtle-pulse 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white font-display overflow-x-hidden min-h-screen flex flex-col">
+<!-- Ambient Background -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&amp;w=2070&amp;auto=format&amp;fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay" data-alt="Abstract dark smoke and light texture"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background-dark/80 via-background-dark/95 to-background-dark"></div>
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px]"></div>
+</div>
+<!-- Navigation -->
+<header class="relative z-50 border-b border-[#493422]/50 bg-background-dark/80 backdrop-blur-md sticky top-0">
+<div class="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-3">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">motion_mode</span>
+</div>
+<h2 class="text-white text-xl font-bold tracking-tight">KineticFlow</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-white/70 hover:text-primary transition-colors text-sm font-medium" href="#">Dashboard</a>
+<a class="text-white/70 hover:text-primary transition-colors text-sm font-medium" href="#">My Flows</a>
+<a class="text-white text-sm font-medium border-b-2 border-primary pb-0.5" href="#">Coaches</a>
+<a class="text-white/70 hover:text-primary transition-colors text-sm font-medium" href="#">Profile</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-white/80 hover:text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<div class="w-9 h-9 rounded-full bg-cover bg-center ring-2 ring-[#493422]" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDC-Is6DpGiONajHAKdycg-jiFZ_p_OVZJZPPQm8ETsHdBSj-umxtRp3U-dXZZ1pOm_ysMqUakPzNns65IYTa9EVULc-mTbAkTMrz6fQfdJ-NoRkQAdJNFdNPbHPc6VHSysrvebCpU0fxD5zY2oBTA362lpoTkuZuKpyXNKtuigu-BgpGWCUYJlTAUkpd2Wi8zUbEaNU-NxHKKnc0VoT9hrC1VoAq1vHojGguNSSFGr4DxpiYmB5gAdgFMCDeFx1ejGSqlgz39McMY');"></div>
+</div>
+</div>
+</header>
+<!-- Main Content Layout -->
+<main class="relative z-10 flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Coach Profile (Width: 7/12) -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<!-- Coach Hero Card -->
+<div class="glass-panel rounded-2xl p-6 md:p-8 relative overflow-hidden group">
+<!-- Decorative background element inside card -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+<div class="flex flex-col md:flex-row gap-6 items-start relative z-10">
+<!-- Avatar -->
+<div class="relative shrink-0 mx-auto md:mx-0">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-gradient-to-br from-primary to-transparent">
+<div class="w-full h-full rounded-full bg-cover bg-center border-4 border-background-dark" data-alt="Coach Alex Rivera portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHnPIH1uw02s9Q1Q-olN9m9NxiXk44PS6GuEQkOLhGK9AaEnD5KjLcgspJ4PMDXExqgUnGl9cVNFCdOoSmDWqI3ZeIEa6mrdxhcOTxWR3ixXbcVCHImgwyCioMVn2zZ1_TSlv4QfS-CKdQPUu2Whqb6pese_0O79cKGE-AvzZm3jfhzAe04_9ann3mGQtCtvRFQnXeBjAm4kBWfs4iaXrUCX2In_h9zPh7XKw652VDUCoNod_L03_CNwLYeV6VfPdUCPvjql0hMdw');"></div>
+</div>
+<div class="absolute bottom-2 right-2 bg-background-dark rounded-full p-1.5 border border-[#493422] text-primary shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</div>
+</div>
+<!-- Info -->
+<div class="flex-1 text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
+<h1 class="text-3xl font-bold text-white tracking-tight">Alex Rivera</h1>
+<div class="flex items-center justify-center md:justify-end gap-1 text-primary bg-primary/10 px-3 py-1 rounded-full border border-primary/20 w-fit mx-auto md:mx-0">
+<span class="material-symbols-outlined text-sm filled">star</span>
+<span class="text-sm font-bold">4.9</span>
+<span class="text-xs text-primary/70 font-medium ml-1">(120 Reviews)</span>
+</div>
+</div>
+<p class="text-primary font-medium mb-1">High-Performance Mobility Specialist</p>
+<p class="text-white/60 text-sm mb-4 flex items-center justify-center md:justify-start gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span> San Francisco, CA
+                        </p>
+<!-- Chips -->
+<div class="flex flex-wrap gap-2 justify-center md:justify-start mb-6">
+<span class="px-3 py-1 rounded-lg bg-[#493422]/50 border border-[#493422] text-xs font-medium text-white hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-default">Biomechanics</span>
+<span class="px-3 py-1 rounded-lg bg-[#493422]/50 border border-[#493422] text-xs font-medium text-white hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-default">Recovery</span>
+<span class="px-3 py-1 rounded-lg bg-[#493422]/50 border border-[#493422] text-xs font-medium text-white hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-default">HIIT</span>
+<span class="px-3 py-1 rounded-lg bg-[#493422]/50 border border-[#493422] text-xs font-medium text-white hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-default">AI Training Certified</span>
+</div>
+<!-- Action Buttons (Visible mainly on mobile where sidebar drops, but useful here too) -->
+<div class="flex gap-3 md:hidden">
+<button class="flex-1 bg-primary text-background-dark font-bold py-3 rounded-lg flex items-center justify-center gap-2 btn-pulse">
+<span class="material-symbols-outlined">calendar_add_on</span> Book
+                            </button>
+<button class="flex-1 border border-white/20 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-white/5">
+<span class="material-symbols-outlined">mail</span> Message
+                            </button>
+</div>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-white/10">
+<div class="text-center md:text-left">
+<p class="text-2xl font-bold text-white">1,204</p>
+<p class="text-xs text-white/50 uppercase tracking-wider font-medium">Flows Led</p>
+</div>
+<div class="text-center md:text-left border-l border-white/10 pl-4 md:pl-8">
+<p class="text-2xl font-bold text-white">8+</p>
+<p class="text-xs text-white/50 uppercase tracking-wider font-medium">Years Exp</p>
+</div>
+<div class="text-center md:text-left border-l border-white/10 pl-4 md:pl-8">
+<p class="text-2xl font-bold text-white">98%</p>
+<p class="text-xs text-white/50 uppercase tracking-wider font-medium">Success Rate</p>
+</div>
+</div>
+</div>
+<!-- About Section -->
+<div class="glass-panel rounded-2xl p-6 md:p-8">
+<h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">person</span> About Alex
+                </h3>
+<p class="text-white/80 leading-relaxed text-sm md:text-base">
+                    Alex specializes in biomechanics and functional movement. Using KineticFlow's AI insights, he tailors every session to unlock your body's full potential, focusing on longevity and peak performance. Whether you're recovering from an injury or pushing for a new personal best, Alex's data-driven approach ensures safety and efficiency.
+                </p>
+</div>
+<!-- Reviews Section -->
+<div class="glass-panel rounded-2xl p-6 md:p-8">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">forum</span> Client Reviews
+                    </h3>
+<a class="text-xs font-bold text-primary hover:text-white transition-colors" href="#">View All</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Review Card 1 -->
+<div class="bg-surface-dark/50 rounded-xl p-4 border border-white/5 hover:border-primary/30 transition-colors">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-gray-600 bg-cover" data-alt="Reviewer photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTCrBnSc6oPsHkE31ymsAnl0JbZ0BXYRNRdLYXYlT2eKA2AxHAwBJCPspv0qtLc0IZlNXCGM9C7o6yurU-s_c_7uswRysafxtmkpo9TYz8m3NYLhMW7XPkBkX-Zwhhjm67Dc4mY-DxHDzM1gvZ-Z_5YPr_AdHkMn441neakwLY-rU7KY1_rzY9TK4mcICdeW5lzEJdeJym9P5gch2m-7DfHT7FOkm4tCfGPfu-ohqe02OzSPD3sh2LCwVllzUyceE-BOA75oEw7Co')"></div>
+<span class="text-sm font-bold text-white">Marcus T.</span>
+</div>
+<div class="flex text-primary text-[12px]">
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+</div>
+</div>
+<p class="text-xs text-white/70 italic">"The mobility flow session completely fixed my lower back tightness. Alex knows exactly how to adjust the intensity."</p>
+</div>
+<!-- Review Card 2 -->
+<div class="bg-surface-dark/50 rounded-xl p-4 border border-white/5 hover:border-primary/30 transition-colors">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-gray-600 bg-cover" data-alt="Reviewer photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWSpS1DrwuZRlsT-yMMOnC0_zmhhckRPjntNVLc9tXP7fCQfv5Y4-jROFJPwQ_bywkOu8eKknu_BSe1DVCHRO8MXWoMwbBglUaX2wRn5xUNZzy2ODtAZ9FwjielDku2zHnRxmh5IrOGRjAcfiC6KSAUHpltdjS5OsAkM4rOZjWZ4RLAGEQVxXNp_7DoMolfLRXAc7_WP39TGBmailycpkc2CQgO-g7c6E-CfIJMDHCP56x9WbLiGBrZKjLHaQ8g50EIlaARNyIL6Y')"></div>
+<span class="text-sm font-bold text-white">Sarah L.</span>
+</div>
+<div class="flex text-primary text-[12px]">
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="material-symbols-outlined filled text-[16px]">star</span>
+<span class="material-symbols-outlined text-[16px]">star</span>
+</div>
+</div>
+<p class="text-xs text-white/70 italic">"Incredible use of tech during the workout. I loved seeing my form metrics in real-time."</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Booking Modal / Interface (Width: 5/12) -->
+<div class="lg:col-span-5 sticky top-24 hidden md:block">
+<div class="booking-glass rounded-2xl p-6 md:p-8 flex flex-col gap-6 w-full animate-fade-in-up">
+<div class="flex items-center justify-between border-b border-white/10 pb-4">
+<h3 class="text-xl font-bold text-white">Book Session</h3>
+<div class="flex items-center gap-2 text-white/60 text-sm">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Available Now
+                    </div>
+</div>
+<!-- Session Type -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-white/60 uppercase tracking-wide">Session Type</label>
+<div class="relative group">
+<select class="w-full bg-surface-light border border-white/10 rounded-lg text-white py-3 pl-4 pr-10 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all cursor-pointer">
+<option>1:1 Mobility Flow (60 min)</option>
+<option>AI Performance Analysis (45 min)</option>
+<option>Recovery Session (30 min)</option>
+</select>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Calendar Widget (Visual Representation) -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center mb-1">
+<label class="text-xs font-bold text-white/60 uppercase tracking-wide">October 2023</label>
+<div class="flex gap-1">
+<button class="p-1 hover:bg-white/10 rounded text-white/50 hover:text-white"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="p-1 hover:bg-white/10 rounded text-white/50 hover:text-white"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-5 gap-2 text-center">
+<div class="flex flex-col gap-1 items-center p-2 rounded-lg border border-transparent hover:bg-white/5 cursor-pointer text-white/50 transition-colors">
+<span class="text-[10px] uppercase">Mon</span>
+<span class="font-bold">23</span>
+</div>
+<div class="flex flex-col gap-1 items-center p-2 rounded-lg bg-primary text-background-dark cursor-pointer shadow-[0_0_15px_rgba(244,133,37,0.4)] transform scale-105 transition-all">
+<span class="text-[10px] uppercase font-bold">Tue</span>
+<span class="font-bold">24</span>
+</div>
+<div class="flex flex-col gap-1 items-center p-2 rounded-lg border border-transparent hover:bg-white/5 cursor-pointer text-white transition-colors">
+<span class="text-[10px] uppercase text-white/50">Wed</span>
+<span class="font-bold">25</span>
+</div>
+<div class="flex flex-col gap-1 items-center p-2 rounded-lg border border-transparent hover:bg-white/5 cursor-pointer text-white transition-colors">
+<span class="text-[10px] uppercase text-white/50">Thu</span>
+<span class="font-bold">26</span>
+</div>
+<div class="flex flex-col gap-1 items-center p-2 rounded-lg border border-transparent hover:bg-white/5 cursor-pointer text-white/30 cursor-not-allowed">
+<span class="text-[10px] uppercase text-white/50">Fri</span>
+<span class="font-bold">27</span>
+</div>
+</div>
+</div>
+<!-- Time Slots -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-white/60 uppercase tracking-wide">Available Slots</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2.5 px-4 rounded-lg border border-white/10 bg-surface-light text-white/60 text-sm font-medium hover:bg-white/5 transition-colors">09:00 AM</button>
+<button class="py-2.5 px-4 rounded-lg border border-primary bg-primary/20 text-primary text-sm font-bold shadow-[0_0_10px_rgba(244,133,37,0.2)] transition-colors">02:00 PM</button>
+<button class="py-2.5 px-4 rounded-lg border border-white/10 bg-surface-light text-white/60 text-sm font-medium hover:bg-white/5 transition-colors">04:30 PM</button>
+<button class="py-2.5 px-4 rounded-lg border border-white/10 bg-surface-light text-white/60 text-sm font-medium hover:bg-white/5 transition-colors">06:00 PM</button>
+</div>
+</div>
+<!-- Summary & Action -->
+<div class="pt-4 border-t border-white/10 mt-2">
+<div class="flex justify-between items-center mb-6">
+<span class="text-white/70 text-sm">Total</span>
+<span class="text-2xl font-bold text-white">$120.00</span>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold py-4 rounded-xl shadow-lg transition-all transform active:scale-[0.98] btn-pulse flex items-center justify-center gap-2">
+<span>Confirm Booking</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<button class="w-full text-white/50 text-sm font-medium hover:text-white transition-colors">
+                            Cancel
+                        </button>
+</div>
+</div>
+</div>
+<!-- Secondary CTA below booking -->
+<div class="mt-6 text-center">
+<button class="text-white/60 hover:text-primary transition-colors text-sm flex items-center justify-center gap-2 mx-auto">
+<span class="material-symbols-outlined text-lg">chat</span>
+                    Ask a question before booking
+                </button>
+</div>
+</div>
+</main>
+</body></html>

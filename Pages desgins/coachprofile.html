@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KineticFlow Coach Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48525",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221810",
+                        "card-dark": "#2a1f16", // Slightly lighter than bg-dark for contrast
+                        "text-secondary": "#cbab90",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Space Grotesk", "sans-serif"], 
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px"},
+                    boxShadow: {
+                        'glow': '0 0 15px -3px rgba(244, 133, 37, 0.4)',
+                        'glow-hover': '0 0 25px -5px rgba(244, 133, 37, 0.6)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Space Grotesk", sans-serif;
+        }
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(42, 31, 22, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(244, 133, 37, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(244, 133, 37, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #cbab90 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-white">
+<!-- Top Navbar -->
+<header class="sticky top-0 z-50 glass-panel border-b border-[#493422]/50 px-6 py-4 lg:px-10">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-8">
+<!-- Logo -->
+<div class="flex items-center gap-3 text-white">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</div>
+<h2 class="text-white text-xl font-bold tracking-tight">KineticFlow</h2>
+</div>
+<!-- Nav Links -->
+<nav class="hidden md:flex items-center gap-8 pl-8 border-l border-[#493422]">
+<a class="text-white hover:text-primary transition-colors text-sm font-medium" href="#">Dashboard</a>
+<a class="text-white hover:text-primary transition-colors text-sm font-medium" href="#">Clients</a>
+<a class="text-primary text-sm font-bold" href="#">My Profile</a>
+<a class="text-white hover:text-primary transition-colors text-sm font-medium" href="#">Schedule</a>
+<a class="text-white hover:text-primary transition-colors text-sm font-medium" href="#">Community</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search -->
+<div class="hidden lg:flex items-center bg-[#2a1f16] rounded-xl px-3 py-2 border border-[#493422] focus-within:border-primary/50 transition-colors w-64">
+<span class="material-symbols-outlined text-text-secondary text-xl">search</span>
+<input class="bg-transparent border-none text-sm text-white placeholder-text-secondary focus:ring-0 w-full ml-2" placeholder="Search" type="text"/>
+</div>
+<!-- Actions -->
+<div class="flex gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-[#2a1f16] text-white hover:bg-[#3a2b1f] transition-colors border border-[#493422]">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-[#2a1f16] text-white hover:bg-[#3a2b1f] transition-colors border border-[#493422]">
+<span class="material-symbols-outlined text-xl">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-cover bg-center border border-[#493422]" data-alt="Small user profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4Z_Wx4uaIF-ZHTgvanKweYKT1Ef1dYUy2T_vcw3s9hE5oJ6omGRnuIxUmIxESDzEYkMqam7zLpevuDfqjPiWyqnTmgdvt90tzusvYMWO0VYTejrXck_JaAHtwMoV4CjztkJhdbGmYnZAcWMygIOTBPZhO5tOvJ-fXR5wPBbIw54EQVg9a2yV_nQHnDnT7fINU8pJYS1uld_OvlqloShOVcyilW7ovzCtI8tEiy_8BUN9h_zzps6BN-OyHNQILgxJ1D1p6wP-AN1E");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 lg:px-10 py-8 space-y-8">
+<!-- Hero Profile Section -->
+<section class="relative rounded-3xl overflow-hidden glass-panel p-1">
+<!-- Background Decoration -->
+<div class="absolute top-0 left-0 w-full h-48 bg-gradient-to-r from-[#2a1f16] to-[#3a2b1f] opacity-80" data-alt="Abstract dark gym background texture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDlZ9ec2WAJXo5WN-z5XvwEkPFKBFZ9FDGkYb1ryu50HYlNb7LsbAbqlF86jJGTuRfIp-5xo0MHQQu6EiOoKx7MCGn43X1wpuock4hhrgmyyHwD8hRho_NNAE4-N-4ec5fA_HeosjUF2ofo3o95-kbVXBRDFY8UaczgaBUxChfzsy5D3QjDTzhNVjgC9dzMM_h5rFg2WlnuDvpk4rDA0wkaMM1w_H3KdTW00eUOnyEb7XRVNJzpauoSGQu6pSx9rTBCXYa55lw-m_I'); background-size: cover; background-position: center;">
+<div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm"></div>
+</div>
+<div class="relative pt-24 px-6 pb-6">
+<div class="flex flex-col md:flex-row gap-6 items-end md:items-center">
+<!-- Avatar -->
+<div class="relative group">
+<div class="w-36 h-36 rounded-full p-1 bg-gradient-to-br from-primary to-transparent shadow-glow group-hover:shadow-glow-hover transition-all duration-500">
+<div class="w-full h-full rounded-full bg-cover bg-center border-4 border-background-dark" data-alt="Professional coach portrait alex rivera" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCDI-qVxtMILckDvs2thH2hqwmuwHHlwl23B0VXak5FzIoppidkHPBfS5S-PNsrGSfcNk-0mrVEQ4gy8CZWHVbSN34bPNo3OV8F5ROxYl3KtTuJ89TA-uwKTl3H8TwZV169p8ieJ3Y0AVTeJq1TBrJmgR-BydEqDq0wm7aWLDWfoV_YL0FeCTZ-eWTH-r1RSeUdpCe63lV7AQ5XKEh9tnA56P6mdSvrQeyUnBBm1yOCsLp6e_GUupb6V9JIQP4a1oKjgiA8wfyCThM");'></div>
+</div>
+<div class="absolute bottom-2 right-2 w-5 h-5 bg-green-500 rounded-full border-2 border-background-dark shadow-lg"></div>
+</div>
+<!-- Info -->
+<div class="flex-1 mb-2">
+<div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+<div>
+<h1 class="text-4xl font-bold tracking-tight text-white mb-1">Alex Rivera</h1>
+<p class="text-text-secondary text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+                                    Elite Performance Coach | NASM Certified
+                                </p>
+<p class="text-text-secondary/70 text-sm mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                    San Francisco, CA
+                                </p>
+</div>
+<!-- Actions -->
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 h-10 px-6 rounded-xl bg-[#2a1f16] border border-[#493422] text-white text-sm font-bold hover:bg-[#3a2b1f] hover:border-primary/30 transition-all">
+<span class="material-symbols-outlined text-lg">edit</span>
+                                    Edit Profile
+                                </button>
+<button class="flex items-center justify-center gap-2 h-10 px-6 rounded-xl bg-primary text-background-dark text-sm font-bold shadow-glow hover:bg-primary/90 hover:shadow-glow-hover transition-all">
+<span class="material-symbols-outlined text-lg">share</span>
+                                    Share Profile
+                                </button>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="flex flex-wrap gap-4 mt-6">
+<div class="flex items-center gap-3 px-4 py-2 rounded-xl bg-background-dark/50 border border-[#493422]">
+<span class="material-symbols-outlined text-primary">bolt</span>
+<div>
+<p class="text-white font-bold leading-none">500+</p>
+<p class="text-text-secondary text-xs">Sessions</p>
+</div>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 rounded-xl bg-background-dark/50 border border-[#493422]">
+<span class="material-symbols-outlined text-primary">star</span>
+<div>
+<p class="text-white font-bold leading-none">4.9</p>
+<p class="text-text-secondary text-xs">Rating</p>
+</div>
+</div>
+<div class="flex items-center gap-3 px-4 py-2 rounded-xl bg-background-dark/50 border border-[#493422]">
+<span class="material-symbols-outlined text-primary">group</span>
+<div>
+<p class="text-white font-bold leading-none">15</p>
+<p class="text-text-secondary text-xs">Active Clients</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Chips -->
+<div class="flex flex-wrap gap-2 mt-6 border-t border-[#493422]/50 pt-4">
+<span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">HIIT</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#2a1f16] text-text-secondary border border-[#493422]">Rehabilitation</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#2a1f16] text-text-secondary border border-[#493422]">Strength Training</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#2a1f16] text-text-secondary border border-[#493422]">Mobility Flow</span>
+<span class="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#2a1f16] text-text-secondary border border-[#493422]">Nutrition</span>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Bio & Services -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Bio Section -->
+<section>
+<h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+                        Bio &amp; Philosophy
+                    </h3>
+<div class="glass-card rounded-2xl p-6">
+<p class="text-text-secondary leading-relaxed mb-4">
+                            My philosophy is built on the belief that <span class="text-white font-medium">movement is medicine</span>. With over 8 years of experience in elite performance coaching, I blend data-driven methodologies with intuitive body mechanics to unlock your full potential.
+                        </p>
+<p class="text-text-secondary leading-relaxed">
+                            Whether you are recovering from an injury or training for your next marathon, I focus on sustainable progress through kinetic alignment and metabolic conditioning. Let's build a stronger version of you, one rep at a time.
+                        </p>
+</div>
+</section>
+<!-- Services Section -->
+<section>
+<h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+                        Services &amp; Packages
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Service Card 1 -->
+<div class="glass-card rounded-2xl p-5 hover:bg-[#3a2b1f]/30 cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+<span class="material-symbols-outlined">videocam</span>
+</div>
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-[#2a1f16] text-white border border-[#493422]">$50</span>
+</div>
+<h4 class="text-lg font-bold text-white mb-1">Virtual Assessment</h4>
+<p class="text-text-secondary text-sm mb-4">60-min comprehensive movement analysis via video call.</p>
+<button class="w-full py-2 rounded-lg bg-[#2a1f16] text-primary text-sm font-bold border border-primary/20 hover:bg-primary hover:text-background-dark transition-all">Book Now</button>
+</div>
+<!-- Service Card 2 -->
+<div class="glass-card rounded-2xl p-5 hover:bg-[#3a2b1f]/30 cursor-pointer group border-primary/30 relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-primary text-background-dark text-[10px] font-bold px-3 py-1 rounded-bl-xl">POPULAR</div>
+<div class="flex justify-between items-start mb-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+<span class="material-symbols-outlined">calendar_month</span>
+</div>
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-[#2a1f16] text-white border border-[#493422]">$200/mo</span>
+</div>
+<h4 class="text-lg font-bold text-white mb-1">Monthly Programming</h4>
+<p class="text-text-secondary text-sm mb-4">Customized workout plans updated weekly with progress tracking.</p>
+<button class="w-full py-2 rounded-lg bg-primary text-background-dark text-sm font-bold shadow-glow hover:shadow-glow-hover transition-all">Get Started</button>
+</div>
+<!-- Service Card 3 -->
+<div class="glass-card rounded-2xl p-5 hover:bg-[#3a2b1f]/30 cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-[#2a1f16] text-white border border-[#493422]">$90</span>
+</div>
+<h4 class="text-lg font-bold text-white mb-1">In-Person Session</h4>
+<p class="text-text-secondary text-sm mb-4">1-on-1 coaching session at KineticFlow HQ (60 mins).</p>
+<button class="w-full py-2 rounded-lg bg-[#2a1f16] text-primary text-sm font-bold border border-primary/20 hover:bg-primary hover:text-background-dark transition-all">Book Now</button>
+</div>
+<!-- Service Card 4 -->
+<div class="glass-card rounded-2xl p-5 hover:bg-[#3a2b1f]/30 cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-[#2a1f16] text-white border border-[#493422]">$150</span>
+</div>
+<h4 class="text-lg font-bold text-white mb-1">Nutrition Strategy</h4>
+<p class="text-text-secondary text-sm mb-4">Macro breakdown and meal planning aligned with training.</p>
+<button class="w-full py-2 rounded-lg bg-[#2a1f16] text-primary text-sm font-bold border border-primary/20 hover:bg-primary hover:text-background-dark transition-all">Book Now</button>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section>
+<h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+                        Client Stories
+                    </h3>
+<div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar snap-x">
+<div class="min-w-[300px] glass-card p-5 rounded-2xl snap-start">
+<div class="flex gap-1 mb-3 text-primary">
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+</div>
+<p class="text-text-secondary text-sm italic mb-4">"Alex changed my perspective on fitness. The KineticFlow app integration makes tracking so easy, but Alex's guidance is the real magic."</p>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" data-alt="Client testimonial avatar Sarah" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDt1rKkSvt3-EVzauTMc4nMh_5b9qRyNahfbti0kD_TvN18CfWT77ZB0mnCNxHUcoesm93dHZh_NY4_Xn_kxctsKPijgGjni6_w0kEbFr-m8bCHsdeWOSaIEvYbzsOURKB2K79Bgv3WGSLtNT5uAIkqUpqSkFC74JdznN0euBbXNW9Ir1sTuZTHX8b2DtfX6na0U11K7rowVvCs27Ahpe0LgByzDqFwgUHtChUL_CX0GiohauGIk9e1NSEZh-PhOG4VGDliN-3mN2s");'></div>
+<span class="text-white text-sm font-bold">Sarah J.</span>
+</div>
+</div>
+<div class="min-w-[300px] glass-card p-5 rounded-2xl snap-start">
+<div class="flex gap-1 mb-3 text-primary">
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star_half</span>
+</div>
+<p class="text-text-secondary text-sm italic mb-4">"Recovering from ACL surgery was tough, but the rehab program Alex designed got me back on the field faster than expected."</p>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" data-alt="Client testimonial avatar Mike" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAUM-wJGb-Z66JxOaMrvQJOqX0Y9ZTMQQgVqyQh-d_J9nnbfwNVw5ht0_HYJr6uvE7WBXUKL8cYNoAzKsZukuXcB7RqUxe0n3_omgkhKeZOz_VN6mxca5fhH0AOtkK_vu7G00yXWPXfOlxgoMllVGOrD6CGDH9MccQBASF8xaL1gDiOEsKn2P7uuSjBq7ITsxHV0nBWR02_PI8SVowIyU871jToRuZQFSuxyribjimou8H4rBdovpIj8an46QOhzCCWYsCcQYd0-LA");'></div>
+<span class="text-white text-sm font-bold">Mike T.</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Availability & Stats -->
+<div class="space-y-6">
+<!-- Availability Calendar Widget -->
+<div class="glass-card rounded-2xl p-6 border-primary/20">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-bold text-white">Availability</h3>
+<div class="flex gap-2">
+<button class="p-1 rounded hover:bg-[#493422] text-text-secondary"><span class="material-symbols-outlined text-lg">chevron_left</span></button>
+<span class="text-sm text-text-secondary font-medium self-center">Oct 24-30</span>
+<button class="p-1 rounded hover:bg-[#493422] text-text-secondary"><span class="material-symbols-outlined text-lg">chevron_right</span></button>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-sm">
+<div class="flex flex-col items-center gap-1 w-10">
+<span class="text-text-secondary text-xs">Mon</span>
+<span class="text-white font-bold">24</span>
+</div>
+<div class="flex-1 ml-4 grid grid-cols-2 gap-2">
+<div class="bg-[#2a1f16] text-text-secondary text-xs py-1.5 text-center rounded border border-[#493422] line-through opacity-50">09:00</div>
+<div class="bg-[#2a1f16] text-text-secondary text-xs py-1.5 text-center rounded border border-[#493422] line-through opacity-50">14:00</div>
+</div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex flex-col items-center gap-1 w-10">
+<span class="text-primary font-bold text-xs">Tue</span>
+<span class="text-white font-bold bg-primary rounded-full w-6 h-6 flex items-center justify-center text-background-dark">25</span>
+</div>
+<div class="flex-1 ml-4 grid grid-cols-2 gap-2">
+<button class="bg-primary/20 text-primary border border-primary/40 text-xs py-1.5 text-center rounded hover:bg-primary hover:text-background-dark transition-colors font-medium">10:00 AM</button>
+<button class="bg-primary/20 text-primary border border-primary/40 text-xs py-1.5 text-center rounded hover:bg-primary hover:text-background-dark transition-colors font-medium">02:30 PM</button>
+</div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex flex-col items-center gap-1 w-10">
+<span class="text-text-secondary text-xs">Wed</span>
+<span class="text-white font-bold">26</span>
+</div>
+<div class="flex-1 ml-4 grid grid-cols-2 gap-2">
+<div class="bg-[#2a1f16] text-text-secondary text-xs py-1.5 text-center rounded border border-[#493422]">Full</div>
+<div class="bg-[#2a1f16] text-text-secondary text-xs py-1.5 text-center rounded border border-[#493422]">Full</div>
+</div>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex flex-col items-center gap-1 w-10">
+<span class="text-text-secondary text-xs">Thu</span>
+<span class="text-white font-bold">27</span>
+</div>
+<div class="flex-1 ml-4 grid grid-cols-2 gap-2">
+<button class="bg-primary/20 text-primary border border-primary/40 text-xs py-1.5 text-center rounded hover:bg-primary hover:text-background-dark transition-colors font-medium">11:00 AM</button>
+<div class="bg-[#2a1f16] text-text-secondary text-xs py-1.5 text-center rounded border border-[#493422]">Full</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 rounded-xl border border-dashed border-[#493422] text-text-secondary text-sm hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+                        View Full Calendar
+                    </button>
+</div>
+<!-- Expertise Radar (Visual Placeholder) -->
+<div class="glass-card rounded-2xl p-6">
+<h3 class="text-lg font-bold text-white mb-4">Focus Areas</h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-xs mb-1">
+<span class="text-text-secondary">Strength</span>
+<span class="text-white font-bold">95%</span>
+</div>
+<div class="h-2 w-full bg-[#2a1f16] rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[95%] rounded-full shadow-glow"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs mb-1">
+<span class="text-text-secondary">Mobility</span>
+<span class="text-white font-bold">80%</span>
+</div>
+<div class="h-2 w-full bg-[#2a1f16] rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[80%] rounded-full opacity-80"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs mb-1">
+<span class="text-text-secondary">Endurance</span>
+<span class="text-white font-bold">70%</span>
+</div>
+<div class="h-2 w-full bg-[#2a1f16] rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[70%] rounded-full opacity-60"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs mb-1">
+<span class="text-text-secondary">Nutrition</span>
+<span class="text-white font-bold">85%</span>
+</div>
+<div class="h-2 w-full bg-[#2a1f16] rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%] rounded-full opacity-90"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Certifications -->
+<div class="glass-card rounded-2xl p-6">
+<h3 class="text-lg font-bold text-white mb-4">Certifications</h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5">verified_user</span>
+<div>
+<p class="text-white text-sm font-bold">NASM Certified Personal Trainer</p>
+<p class="text-text-secondary text-xs">National Academy of Sports Medicine</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5">verified_user</span>
+<div>
+<p class="text-white text-sm font-bold">Precision Nutrition L1</p>
+<p class="text-text-secondary text-xs">Precision Nutrition</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5">verified_user</span>
+<div>
+<p class="text-white text-sm font-bold">Functional Range Conditioning</p>
+<p class="text-text-secondary text-xs">FRC Mobility Specialist</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<!-- Simple Footer -->
+<footer class="border-t border-[#493422] py-8 mt-8 glass-panel">
+<div class="max-w-7xl mx-auto px-4 lg:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-text-secondary text-sm">© 2024 KineticFlow. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-text-secondary hover:text-white text-sm" href="#">Privacy Policy</a>
+<a class="text-text-secondary hover:text-white text-sm" href="#">Terms of Service</a>
+<a class="text-text-secondary hover:text-white text-sm" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>

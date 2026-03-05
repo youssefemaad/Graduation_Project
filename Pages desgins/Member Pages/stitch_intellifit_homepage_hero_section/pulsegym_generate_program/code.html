@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - Generate Program</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "secondary": "#10B981",
+                        "accent": "#F97316",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom styles for range slider to match theme */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #2b8cee;
+            cursor: pointer;
+            margin-top: -10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #e2e8f0;
+            border-radius: 2px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 antialiased overflow-x-hidden">
+<!-- Background Image with Overlay -->
+<div class="fixed inset-0 z-0">
+<img alt="Blurred modern gym interior background with weights and treadmills" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgTNyu8V_gKgF4YS1yWPSm829uYZ1V2xrL0EB_hizsmJtg38YmVx4VTfpkoKpqoXRPm7sQM2quK1u1gZTGsZ54W1Svm28Sg4aUQSDMuiIBB3JWfJNc5r8eHhnniHEJnWhDlYj2uNzXENY5Uk1I0SjYtpT5KxFpas6a-kGLArIrU2cQe9a232SXkIGIdF0DsBA6skOdIiQm08rxvQ8SPb5JiFxX9XIcf7cxLTYh8TD53R7FAFmSb9bswvJyklkqvw9VC2Gy3Hezz5A"/>
+<div class="absolute inset-0 bg-slate-900/10 backdrop-blur-[6px]"></div>
+</div>
+<!-- Main Layout -->
+<div class="relative z-10 flex min-h-screen flex-col">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 glass-panel border-b border-slate-200/50 px-6 py-3 shadow-sm">
+<div class="mx-auto flex max-w-7xl items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex size-10 items-center justify-center rounded-lg bg-primary text-white shadow-md shadow-primary/20">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900">PulseGym</h2>
+<p class="text-[10px] font-medium text-slate-500 uppercase tracking-widest">AI Trainer</p>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 hover:text-primary text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold transition-colors" href="#">Generate Program</a>
+<a class="text-slate-600 hover:text-primary text-sm font-medium transition-colors" href="#">Workouts</a>
+<a class="text-slate-600 hover:text-primary text-sm font-medium transition-colors" href="#">Nutrition</a>
+<a class="text-slate-600 hover:text-primary text-sm font-medium transition-colors" href="#">Community</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="hidden md:flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex h-10 items-center gap-2 rounded-full bg-slate-900 px-1 pr-4 text-white hover:bg-slate-800 transition-colors">
+<img alt="User profile avatar smiling man" class="h-8 w-8 rounded-full border-2 border-slate-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrR7XXFG-CMEZVOVNCY2mRfJIC--DFXdpiM3F247mb-pwas4UpgBpii2aR-FjTAatxqjKVzlsUzxcnHme23NosAZ8sOpNayEyQ-LXloz7SnR6tmLKzsH0CTjoZqw7bq0JsSIksLWhwMdeQqR2PqoxHeK9g2v9TAVLqFs5rfOuayB-SLPxvKCdAbegzr-bSarU22XQktlMyORBz5IGPSEKpdcLtq_i97DXTmf-K18CpCWYPdASm7aeDrJoB6BNNw4JeCmW8oxip9T4"/>
+<span class="text-sm font-medium">Alex M.</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow px-4 py-8 md:px-6 lg:px-8">
+<div class="mx-auto max-w-5xl">
+<!-- Page Title Area -->
+<div class="mb-8 text-center md:text-left text-white drop-shadow-md">
+<h1 class="text-3xl md:text-4xl font-bold">Let's Build Your Perfect Plan</h1>
+<p class="mt-2 text-lg text-slate-100 opacity-90">Our AI engine will craft a routine tailored to your goals and equipment.</p>
+</div>
+<!-- Wizard Container -->
+<div class="rounded-2xl bg-white shadow-2xl overflow-hidden">
+<!-- Progress Stepper -->
+<div class="bg-slate-50 px-6 py-4 border-b border-slate-100">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="text-sm font-bold text-primary">Step 3 of 4</span>
+<span class="text-sm font-medium text-slate-500">Next: Review &amp; Generate</span>
+</div>
+<div class="relative h-2 w-full rounded-full bg-slate-200 overflow-hidden">
+<div class="absolute top-0 left-0 h-full w-3/4 bg-primary transition-all duration-500 ease-out"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row">
+<!-- Sidebar / Navigation for Wizard (Desktop) -->
+<div class="hidden md:flex w-64 flex-col gap-1 border-r border-slate-100 bg-slate-50/50 p-6">
+<div class="flex items-center gap-3 rounded-lg px-3 py-2 text-primary bg-primary/10">
+<div class="flex size-6 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">1</div>
+<span class="text-sm font-semibold">Goals &amp; Targets</span>
+<span class="ml-auto material-symbols-outlined text-lg">check</span>
+</div>
+<div class="flex items-center gap-3 rounded-lg px-3 py-2 text-primary bg-primary/10">
+<div class="flex size-6 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">2</div>
+<span class="text-sm font-semibold">Preferences</span>
+<span class="ml-auto material-symbols-outlined text-lg">check</span>
+</div>
+<div class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-900 bg-white shadow-sm ring-1 ring-slate-200">
+<div class="flex size-6 items-center justify-center rounded-full bg-slate-900 text-[10px] font-bold text-white">3</div>
+<span class="text-sm font-semibold">AI Coach</span>
+</div>
+<div class="flex items-center gap-3 rounded-lg px-3 py-2 text-slate-400">
+<div class="flex size-6 items-center justify-center rounded-full border border-slate-300 bg-transparent text-[10px] font-bold text-slate-400">4</div>
+<span class="text-sm font-medium">Review</span>
+</div>
+</div>
+<!-- Form Content -->
+<div class="flex-1 p-6 md:p-8">
+<!-- Step 1 Preview (Collapsed/Completed) -->
+<div class="mb-8 rounded-xl border border-slate-100 bg-slate-50 p-4 opacity-75 hover:opacity-100 transition-opacity">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide">Goals &amp; Preferences Summary</h3>
+<button class="text-xs font-bold text-primary hover:underline">Edit</button>
+</div>
+<div class="mt-3 flex flex-wrap gap-2">
+<span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                                        Hypertrophy
+                                    </span>
+<span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                                        4 Days/Week
+                                    </span>
+<span class="inline-flex items-center rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium text-orange-800">
+                                        High Intensity
+                                    </span>
+<span class="inline-flex items-center rounded-full bg-slate-200 px-2.5 py-0.5 text-xs font-medium text-slate-700">
+                                        Full Gym Access
+                                    </span>
+</div>
+</div>
+<!-- Step 3 Content (Active) -->
+<div class="animate-fade-in">
+<h2 class="text-2xl font-bold text-slate-900">Talk to Your AI Coach</h2>
+<p class="mt-2 text-slate-500">Optional: Add specific requests or constraints using your voice. "I have a sore left shoulder" or "Focus on glutes today".</p>
+<div class="mt-8 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-8 text-center transition-colors hover:border-primary/30 hover:bg-slate-100">
+<!-- Microphone Interaction -->
+<div class="relative">
+<div class="absolute inset-0 animate-ping rounded-full bg-primary/20"></div>
+<button class="relative flex size-20 items-center justify-center rounded-full bg-gradient-to-br from-primary to-blue-600 text-white shadow-xl shadow-blue-500/30 transition-transform hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined text-4xl">mic</span>
+</button>
+</div>
+<p class="mt-6 text-sm font-semibold text-slate-900">Tap to Speak</p>
+<p class="text-xs text-slate-400">Listening for commands...</p>
+</div>
+<!-- Transcript Bubble -->
+<div class="mt-6 flex gap-4">
+<div class="flex-shrink-0">
+<div class="flex size-10 items-center justify-center rounded-full bg-secondary/10 text-secondary">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+</div>
+<div class="flex-1 space-y-2">
+<div class="rounded-2xl rounded-tl-none bg-slate-100 p-4 text-sm text-slate-700">
+                                            I've noted that you want to focus on <strong>Hypertrophy</strong>. Is there anything else you'd like to adjust regarding your knee injury from last week?
+                                        </div>
+<div class="flex justify-end">
+<div class="rounded-2xl rounded-tr-none bg-primary p-4 text-sm text-white shadow-md shadow-primary/20">
+                                                Yes, please swap out heavy squats for leg press, and keep the session under 50 minutes.
+                                            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Actions -->
+<div class="border-t border-slate-100 bg-slate-50 p-6 md:px-8">
+<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+<div class="flex items-center gap-2 text-sm text-slate-500">
+<span class="material-symbols-outlined text-accent text-lg">token</span>
+<span>Cost: <span class="font-bold text-slate-900">50 Tokens</span></span>
+</div>
+<div class="flex gap-3">
+<button class="rounded-xl border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200">
+                                    Back
+                                </button>
+<button class="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-primary px-8 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-blue-600 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span>Review &amp; Generate</span>
+<span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Generated Preview (Visual Placeholder for context) -->
+<div class="mt-12">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xl font-bold text-white">Recent Generations</h3>
+<a class="text-sm font-medium text-white/80 hover:text-white flex items-center gap-1" href="#">View All <span class="material-symbols-outlined text-sm">chevron_right</span></a>
+</div>
+<div class="grid gap-6 md:grid-cols-3">
+<!-- Card 1 -->
+<div class="group relative overflow-hidden rounded-xl bg-white p-5 shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl">
+<div class="absolute right-0 top-0 h-24 w-24 translate-x-8 translate-y--8 rounded-full bg-primary/5 blur-2xl"></div>
+<div class="mb-4 flex items-center justify-between">
+<div class="rounded-lg bg-orange-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-orange-700">Leg Day</div>
+<span class="text-xs text-slate-400">2 days ago</span>
+</div>
+<h4 class="mb-1 text-lg font-bold text-slate-900">Lower Body Power</h4>
+<p class="mb-4 text-sm text-slate-500">Squats, Lunges, RDLs • 60 min</p>
+<div class="flex items-center gap-4 border-t border-slate-100 pt-4">
+<div class="flex -space-x-2 overflow-hidden">
+<img alt="Trainer Avatar" class="inline-block h-6 w-6 rounded-full ring-2 ring-white" data-alt="Small avatar of a male trainer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE2USjQJtSP33xKiMMde2qlvvy300OSLxlTjxsUOVqXlbNMvozNQNIj8RaQlCuiwTDsO8zFIYxKL8nPBE7wHkH1RhzxiK3bSIFnFdRN6L8Bb3n2yhMOnkNp90zmbn4njQ4x4oFbJ07YRdQjg33JY45pUBxXg3YGgsTkeDBt3v992wosa0neVPcwA9MffOfjgRbfYz5MQ9_OCYEl3Q4-RaN3NGqnWOd-CfAOJgghCZZoeP9PHmYKtf_SZglt9eeo6M8ylaF3zg_iXc"/>
+</div>
+<span class="text-xs font-medium text-slate-600">Coach Approved</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative overflow-hidden rounded-xl bg-white p-5 shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl">
+<div class="absolute right-0 top-0 h-24 w-24 translate-x-8 translate-y--8 rounded-full bg-secondary/5 blur-2xl"></div>
+<div class="mb-4 flex items-center justify-between">
+<div class="rounded-lg bg-green-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-green-700">Cardio</div>
+<span class="text-xs text-slate-400">5 days ago</span>
+</div>
+<h4 class="mb-1 text-lg font-bold text-slate-900">HIIT Blast</h4>
+<p class="mb-4 text-sm text-slate-500">Sprints, Burpees, Jump Rope • 30 min</p>
+<div class="flex items-center gap-4 border-t border-slate-100 pt-4">
+<div class="flex items-center gap-1 text-xs text-slate-500">
+<span class="material-symbols-outlined text-sm">bolt</span> High Intensity
+                                 </div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative overflow-hidden rounded-xl bg-white p-5 shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70 hover:opacity-100 hover:border-primary/50 cursor-pointer">
+<div class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add</span>
+</div>
+<h4 class="text-sm font-bold text-slate-900">Create Template</h4>
+<p class="text-xs text-slate-500 mt-1">Save your settings for later</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

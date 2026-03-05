@@ -1,0 +1,1087 @@
+-- IntelliFit Database Analytics & Test Queries
+-- Optimized for Admin and Receptionist roles with date-range parameters
+-- Updated for single-table schema with Role column and separate profile tables
+
+-- ==========================================
+-- SECTION 1: USER ANALYTICS (Admin/Receptionist)
+-- ==========================================
+
+-- 1. Get active member from [StartDate] to [EndDate] with their tokens
+-- Parameters: @StartDate, @EndDate
+SELECT u."UserId", u."Name", u."Email", u."Role", u."TokenBalance", u."CreatedAt", u."LastLoginAt"
+FROM users u
+WHERE u."IsActive" = true and u."Role" = 'Member'
+  AND u."CreatedAt" BETWEEN '2025-12-14' AND '2025-12-30' -- Replace with parameters
+ORDER BY u."CreatedAt" DESC;
+
+-- 2. Get user registrations by role from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT u."Role", 
+       COUNT(*) as total_users,
+       COUNT(CASE WHEN u."EmailVerified" = true THEN 1 END) as verified_users
+FROM users u
+WHERE u."CreatedAt" BETWEEN '2025-12-14' AND '2025-12-30' -- Replace with parameters
+GROUP BY u."Role"
+ORDER BY total_users DESC;
+
+-- 3. Get all active members with subscription status from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT u."UserId", u."Name", u."Email", u."TokenBalance",
+       mp."FitnessGoal", mp."FitnessLevel",
+       sp."PlanName", us."Status" as subscription_status,us."StartDate", us."EndDate"
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN user_subscriptions us ON u."UserId" = us."UserId" AND us."Status" = 0
+LEFT JOIN subscription_plans sp ON us."PlanId" = sp."PlanId"
+WHERE u."IsActive" = true
+  AND us."StartDate" BETWEEN '2024-11-01' AND '2025-11-30' -- Replace with parameters
+ORDER BY u."CreatedAt" DESC;
+
+
+-- 4. Get all coaches with their performance metrics  
+SELECT u."UserId" as coach_ID, u."Name" as coach_name, u."Email",
+       cp."Specialization", cp."ExperienceYears", cp."HourlyRate",
+       cp."Rating", cp."TotalReviews", cp."TotalClients"
+FROM users u
+INNER JOIN coach_profiles cp ON u."UserId" = cp."UserId"
+WHERE u."IsActive" = true
+ORDER BY cp."Rating" DESC, cp."TotalClients" DESC;
+
+-- 5. Get members booking equipments history from [StartDate] to [EndDate]
+SELECT b."UserId" ,e."EquipmentId", e."Name", ec."CategoryName", e."Status",
+	   b."StartTime" ,b."EndTime"
+FROM equipment e 
+JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+LEFT JOIN bookings b ON e."EquipmentId" = b."EquipmentId"
+  AND b."StartTime" BETWEEN '2025-01-01' AND '2025-12-31' -- Replace with parameters
+
+
+-- ==========================================
+-- SECTION 2: SUBSCRIPTION & REVENUE ANALYTICS (Admin)
+-- ==========================================
+
+-- 6. Get subscription revenue from [StartDate] to [EndDate] by plan
+-- Parameters: @StartDate, @EndDate
+SELECT sp."PlanName", sp."Price",
+       COUNT(p."PaymentId") as paid_subscriptions,
+       SUM(COALESCE(p."Amount", 0)) as total_revenue
+FROM subscription_plans sp
+LEFT JOIN user_subscriptions us ON sp."PlanId" = us."PlanId"
+  AND us."CreatedAt"  BETWEEN '2025-12-14' AND '2025-12-30' -- Replace with parameters
+LEFT JOIN payments p ON us."PaymentId" = p."PaymentId" AND p."Status" = 1
+GROUP BY sp."PlanId", sp."PlanName", sp."Price"
+ORDER BY total_revenue DESC;
+
+-- 7. Get members with active subscriptions expiring from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate (for renewal reminders)
+SELECT u."UserId", u."Name", u."Email", u."Phone",
+       sp."PlanName", us."EndDate",
+       us."EndDate" - CURRENT_DATE as days_remaining,
+       us."AutoRenew"
+FROM users u
+JOIN user_subscriptions us ON u."UserId" = us."UserId"
+JOIN subscription_plans sp ON us."PlanId" = sp."PlanId"
+WHERE us."Status" = 0
+  AND us."EndDate" BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '16 days' -- Replace with parameters
+ORDER BY us."EndDate";
+
+-- 8. Get token usage analytics from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT u."UserId", u."Name", u."TokenBalance",
+       COUNT(tt."TransactionId") as total_transactions,
+       SUM(CASE WHEN tt."TransactionType" = 0 THEN tt."Amount" ELSE 0 END) as tokens_purchased,
+       SUM(CASE WHEN tt."TransactionType" = 1 THEN ABS(tt."Amount") ELSE 0 END) as tokens_spent
+FROM users u
+LEFT JOIN token_transactions tt ON u."UserId" = tt."UserId"
+  AND tt."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+WHERE u."Role" = 'Member'
+GROUP BY u."UserId", u."Name", u."TokenBalance"
+ORDER BY tokens_spent DESC;
+
+-- ==========================================
+-- SECTION 3: BOOKING & ATTENDANCE ANALYTICS (Receptionist/Admin)
+-- ==========================================
+
+-- 9. Get equipment availability and upcoming bookings
+SELECT e."EquipmentId", e."Name" as equipment_name, ec."CategoryName", e."Location", e."Status",
+       CASE 
+           WHEN EXISTS (
+               SELECT 1 FROM bookings b2 
+               WHERE b2."EquipmentId" = e."EquipmentId" 
+               AND b2."Status" IN (1, 2) 
+               AND CURRENT_TIMESTAMP BETWEEN b2."StartTime" AND b2."EndTime"
+           ) THEN 'Busy Now'
+           WHEN e."Status" = 2 THEN 'Under Maintenance'
+           ELSE 'Available Now'
+       END as current_status,
+       b."BookingId", u."Name" as booked_by, b."StartTime", b."EndTime"
+FROM equipment e
+JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+LEFT JOIN bookings b ON e."EquipmentId" = b."EquipmentId" 
+    AND b."StartTime" >= CURRENT_TIMESTAMP
+    AND b."Status" IN (0, 1)
+LEFT JOIN users u ON b."UserId" = u."UserId"
+WHERE e."IsActive" = true
+ORDER BY e."Name", b."StartTime";
+
+-- 10. Get member bookings from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT u."UserId", u."Name" as member_name, u."Email",
+       b."BookingId", b."BookingType", b."StartTime", b."EndTime", b."Status",
+       COALESCE(e."Name", coach_u."Name") as resource_name,
+       b."TokensCost"
+FROM bookings b
+JOIN users u ON b."UserId" = u."UserId"
+LEFT JOIN equipment e ON b."EquipmentId" = e."EquipmentId"
+LEFT JOIN coach_profiles cp ON b."CoachId" = cp."Id"
+LEFT JOIN users coach_u ON cp."UserId" = coach_u."UserId"
+WHERE b."StartTime" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND b."Status" IN (1, 2, 3) -- Confirmed, InProgress, Completed
+ORDER BY b."StartTime" DESC, u."Name";
+
+-- 11. Get member workout logs from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT u."UserId", u."Name", wl."WorkoutDate",
+       wl."DurationMinutes", wl."CaloriesBurned", 
+       wl."ExercisesCompleted", wl."FeelingRating",
+       wl."Notes", wl."Completed"
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+INNER JOIN workout_logs wl ON u."UserId" = wl."UserId"
+WHERE wl."WorkoutDate" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND u."IsActive" = true
+ORDER BY wl."WorkoutDate" DESC, u."Name";
+
+-- 12. Get inactive members from [LastActivityDate] to now (no activity in X days)
+-- Parameters: @DaysSinceLastActivity
+SELECT u."UserId", u."Name", u."Email", u."Phone",
+       mp."FitnessGoal",
+       MAX(GREATEST(
+           COALESCE(wl."WorkoutDate", '1900-01-01'::timestamp),
+           COALESCE(b."StartTime", '1900-01-01'::timestamp),
+           u."LastLoginAt"
+       )) as last_activity_date,
+       CURRENT_DATE - DATE(MAX(GREATEST(
+           COALESCE(wl."WorkoutDate", '1900-01-01'::timestamp),
+           COALESCE(b."StartTime", '1900-01-01'::timestamp),
+           u."LastLoginAt"
+       ))) as days_inactive
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN workout_logs wl ON u."UserId" = wl."UserId"
+LEFT JOIN bookings b ON u."UserId" = b."UserId"
+WHERE u."IsActive" = true
+GROUP BY u."UserId", u."Name", u."Email", u."Phone", mp."FitnessGoal"
+HAVING CURRENT_DATE - DATE(MAX(GREATEST(
+    COALESCE(wl."WorkoutDate", '1900-01-01'::timestamp),
+    COALESCE(b."StartTime", '1900-01-01'::timestamp),
+    u."LastLoginAt"
+))) > 30 -- Replace with parameter
+ORDER BY days_inactive DESC;
+
+-- 13. Get coach performance from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT u."UserId", u."Name" as coach_name,
+       cp."Specialization", cp."Rating", cp."TotalClients",
+       COUNT(b."BookingId") as sessions_conducted,
+       COUNT(cr."ReviewId") as new_reviews,
+       COALESCE(ROUND(AVG(cr."Rating"), 2), cp."Rating") as period_avg_rating,
+       COUNT(DISTINCT wp."PlanId") as workout_plans_created,
+       COUNT(DISTINCT np."PlanId") as nutrition_plans_created
+FROM users u
+INNER JOIN coach_profiles cp ON u."UserId" = cp."UserId"
+LEFT JOIN bookings b ON cp."Id" = b."CoachId"
+  AND b."StartTime" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND b."Status" = 3 -- Completed
+LEFT JOIN coach_reviews cr ON cp."Id" = cr."CoachId"
+  AND cr."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+LEFT JOIN workout_plans wp ON cp."Id" = wp."GeneratedByCoachId"
+  AND wp."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+LEFT JOIN nutrition_plans np ON cp."Id" = np."GeneratedByCoachId"
+  AND np."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+WHERE u."IsActive" = true
+GROUP BY u."UserId", u."Name", cp."Specialization", cp."Rating", cp."TotalClients"
+ORDER BY sessions_conducted DESC;
+
+-- ==========================================
+-- SECTION 4: EQUIPMENT & MAINTENANCE (Receptionist/Admin)
+-- ==========================================
+
+-- 14. Get equipment availability status
+SELECT e."EquipmentId", e."Name", ec."CategoryName", e."Location", e."Status",
+       e."ConditionRating", e."LastMaintenanceDate", e."NextMaintenanceDate",
+       CURRENT_DATE - e."LastMaintenanceDate" as days_since_maintenance,
+       e."NextMaintenanceDate" - CURRENT_DATE as days_until_maintenance
+FROM equipment e
+JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+WHERE e."IsActive" = true
+ORDER BY e."NextMaintenanceDate", e."Name";
+
+-- 15. Get equipment requiring maintenance soon (within [Days] days)
+-- Parameters: @DaysAhead
+SELECT e."EquipmentId", e."Name", ec."CategoryName", e."Location",
+       e."Status", e."LastMaintenanceDate", e."NextMaintenanceDate",
+       e."NextMaintenanceDate" - CURRENT_DATE as days_until_maintenance
+FROM equipment e
+JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+WHERE e."NextMaintenanceDate" <= CURRENT_DATE + INTERVAL '14 days' -- Replace with parameter
+   OR e."Status" = 2 -- Under Maintenance
+ORDER BY e."NextMaintenanceDate";
+
+-- 16. Get equipment bookings by machine in each category from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT ec."CategoryName",
+       e."EquipmentId", e."Name" as equipment_name, e."Location",
+       COUNT(b."BookingId") as total_bookings,
+       ROUND(AVG(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/60), 0) as avg_duration_minutes
+FROM equipment_categories ec
+JOIN equipment e ON ec."CategoryId" = e."CategoryId"
+LEFT JOIN bookings b ON e."EquipmentId" = b."EquipmentId"
+  AND b."StartTime" BETWEEN '2025-01-01' AND '2025-12-31' -- Replace with parameters
+  AND b."BookingType" = 'Equipment'
+WHERE e."IsActive" = true
+GROUP BY ec."CategoryName", e."EquipmentId", e."Name", e."Location"
+ORDER BY ec."CategoryName", total_bookings DESC;
+
+-- ==========================================
+-- SECTION 5: AI USAGE & TOKEN ANALYTICS (Admin)
+-- ==========================================
+
+-- 17. Get AI generated workout and nutrition plan details from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT ag."ProgramType", u."UserId", u."Name" as member_name,
+       COALESCE(wp."PlanName", np."PlanName") as plan_name,
+       COALESCE(wp."Description", np."Description") as plan_description,
+       COALESCE(wp."DurationWeeks"::text, np."DailyCalories"::text || ' cal') as plan_details,
+       COALESCE(wp."DifficultyLevel", np."PlanType") as plan_type,
+       COALESCE(wp."Status", np."Status") as status,
+       ag."TokensUsed", ag."CreatedAt"
+FROM ai_program_generations ag
+JOIN users u ON ag."UserId" = u."UserId"
+LEFT JOIN workout_plans wp ON ag."ProgramType" = 'WorkoutPlan' 
+    AND wp."UserId" = ag."UserId"
+LEFT JOIN nutrition_plans np ON ag."ProgramType" = 'NutritionPlan' 
+    AND np."UserId" = ag."UserId"
+WHERE ag."CreatedAt" >= '2024-01-01' -- Replace with parameters
+  AND ag."ProgramType" IN ('WorkoutPlan', 'NutritionPlan')
+ORDER BY ag."CreatedAt" DESC;
+
+-- 18. Get members with highest AI usage from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT u."UserId", u."Name", u."Email",
+       COUNT(ag."GenerationId") as ai_generations,
+       SUM(ag."TokensUsed") as tokens_consumed,
+       COUNT(acl."ChatId") as chat_messages,
+       SUM(acl."TokensUsed") as chat_tokens
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN ai_program_generations ag ON u."UserId" = ag."UserId"
+  AND ag."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+LEFT JOIN ai_chat_logs acl ON u."UserId" = acl."UserId"
+  AND acl."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+GROUP BY u."UserId", u."Name", u."Email"
+HAVING COUNT(ag."GenerationId") > 0 OR COUNT(acl."ChatId") > 0
+ORDER BY tokens_consumed DESC;
+
+-- ==========================================
+-- SECTION 6: NOTIFICATIONS & MEMBER ENGAGEMENT (Receptionist/Admin)
+-- ==========================================
+
+-- 19. Get members needing attention (expiring subscriptions, inactive, low tokens)
+-- For proactive member retention
+-- Parameters: @DaysUntilExpiry, @MinTokenBalance, @InactiveDays
+SELECT u."UserId", u."Name", u."Email", u."Phone", u."TokenBalance",
+       us."EndDate" as subscription_end,
+       CONCAT_WS(', ',
+           CASE WHEN us."EndDate" <= CURRENT_DATE + INTERVAL '7 days' AND us."EndDate" IS NOT NULL 
+                THEN 'Subscription Expiring Soon' END,
+           CASE WHEN u."TokenBalance" < 50 THEN 'Low Token Balance' END,
+           CASE WHEN u."LastLoginAt" IS NULL OR u."LastLoginAt" < CURRENT_DATE - INTERVAL '7 days' 
+                THEN 'Inactive Member' END
+       ) as attention_reasons,
+       u."LastLoginAt",
+       CASE WHEN u."LastLoginAt" IS NOT NULL 
+            THEN CURRENT_DATE - DATE(u."LastLoginAt") 
+            ELSE NULL END as days_since_login
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN user_subscriptions us ON u."UserId" = us."UserId" AND us."Status" = 0
+WHERE u."IsActive" = true
+  AND u."Role" = 'Member'
+  AND (
+      (us."EndDate" IS NOT NULL AND us."EndDate" <= CURRENT_DATE + INTERVAL '7 days')
+      OR u."TokenBalance" < 50
+      OR u."LastLoginAt" IS NULL
+      OR u."LastLoginAt" < CURRENT_DATE - INTERVAL '7 days'
+  )
+ORDER BY u."TokenBalance", u."LastLoginAt" NULLS FIRST, us."EndDate" NULLS LAST;
+
+-- 20. Get milestone achievements from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT pm."MilestoneName", pm."Category",
+       COUNT(um."UserMilestoneId") as times_achieved,
+       COUNT(DISTINCT um."UserId") as unique_achievers
+FROM progress_milestones pm
+LEFT JOIN user_milestones um ON pm."MilestoneId" = um."MilestoneId"
+  AND um."CompletedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND um."IsCompleted" = true
+WHERE pm."IsActive" = true
+GROUP BY pm."MilestoneId", pm."MilestoneName", pm."Category"
+ORDER BY times_achieved DESC;
+
+-- ==========================================
+-- SECTION 7: COMPREHENSIVE DASHBOARD QUERIES (Admin)
+-- ==========================================
+
+-- 21. Get overall gym statistics from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate - Executive Summary Dashboard
+SELECT 
+    (SELECT COUNT(*) FROM users WHERE "IsActive" = true AND "Role" = 'Member') as total_active_members,
+    (SELECT COUNT(*) FROM users WHERE "Role" = 'Coach' AND "IsActive" = true) as total_coaches,
+    (SELECT COUNT(*) FROM user_subscriptions WHERE "Status" = 0 AND "EndDate" >= CURRENT_DATE) as active_subscriptions,
+    (SELECT SUM("Amount") FROM payments WHERE "Status" = 1 
+        AND "CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31') as total_revenue, -- Replace with parameters
+    (SELECT COUNT(*) FROM bookings WHERE "Status" = 3 
+        AND "StartTime" BETWEEN '2024-01-01' AND '2024-12-31') as completed_bookings, -- Replace with parameters
+    (SELECT COUNT(DISTINCT "UserId") FROM workout_logs 
+        WHERE "WorkoutDate" BETWEEN '2024-01-01' AND '2024-12-31') as active_workout_members, -- Replace with parameters
+    (SELECT SUM("TokensUsed") FROM ai_program_generations 
+        WHERE "CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31') as total_ai_tokens_used; -- Replace with parameters
+
+-- 22. Get peak hours analysis from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+SELECT 
+    EXTRACT(HOUR FROM b."StartTime") as hour_of_day,
+    COUNT(b."BookingId") as total_bookings,
+    COUNT(DISTINCT b."UserId") as unique_members,
+    ROUND(AVG(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/60), 0) as avg_duration_minutes
+FROM bookings b
+WHERE b."StartTime" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND b."Status" IN (2, 3) -- InProgress or Completed
+GROUP BY EXTRACT(HOUR FROM b."StartTime")
+ORDER BY hour_of_day;
+
+-- 23. Get member retention rate from [StartDate] to [EndDate]
+-- Parameters: @StartDate, @EndDate
+WITH member_cohorts AS (
+    SELECT 
+        DATE_TRUNC('month', u."CreatedAt") as cohort_month,
+        COUNT(*) as cohort_size,
+        COUNT(CASE WHEN u."LastLoginAt" >= CURRENT_DATE - INTERVAL '30 days' THEN 1 END) as still_active
+    FROM users u
+    INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+    WHERE u."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+    GROUP BY DATE_TRUNC('month', u."CreatedAt")
+)
+SELECT 
+    cohort_month,
+    cohort_size,
+    still_active,
+    ROUND((still_active::numeric / NULLIF(cohort_size, 0)) * 100, 2) as retention_rate_percent
+FROM member_cohorts
+ORDER BY cohort_month DESC;
+
+-- 24. Get top performing members from [StartDate] to [EndDate] (for recognition)
+-- Parameters: @StartDate, @EndDate
+SELECT u."UserId", u."Name", u."Email",
+       COUNT(DISTINCT DATE(wl."WorkoutDate")) as workout_days,
+       SUM(wl."CaloriesBurned") as total_calories,
+       COUNT(um."UserMilestoneId") as milestones_achieved,
+       mp."TotalWorkoutsCompleted",
+       ROUND(AVG(wl."FeelingRating"), 2) as avg_satisfaction
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN workout_logs wl ON u."UserId" = wl."UserId"
+  AND wl."WorkoutDate" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+LEFT JOIN user_milestones um ON u."UserId" = um."UserId"
+  AND um."CompletedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND um."IsCompleted" = true
+WHERE u."IsActive" = true
+GROUP BY u."UserId", u."Name", u."Email", mp."TotalWorkoutsCompleted"
+ORDER BY workout_days DESC, total_calories DESC
+LIMIT 20;
+
+-- ==========================================
+-- SECTION 8: MEMBER SEARCH & FILTERING (Receptionist/Admin)
+-- ==========================================
+
+-- 25. Search members by name, email, or phone (fuzzy search)
+-- Parameters: @SearchTerm
+-- Use case: Quick member lookup at reception desk or admin panel
+SELECT u."UserId", u."Name", u."Email", u."Phone", u."TokenBalance",
+       mp."FitnessGoal", mp."FitnessLevel", mp."Height",
+       us."EndDate" as subscription_end, sp."PlanName",
+       u."LastLoginAt", u."CreatedAt"
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN user_subscriptions us ON u."UserId" = us."UserId" AND us."Status" = 0
+LEFT JOIN subscription_plans sp ON us."PlanId" = sp."PlanId"
+WHERE u."IsActive" = true
+  AND u."Role" = 'Member'
+  AND (
+      LOWER(u."Name") LIKE LOWER('%Youssef%') -- Replace with parameter
+      OR LOWER(u."Email") LIKE LOWER('%Youssef%')
+      OR u."Phone" LIKE '%Youssef%'
+  )
+ORDER BY u."Name";
+
+-- 26. Filter members by fitness goal and level with workout history !!!!! 3ayez n3ml insert
+-- Parameters: @FitnessGoal, @FitnessLevel
+-- Use case: Group members for targeted programs or class recommendations
+SELECT u."UserId", u."Name", u."Email", u."Phone",
+       mp."FitnessGoal", mp."FitnessLevel", mp."TotalWorkoutsCompleted",
+       mp."Height",
+       COUNT(DISTINCT DATE(wl."WorkoutDate")) as workout_days_last_month,
+       AVG(wl."FeelingRating") as avg_satisfaction
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN workout_logs wl ON u."UserId" = wl."UserId"
+  AND wl."WorkoutDate" >= CURRENT_DATE - INTERVAL '30 days'
+WHERE u."IsActive" = true
+  AND mp."FitnessGoal" = 'Weight Loss' -- Replace with parameter: 'Weight Loss', 'Muscle Gain', 'Endurance', etc.
+  AND mp."FitnessLevel" = 'Beginner' -- Replace with parameter: 'Beginner', 'Intermediate', 'Advanced'
+GROUP BY u."UserId", u."Name", u."Email", u."Phone", mp."FitnessGoal", mp."FitnessLevel", 
+         mp."TotalWorkoutsCompleted", mp."Height"
+ORDER BY mp."TotalWorkoutsCompleted" DESC;
+
+-- 27. Filter coaches by specialization, rating, and availability
+-- Parameters: @Specialization, @MinRating, @MinAvailableSlots
+-- Use case: Help members find suitable coaches for booking sessions
+SELECT u."UserId", u."Name", u."Email", u."Phone",
+       cp."Specialization", cp."ExperienceYears", cp."HourlyRate",
+       cp."Rating", cp."TotalReviews", cp."TotalClients",
+       cp."Bio", cp."Certifications",
+       COUNT(b."BookingId") as upcoming_bookings,
+       (SELECT COUNT(*) FROM coach_reviews cr2 WHERE cr2."CoachId" = cp."Id" 
+        AND cr2."Rating" >= 4) as positive_reviews
+FROM users u
+INNER JOIN coach_profiles cp ON u."UserId" = cp."UserId"
+LEFT JOIN bookings b ON cp."Id" = b."CoachId" 
+  AND b."StartTime" >= CURRENT_TIMESTAMP
+  AND b."Status" IN (0, 1)
+WHERE u."IsActive" = true
+  AND cp."Specialization" = 'Strength Training' -- Replace: 'Strength Training', 'Cardio', 'Yoga', 'CrossFit'
+  AND cp."Rating" >= 4.5 -- Replace with parameter
+GROUP BY u."UserId", u."Name", u."Email", u."Phone", cp."Specialization", 
+         cp."ExperienceYears", cp."HourlyRate", cp."Rating", cp."TotalReviews", 
+         cp."TotalClients", cp."Bio", cp."Certifications", cp."Id"
+ORDER BY cp."Rating" DESC, cp."TotalClients" DESC;
+
+-- 28. Filter equipment by category, location, status, and condition
+-- Parameters: @CategoryId, @Location, @Status, @MinConditionRating
+-- Use case: Equipment maintenance planning and member equipment recommendations
+SELECT e."EquipmentId", e."Name", ec."CategoryName", e."Location",
+       e."Status", e."ConditionRating", e."LastMaintenanceDate", e."NextMaintenanceDate",
+       CURRENT_DATE - e."LastMaintenanceDate" as days_since_maintenance,
+       COUNT(b."BookingId") as bookings_this_week
+FROM equipment e
+JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+LEFT JOIN bookings b ON e."EquipmentId" = b."EquipmentId"
+  AND b."StartTime" >= CURRENT_DATE - INTERVAL '7 days'
+  AND b."Status" IN (2, 3)
+WHERE e."IsActive" = true
+  AND ec."CategoryId" = 1 -- Replace: Cardio=1, Strength=2, Functional=3, etc.
+  AND e."Location" = 'Ground Floor' -- Replace with parameter (optional)
+  AND e."Status" = 1 -- Replace: 0=Inactive, 1=Active, 2=UnderMaintenance
+  AND e."ConditionRating" >= 7 -- Replace with parameter (scale 1-10)
+GROUP BY e."EquipmentId", e."Name", ec."CategoryName", e."Location", e."Status", 
+         e."ConditionRating", e."LastMaintenanceDate", e."NextMaintenanceDate"
+ORDER BY e."Name";
+
+-- 29. Get detailed member booking history with filters
+-- Parameters: @UserId, @StartDate, @EndDate, @BookingType, @Status
+-- Use case: Track individual member booking patterns and resource usage
+SELECT u."UserId", u."Name" as member_name, u."Email", u."TokenBalance",
+       b."BookingId", b."BookingType", b."StartTime", b."EndTime", b."Status", b."TokensCost",
+       EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/60 as duration_minutes,
+       COALESCE(e."Name", coach_u."Name") as resource_name,
+       COALESCE(ec."CategoryName", cp."Specialization") as category_spec,
+       COALESCE(e."Location", 'Coach Session') as location
+FROM users u
+JOIN bookings b ON u."UserId" = b."UserId"
+LEFT JOIN equipment e ON b."EquipmentId" = e."EquipmentId"
+LEFT JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+LEFT JOIN coach_profiles cp ON b."CoachId" = cp."Id"
+LEFT JOIN users coach_u ON cp."UserId" = coach_u."UserId"
+WHERE u."UserId" = 1 -- Replace with parameter
+  AND b."StartTime" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND b."BookingType" = 'Equipment' -- Replace with parameter (optional): 'Equipment', 'Coach', or NULL for all
+  AND b."Status" = 3 -- Replace: 0=Pending, 1=Confirmed, 2=InProgress, 3=Completed, 4=Cancelled
+ORDER BY b."StartTime" DESC;
+
+-- 30. Filter subscription plans by price range, duration, and availability
+-- Parameters: @MinPrice, @MaxPrice, @MinDurationDays, @MaxDurationDays
+-- Use case: Help members choose appropriate subscription plans
+SELECT sp."PlanId", sp."PlanName", sp."Description",
+       sp."Price", sp."DurationDays", sp."TokensIncluded",
+       sp."MaxMembersAllowed", sp."CreatedAt",
+       COUNT(us."SubscriptionId") as active_subscribers,
+       sp."MaxMembersAllowed" - COUNT(us."SubscriptionId") as available_slots,
+       ROUND((COUNT(us."SubscriptionId")::numeric / NULLIF(sp."MaxMembersAllowed", 0)) * 100, 2) as occupancy_percent
+FROM subscription_plans sp
+LEFT JOIN user_subscriptions us ON sp."PlanId" = us."PlanId" AND us."Status" = 0
+WHERE sp."IsActive" = true
+  AND sp."Price" BETWEEN 50 AND 200 -- Replace with parameters
+  AND sp."DurationDays" BETWEEN 30 AND 365 -- Replace with parameters
+GROUP BY sp."PlanId", sp."PlanName", sp."Description", sp."Price", sp."DurationDays", 
+         sp."TokensIncluded", sp."MaxMembersAllowed", sp."CreatedAt"
+HAVING sp."MaxMembersAllowed" - COUNT(us."SubscriptionId") > 0 -- Only show plans with available slots
+ORDER BY sp."Price";
+
+-- ==========================================
+-- SECTION 9: WORKOUT & NUTRITION PLAN FILTERING (Coach/Member)
+-- ==========================================
+
+-- 31. Search workout plans by difficulty, target muscles, and status
+-- Parameters: @DifficultyLevel, @TargetMuscleGroups, @Status, @StartDate, @EndDate
+-- Use case: Find suitable workout plans for member assignment or modification
+SELECT wp."PlanId", wp."PlanName", wp."Description",
+       wp."DifficultyLevel", wp."DurationWeeks", wp."Status", wp."TargetMuscleGroups",
+       wp."WorkoutsPerWeek", wp."CreatedAt",
+       u."Name" as member_name, u."Email",
+       coach_u."Name" as coach_name,
+       COUNT(DISTINCT we."ExerciseId") as total_exercises
+FROM workout_plans wp
+JOIN users u ON wp."UserId" = u."UserId"
+LEFT JOIN coach_profiles cp ON wp."GeneratedByCoachId" = cp."Id"
+LEFT JOIN users coach_u ON cp."UserId" = coach_u."UserId"
+LEFT JOIN workout_exercises we ON wp."PlanId" = we."PlanId"
+WHERE wp."DifficultyLevel" = 'Intermediate' -- Replace: 'Beginner', 'Intermediate', 'Advanced'
+  AND wp."TargetMuscleGroups" LIKE '%Chest%' -- Replace with parameter
+  AND wp."Status" = 1 -- Replace: 0=Draft, 1=Active, 2=Completed, 3=Archived
+  AND wp."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+GROUP BY wp."PlanId", wp."PlanName", wp."Description", wp."DifficultyLevel", wp."DurationWeeks", 
+         wp."Status", wp."TargetMuscleGroups", wp."WorkoutsPerWeek", wp."CreatedAt", 
+         u."Name", u."Email", coach_u."Name"
+ORDER BY wp."CreatedAt" DESC;
+
+-- 32. Filter nutrition plans by type, calorie range, and macros
+-- Parameters: @PlanType, @MinCalories, @MaxCalories, @MinProtein, @MaxProtein
+-- Use case: Match nutrition plans to member dietary goals and requirements
+SELECT np."PlanId", np."PlanName", np."Description",
+       np."PlanType", np."DailyCalories", np."ProteinGrams",
+       np."CarbsGrams", np."FatsGrams", np."Status", np."CreatedAt",
+       u."Name" as member_name, u."Email",
+       coach_u."Name" as coach_name,
+       mp."FitnessGoal", mp."Weight", mp."Height"
+FROM nutrition_plans np
+JOIN users u ON np."UserId" = u."UserId"
+JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN coach_profiles cp ON np."GeneratedByCoachId" = cp."Id"
+LEFT JOIN users coach_u ON cp."UserId" = coach_u."UserId"
+WHERE np."PlanType" = 'Weight Loss' -- Replace: 'Weight Loss', 'Muscle Gain', 'Maintenance', 'Keto', 'Vegan'
+  AND np."DailyCalories" BETWEEN 1500 AND 2000 -- Replace with parameters
+  AND np."ProteinGrams" BETWEEN 100 AND 150 -- Replace with parameters (optional)
+  AND np."Status" = 1 -- Replace: 0=Draft, 1=Active, 2=Completed, 3=Archived
+ORDER BY np."CreatedAt" DESC;
+
+-- ==========================================
+-- SECTION 10: PAYMENT & TRANSACTION ANALYTICS (Admin/Finance)
+-- ==========================================
+
+-- 33. Get detailed payments by status, method, and date range
+-- Parameters: @Status, @PaymentMethod, @StartDate, @EndDate, @MinAmount
+-- Use case: Financial reporting, reconciliation, and fraud detection
+SELECT p."PaymentId", p."Amount", p."PaymentMethod", p."Status",
+       p."TransactionId", p."CreatedAt", p."UpdatedAt",
+       u."UserId", u."Name" as member_name, u."Email", u."Phone",
+       us."PlanId", sp."PlanName",
+       CASE p."Status"
+           WHEN 0 THEN 'Pending'
+           WHEN 1 THEN 'Completed'
+           WHEN 2 THEN 'Failed'
+           WHEN 3 THEN 'Refunded'
+       END as status_text
+FROM payments p
+JOIN users u ON p."UserId" = u."UserId"
+LEFT JOIN user_subscriptions us ON p."PaymentId" = us."PaymentId"
+LEFT JOIN subscription_plans sp ON us."PlanId" = sp."PlanId"
+WHERE p."Status" = 1 -- Replace: 0=Pending, 1=Completed, 2=Failed, 3=Refunded
+  AND p."PaymentMethod" = 'CreditCard' -- Replace: 'CreditCard', 'Cash', 'BankTransfer', 'Wallet'
+  AND p."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND p."Amount" >= 0 -- Replace with minimum amount filter
+ORDER BY p."CreatedAt" DESC;
+
+-- 34. Filter token transactions with detailed breakdown
+-- Parameters: @TransactionType, @MinAmount, @MaxAmount, @StartDate, @EndDate, @UserId
+-- Use case: Track token economy, identify spending patterns, detect anomalies
+SELECT tt."TransactionId", tt."Amount", tt."TransactionType",
+       tt."Description", tt."CreatedAt",
+       u."UserId", u."Name", u."Email", u."TokenBalance",
+       CASE tt."TransactionType"
+           WHEN 0 THEN 'Purchase'
+           WHEN 1 THEN 'Booking'
+           WHEN 2 THEN 'Refund'
+           WHEN 3 THEN 'Expiry'
+           WHEN 4 THEN 'Bonus'
+       END as transaction_type_text,
+       ABS(tt."Amount") as absolute_amount,
+       CASE WHEN tt."Amount" > 0 THEN 'Credit' ELSE 'Debit' END as transaction_direction
+FROM token_transactions tt
+JOIN users u ON tt."UserId" = u."UserId"
+WHERE tt."TransactionType" = 0 -- Replace: 0=Purchase, 1=Booking, 2=Refund, 3=Expiry, 4=Bonus
+  AND ABS(tt."Amount") BETWEEN 10 AND 100 -- Replace with parameters
+  AND tt."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND (u."UserId" = 0 OR 0 = 0) -- Replace first 0 with @UserId, second 0 to disable filter
+ORDER BY tt."CreatedAt" DESC;
+
+-- ==========================================
+-- SECTION 11: REVIEW & FEEDBACK ANALYTICS (Admin/Coach)
+-- ==========================================
+
+-- 35. Get coach reviews filtered by rating, date, and coach
+-- Parameters: @CoachId, @MinRating, @StartDate, @EndDate
+-- Use case: Monitor coach performance, identify improvement areas, showcase testimonials
+SELECT cr."ReviewId", cr."Rating", cr."ReviewText", cr."CreatedAt",
+       u."Name" as member_name, u."Email",
+       mp."FitnessGoal", mp."FitnessLevel",
+       coach_u."Name" as coach_name, cp."Specialization",
+       b."BookingId", b."StartTime" as session_date,
+       CASE 
+           WHEN cr."Rating" >= 4 THEN 'Positive'
+           WHEN cr."Rating" = 3 THEN 'Neutral'
+           ELSE 'Needs Attention'
+       END as sentiment
+FROM coach_reviews cr
+JOIN users u ON cr."UserId" = u."UserId"
+JOIN member_profiles mp ON u."UserId" = mp."UserId"
+JOIN coach_profiles cp ON cr."CoachId" = cp."Id"
+JOIN users coach_u ON cp."UserId" = coach_u."UserId"
+LEFT JOIN bookings b ON cr."BookingId" = b."BookingId"
+WHERE cr."CoachId" = 1 -- Replace with parameter (0 for all coaches)
+  AND cr."Rating" >= 4 -- Replace with parameter (1-5 scale)
+  AND cr."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+ORDER BY cr."CreatedAt" DESC;
+
+-- 36. Filter members by subscription status, token balance, and activity level
+-- Parameters: @SubscriptionStatus, @MinTokens, @MaxTokens, @MinWorkouts, @StartDate
+-- Use case: Identify at-risk members, target marketing campaigns, retention efforts
+SELECT u."UserId", u."Name", u."Email", u."Phone", u."TokenBalance", u."CreatedAt",
+       us."Status" as subscription_status, us."StartDate", us."EndDate",
+       us."AutoRenew", sp."PlanName", sp."Price",
+       mp."FitnessGoal", mp."TotalWorkoutsCompleted",
+       COUNT(DISTINCT wl."LogId") as workouts_in_period,
+       u."EndDate" - CURRENT_DATE as days_until_expiry,
+       CASE 
+           WHEN u."TokenBalance" < 20 THEN 'Critical'
+           WHEN u."TokenBalance" < 50 THEN 'Low'
+           ELSE 'Adequate'
+       END as token_status
+FROM users u
+INNER JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN user_subscriptions us ON u."UserId" = us."UserId" AND us."Status" = 0
+LEFT JOIN subscription_plans sp ON us."PlanId" = sp."PlanId"
+LEFT JOIN workout_logs wl ON u."UserId" = wl."UserId"
+  AND wl."WorkoutDate" >= '2024-01-01' -- Replace with @StartDate
+WHERE u."IsActive" = true
+  AND u."Role" = 'Member'
+  AND us."Status" = 0 -- Replace: 0=Active, 1=Expired, 2=Cancelled, 3=Suspended
+  AND u."TokenBalance" BETWEEN 0 AND 50 -- Replace with parameters
+  AND mp."TotalWorkoutsCompleted" >= 0 -- Replace with @MinWorkouts
+GROUP BY u."UserId", u."Name", u."Email", u."Phone", u."TokenBalance", u."CreatedAt",
+         us."Status", us."StartDate", us."EndDate", us."AutoRenew", sp."PlanName", sp."Price",
+         mp."FitnessGoal", mp."TotalWorkoutsCompleted"
+ORDER BY u."TokenBalance" ASC, days_until_expiry;
+
+-- 37. Get workout logs filtered by completion, feeling, and performance metrics
+-- Parameters: @UserId, @Completed, @MinFeelingRating, @MinCalories, @StartDate, @EndDate
+-- Use case: Track member progress, identify struggling members, celebrate achievements
+SELECT wl."LogId", wl."WorkoutDate", wl."DurationMinutes",
+       wl."CaloriesBurned", wl."ExercisesCompleted", wl."FeelingRating",
+       wl."Notes", wl."Completed", wl."CreatedAt",
+       u."Name" as member_name, u."Email",
+       mp."FitnessGoal", mp."FitnessLevel", mp."Weight",
+       wp."PlanName" as workout_plan,
+       CASE 
+           WHEN wl."FeelingRating" >= 4 THEN 'Excellent Session'
+           WHEN wl."FeelingRating" = 3 THEN 'Good Session'
+           ELSE 'Challenging Session'
+       END as session_quality
+FROM workout_logs wl
+JOIN users u ON wl."UserId" = u."UserId"
+JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN workout_plans wp ON wl."PlanId" = wp."PlanId"
+WHERE wl."UserId" = 1 -- Replace with parameter (0 for all members)
+  AND wl."Completed" = true -- Replace with parameter
+  AND wl."FeelingRating" >= 4 -- Replace with parameter (1-5 scale)
+  AND wl."CaloriesBurned" >= 0 -- Replace with @MinCalories parameter
+  AND wl."WorkoutDate" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+ORDER BY wl."WorkoutDate" DESC;
+
+-- 38. Filter AI chat logs with token usage and content analysis
+-- Parameters: @UserId, @MinTokensUsed, @StartDate, @EndDate
+-- Use case: Monitor AI system usage, identify heavy users, track support needs
+SELECT acl."ChatId", acl."MessageContent", acl."ResponseContent",
+       acl."TokensUsed", acl."CreatedAt",
+       u."Name" as member_name, u."Email", u."TokenBalance",
+       mp."FitnessGoal", mp."FitnessLevel",
+       LENGTH(acl."MessageContent") as message_length,
+       LENGTH(acl."ResponseContent") as response_length,
+       CASE 
+           WHEN acl."TokensUsed" > 500 THEN 'High Usage'
+           WHEN acl."TokensUsed" > 200 THEN 'Medium Usage'
+           ELSE 'Low Usage'
+       END as usage_category
+FROM ai_chat_logs acl
+JOIN users u ON acl."UserId" = u."UserId"
+JOIN member_profiles mp ON u."UserId" = mp."UserId"
+WHERE acl."UserId" = 1 -- Replace with parameter (0 for all users)
+  AND acl."TokensUsed" >= 0 -- Replace with @MinTokensUsed parameter
+  AND acl."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+ORDER BY acl."CreatedAt" DESC
+LIMIT 100;
+
+-- 39. Get user milestones filtered by category, completion, and progress
+-- Parameters: @UserId, @Category, @IsCompleted, @MinProgress
+-- Use case: Track member achievements, motivate members, identify goals
+SELECT um."UserMilestoneId", um."Progress", um."IsCompleted", um."CompletedAt", um."CreatedAt",
+       pm."MilestoneName", pm."Description", pm."Category",
+       pm."TargetValue", pm."Unit", pm."TokenReward",
+       u."Name" as member_name, u."Email", u."TokenBalance",
+       mp."FitnessGoal",
+       ROUND((um."Progress" / NULLIF(pm."TargetValue", 0)) * 100, 2) as completion_percent,
+       CASE 
+           WHEN um."IsCompleted" THEN 'Achieved'
+           WHEN um."Progress" >= pm."TargetValue" * 0.75 THEN 'Almost There'
+           WHEN um."Progress" >= pm."TargetValue" * 0.50 THEN 'Halfway'
+           ELSE 'Just Started'
+       END as progress_status
+FROM user_milestones um
+JOIN progress_milestones pm ON um."MilestoneId" = pm."MilestoneId"
+JOIN users u ON um."UserId" = u."UserId"
+JOIN member_profiles mp ON u."UserId" = mp."UserId"
+WHERE um."UserId" = 1 -- Replace with parameter (0 for all users)
+  AND pm."Category" = 'Workout' -- Replace: 'Workout', 'Nutrition', 'Weight', 'Attendance'
+  AND um."IsCompleted" = true -- Replace with parameter
+  AND um."Progress" >= 0 -- Replace with @MinProgress parameter
+ORDER BY um."CompletedAt" DESC NULLS LAST, um."Progress" DESC;
+
+ORDER BY um."CompletedAt" DESC NULLS LAST, um."Progress" DESC;
+
+-- ==========================================
+-- SECTION 12: COMPARATIVE & TREND ANALYSIS (Admin/Coach)
+-- ==========================================
+
+-- 40. Compare member progress between two time periods with detailed metrics
+-- Parameters: @UserId, @Period1Start, @Period1End, @Period2Start, @Period2End
+-- Use case: Track member improvement, validate training effectiveness, adjust programs
+WITH period1 AS (
+    SELECT 
+        u."UserId", u."Name",
+        COUNT(wl."LogId") as workouts,
+        COALESCE(SUM(wl."CaloriesBurned"), 0) as calories,
+        COALESCE(AVG(wl."FeelingRating"), 0) as avg_feeling,
+        COALESCE(SUM(wl."DurationMinutes"), 0) as total_minutes,
+        mp."Weight" as weight_start
+    FROM users u
+    JOIN member_profiles mp ON u."UserId" = mp."UserId"
+    LEFT JOIN workout_logs wl ON u."UserId" = wl."UserId"
+      AND wl."WorkoutDate" BETWEEN '2024-01-01' AND '2024-03-31' -- Replace Period 1 parameters
+    WHERE u."UserId" = 1 -- Replace with parameter
+    GROUP BY u."UserId", u."Name", mp."Weight"
+),
+period2 AS (
+    SELECT 
+        u."UserId",
+        COUNT(wl."LogId") as workouts,
+        COALESCE(SUM(wl."CaloriesBurned"), 0) as calories,
+        COALESCE(AVG(wl."FeelingRating"), 0) as avg_feeling,
+        COALESCE(SUM(wl."DurationMinutes"), 0) as total_minutes,
+        mp."Weight" as weight_end
+    FROM users u
+    JOIN member_profiles mp ON u."UserId" = mp."UserId"
+    LEFT JOIN workout_logs wl ON u."UserId" = wl."UserId"
+      AND wl."WorkoutDate" BETWEEN '2024-04-01' AND '2024-06-30' -- Replace Period 2 parameters
+    WHERE u."UserId" = 1 -- Replace with parameter
+    GROUP BY u."UserId", mp."Weight"
+)
+SELECT 
+    p1."UserId", p1."Name",
+    'Q1 2024' as period, p1.workouts, p1.calories, ROUND(p1.avg_feeling, 2) as avg_feeling,
+    p1.total_minutes, p1.weight_start as weight
+FROM period1 p1
+UNION ALL
+SELECT 
+    p2."UserId", p1."Name",
+    'Q2 2024' as period, p2.workouts, p2.calories, ROUND(p2.avg_feeling, 2) as avg_feeling,
+    p2.total_minutes, p2.weight_end as weight
+FROM period2 p2
+JOIN period1 p1 ON p2."UserId" = p1."UserId"
+ORDER BY period;
+
+-- 41. Get equipment usage statistics by time of day with utilization rates
+-- Parameters: @StartDate, @EndDate, @CategoryId
+-- Use case: Optimize gym hours, staff scheduling, equipment acquisition planning
+SELECT 
+    CASE 
+        WHEN EXTRACT(HOUR FROM b."StartTime") BETWEEN 6 AND 11 THEN 'Morning (6-11AM)'
+        WHEN EXTRACT(HOUR FROM b."StartTime") BETWEEN 12 AND 17 THEN 'Afternoon (12-5PM)'
+        WHEN EXTRACT(HOUR FROM b."StartTime") BETWEEN 18 AND 22 THEN 'Evening (6-10PM)'
+        ELSE 'Night/Early Morning'
+    END as time_slot,
+    ec."CategoryName",
+    COUNT(b."BookingId") as total_bookings,
+    COUNT(DISTINCT b."UserId") as unique_users,
+    COUNT(DISTINCT b."EquipmentId") as equipment_used,
+    ROUND(AVG(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/60), 0) as avg_duration_minutes,
+    SUM(b."TokensCost") as total_tokens_spent
+FROM bookings b
+JOIN equipment e ON b."EquipmentId" = e."EquipmentId"
+JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+WHERE b."BookingType" = 'Equipment'
+  AND b."StartTime" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND b."Status" IN (2, 3) -- InProgress or Completed
+  AND (ec."CategoryId" = 0 OR 0 = 0) -- Replace first 0 with @CategoryId, second to disable
+GROUP BY time_slot, ec."CategoryName"
+ORDER BY ec."CategoryName", total_bookings DESC;
+
+-- 42. Get coach booking trends by day of week with revenue analysis
+-- Parameters: @CoachId, @StartDate, @EndDate
+-- Use case: Optimize coach schedules, predict busy days, revenue forecasting
+SELECT 
+    TO_CHAR(b."StartTime", 'Day') as day_of_week,
+    EXTRACT(DOW FROM b."StartTime") as day_number,
+    coach_u."Name" as coach_name,
+    cp."Specialization",
+    COUNT(b."BookingId") as total_sessions,
+    COUNT(DISTINCT b."UserId") as unique_clients,
+    ROUND(AVG(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/60), 0) as avg_duration_minutes,
+    SUM(b."TokensCost") as total_tokens_earned,
+    ROUND(AVG(b."TokensCost"), 2) as avg_tokens_per_session
+FROM bookings b
+JOIN coach_profiles cp ON b."CoachId" = cp."Id"
+JOIN users coach_u ON cp."UserId" = coach_u."UserId"
+WHERE b."BookingType" = 'Coach'
+  AND (cp."Id" = 1 OR 1 = 0) -- Replace: @CoachId (0 for all coaches)
+  AND b."StartTime" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND b."Status" = 3 -- Completed
+GROUP BY day_of_week, day_number, coach_u."Name", cp."Specialization"
+ORDER BY day_number, total_sessions DESC;
+
+-- 43. Analyze subscription renewals vs cancellations with retention metrics
+-- Parameters: @StartDate, @EndDate
+-- Use case: Track subscription health, identify cancellation trends, improve retention
+SELECT 
+    DATE_TRUNC('month', us."CreatedAt") as month,
+    COUNT(*) as new_subscriptions,
+    COUNT(CASE WHEN us."AutoRenew" = true THEN 1 END) as auto_renew_enabled,
+    COUNT(CASE WHEN us."Status" = 2 THEN 1 END) as cancelled,
+    COUNT(CASE WHEN us."Status" = 1 AND us."EndDate" < CURRENT_DATE THEN 1 END) as expired,
+    COUNT(CASE WHEN us."Status" = 0 THEN 1 END) as currently_active,
+    ROUND((COUNT(CASE WHEN us."AutoRenew" = true THEN 1 END)::numeric / NULLIF(COUNT(*), 0)) * 100, 2) as auto_renew_percent,
+    ROUND((COUNT(CASE WHEN us."Status" = 2 THEN 1 END)::numeric / NULLIF(COUNT(*), 0)) * 100, 2) as cancellation_rate
+FROM user_subscriptions us
+WHERE us."CreatedAt" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+GROUP BY month
+ORDER BY month DESC;
+
+-- 44. Get token spending patterns with ROI analysis
+-- Parameters: @UserId, @StartDate, @EndDate
+-- Use case: Understand member spending behavior, optimize token pricing, identify value seekers
+SELECT 
+    u."UserId", u."Name", u."Email", u."TokenBalance",
+    b."BookingType",
+    COUNT(b."BookingId") as total_bookings,
+    SUM(b."TokensCost") as total_tokens_spent,
+    ROUND(AVG(b."TokensCost"), 2) as avg_tokens_per_booking,
+    MIN(b."TokensCost") as min_tokens,
+    MAX(b."TokensCost") as max_tokens,
+    SUM(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/60) as total_minutes_booked,
+    ROUND(SUM(b."TokensCost")::numeric / NULLIF(SUM(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/60), 0), 2) as tokens_per_minute
+FROM users u
+JOIN bookings b ON u."UserId" = b."UserId"
+WHERE (u."UserId" = 1 OR 1 = 0) -- Replace: @UserId (0 for all members)
+  AND b."StartTime" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND b."Status" != 4 -- Exclude cancelled
+GROUP BY u."UserId", u."Name", u."Email", u."TokenBalance", b."BookingType"
+ORDER BY total_tokens_spent DESC;
+
+-- ==========================================
+-- SECTION 13: AVAILABILITY & SCHEDULING (Receptionist/Operations)
+-- ==========================================
+
+-- 45. Check equipment availability for specific time slot with detailed status
+-- Parameters: @StartTime, @EndTime, @CategoryId, @Location
+-- Use case: Real-time booking system, member self-service, reception desk operations
+SELECT e."EquipmentId", e."Name", ec."CategoryName", e."Location",
+       e."Status", e."ConditionRating", e."LastMaintenanceDate",
+       CASE 
+           WHEN EXISTS (
+               SELECT 1 FROM bookings b 
+               WHERE b."EquipmentId" = e."EquipmentId"
+                 AND b."Status" IN (0, 1, 2)
+                 AND (b."StartTime", b."EndTime") OVERLAPS ('2024-06-15 10:00:00'::timestamp, '2024-06-15 11:00:00'::timestamp)
+           ) THEN 'Booked'
+           WHEN e."Status" = 2 THEN 'Under Maintenance'
+           WHEN e."ConditionRating" < 5 THEN 'Available (Needs Attention)'
+           ELSE 'Available'
+       END as availability_status,
+       (SELECT u."Name" FROM bookings b 
+        JOIN users u ON b."UserId" = u."UserId"
+        WHERE b."EquipmentId" = e."EquipmentId"
+          AND b."Status" IN (0, 1, 2)
+          AND (b."StartTime", b."EndTime") OVERLAPS ('2024-06-15 10:00:00'::timestamp, '2024-06-15 11:00:00'::timestamp)
+        LIMIT 1) as booked_by
+FROM equipment e
+JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+WHERE e."IsActive" = true
+  AND (ec."CategoryId" = 1 OR 1 = 0) -- Replace: @CategoryId (0 for all)
+  AND (e."Location" = 'Ground Floor' OR 'Ground Floor' = '') -- Replace with @Location
+  AND e."Status" != 0
+ORDER BY availability_status, ec."CategoryName", e."Name";
+
+-- 46. Get coach availability with booking calendar
+-- Parameters: @CoachId, @StartDate, @EndDate, @MinHourlyRate, @MaxHourlyRate
+-- Use case: Coach booking system, schedule management, member coach selection
+WITH coach_schedule AS (
+    SELECT 
+        b."CoachId",
+        DATE(b."StartTime") as booking_date,
+        EXTRACT(HOUR FROM b."StartTime") as booking_hour,
+        b."BookingId",
+        u."Name" as member_name
+    FROM bookings b
+    JOIN users u ON b."UserId" = u."UserId"
+    WHERE b."CoachId" = 1 -- Replace with parameter
+      AND b."StartTime" BETWEEN '2024-06-15' AND '2024-06-21' -- Replace with parameters
+      AND b."Status" IN (0, 1, 2) -- Pending, Confirmed, InProgress
+)
+SELECT 
+    coach_u."Name" as coach_name,
+    coach_u."Email", coach_u."Phone",
+    cp."Specialization", cp."ExperienceYears",
+    cp."HourlyRate", cp."Rating", cp."TotalClients",
+    COUNT(cs."BookingId") as booked_slots,
+    ARRAY_AGG(DISTINCT cs.booking_date ORDER BY cs.booking_date) FILTER (WHERE cs.booking_date IS NOT NULL) as booked_dates,
+    ARRAY_AGG(DISTINCT cs.booking_hour ORDER BY cs.booking_hour) FILTER (WHERE cs.booking_hour IS NOT NULL) as booked_hours
+FROM coach_profiles cp
+JOIN users coach_u ON cp."UserId" = coach_u."UserId"
+LEFT JOIN coach_schedule cs ON cp."Id" = cs."CoachId"
+WHERE cp."Id" = 1 -- Replace with parameter
+  AND cp."HourlyRate" BETWEEN 0 AND 1000 -- Replace with @MinHourlyRate and @MaxHourlyRate
+  AND coach_u."IsActive" = true
+GROUP BY coach_u."Name", coach_u."Email", coach_u."Phone", cp."Specialization", 
+         cp."ExperienceYears", cp."HourlyRate", cp."Rating", cp."TotalClients";
+
+-- 47. Find members with overlapping bookings (data integrity check)
+-- Parameters: @StartDate, @EndDate
+-- Use case: Prevent double-booking, data quality assurance, system health monitoring
+SELECT u."UserId", u."Name", u."Email", u."Phone",
+       b1."BookingId" as booking1_id,
+       b1."BookingType" as booking1_type,
+       b1."StartTime" as booking1_start,
+       b1."EndTime" as booking1_end,
+       b2."BookingId" as booking2_id,
+       b2."BookingType" as booking2_type,
+       b2."StartTime" as booking2_start,
+       b2."EndTime" as booking2_end,
+       EXTRACT(EPOCH FROM (
+           LEAST(b1."EndTime", b2."EndTime") - GREATEST(b1."StartTime", b2."StartTime")
+       ))/60 as overlap_minutes
+FROM users u
+JOIN bookings b1 ON u."UserId" = b1."UserId"
+JOIN bookings b2 ON u."UserId" = b2."UserId"
+WHERE b1."BookingId" < b2."BookingId"
+  AND (b1."StartTime", b1."EndTime") OVERLAPS (b2."StartTime", b2."EndTime")
+  AND b1."Status" IN (0, 1, 2)
+  AND b2."Status" IN (0, 1, 2)
+  AND b1."StartTime" >= CURRENT_DATE - INTERVAL '30 days' -- Recent bookings only
+ORDER BY u."Name", b1."StartTime";
+
+-- 48. Get busiest equipment for maintenance planning and capacity analysis
+-- Parameters: @StartDate, @EndDate, @MinUsageHours, @CategoryId
+-- Use case: Equipment maintenance scheduling, capacity planning, purchase decisions
+SELECT e."EquipmentId", e."Name", ec."CategoryName", e."Location",
+       e."Status", e."ConditionRating", e."LastMaintenanceDate", e."NextMaintenanceDate",
+       COUNT(b."BookingId") as total_bookings,
+       COUNT(DISTINCT b."UserId") as unique_users,
+       COUNT(DISTINCT DATE(b."StartTime")) as days_used,
+       ROUND(AVG(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/3600), 2) as avg_hours_per_booking,
+       ROUND(SUM(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/3600), 2) as total_usage_hours,
+       ROUND((SUM(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/3600) / 
+             NULLIF(EXTRACT(EPOCH FROM ('2024-12-31'::timestamp - '2024-01-01'::timestamp))/24, 0)) * 100, 2) as utilization_percent,
+       CASE 
+           WHEN e."ConditionRating" <= 5 THEN 'High Priority Maintenance'
+           WHEN SUM(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/3600) > 500 THEN 'Schedule Maintenance Soon'
+           ELSE 'Good Condition'
+       END as maintenance_priority
+FROM equipment e
+JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+LEFT JOIN bookings b ON e."EquipmentId" = b."EquipmentId"
+  AND b."StartTime" BETWEEN '2024-01-01' AND '2024-12-31' -- Replace with parameters
+  AND b."Status" IN (2, 3)
+WHERE e."IsActive" = true
+  AND (ec."CategoryId" = 0 OR 0 = 0) -- Replace: @CategoryId (0 for all)
+GROUP BY e."EquipmentId", e."Name", ec."CategoryName", e."Location", e."Status", 
+         e."ConditionRating", e."LastMaintenanceDate", e."NextMaintenanceDate"
+HAVING ROUND(SUM(EXTRACT(EPOCH FROM (b."EndTime" - b."StartTime"))/3600), 2) >= 0 -- Replace with @MinUsageHours
+ORDER BY total_usage_hours DESC NULLS LAST, total_bookings DESC;
+
+-- ==========================================
+-- SECTION 14: OPERATIONAL DASHBOARDS (Receptionist/Operations)
+-- ==========================================
+
+-- 49. Get upcoming bookings for today/tomorrow with complete details
+-- Parameters: @DaysAhead (1 for today+tomorrow, 7 for next week)
+-- Use case: Reception desk dashboard, daily operations, member check-in preparation
+SELECT 
+    DATE(b."StartTime") as booking_date,
+    EXTRACT(DOW FROM b."StartTime") as day_of_week,
+    TO_CHAR(b."StartTime", 'Day') as day_name,
+    b."BookingId", b."BookingType", 
+    TO_CHAR(b."StartTime", 'HH24:MI') as start_time,
+    TO_CHAR(b."EndTime", 'HH24:MI') as end_time,
+    b."Status", b."TokensCost",
+    u."UserId", u."Name" as member_name, u."Email", u."Phone",
+    mp."FitnessGoal", mp."FitnessLevel",
+    COALESCE(e."Name", coach_u."Name") as resource_name,
+    COALESCE(e."Location", 'Coach Session') as location,
+    COALESCE(ec."CategoryName", cp."Specialization") as category,
+    CASE b."Status"
+        WHEN 0 THEN 'Pending'
+        WHEN 1 THEN 'Confirmed'
+        WHEN 2 THEN 'In Progress'
+        WHEN 3 THEN 'Completed'
+        WHEN 4 THEN 'Cancelled'
+    END as status_text
+FROM bookings b
+JOIN users u ON b."UserId" = u."UserId"
+JOIN member_profiles mp ON u."UserId" = mp."UserId"
+LEFT JOIN equipment e ON b."EquipmentId" = e."EquipmentId"
+LEFT JOIN equipment_categories ec ON e."CategoryId" = ec."CategoryId"
+LEFT JOIN coach_profiles cp ON b."CoachId" = cp."Id"
+LEFT JOIN users coach_u ON cp."UserId" = coach_u."UserId"
+WHERE b."StartTime" BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '2 days' -- Replace: 2 with @DaysAhead
+  AND b."Status" IN (0, 1, 2) -- Pending, Confirmed, InProgress
+ORDER BY b."StartTime", u."Name";
+
+-- ==========================================
+-- END OF EXTENDED ANALYTICS QUERIES
+-- ==========================================
+-- Total: 49 comprehensive queries for database testing and operations
+-- All queries renumbered sequentially (1-49) - Query #7 was previously deleted
+-- 
+-- Query Categories:
+-- SECTION 1: User Analytics (Queries 1-5)
+-- SECTION 2: Subscription & Revenue Analytics (Queries 6-8)
+-- SECTION 3: Booking & Attendance Analytics (Queries 9-13)
+-- SECTION 4: Equipment & Maintenance (Queries 14-16)
+-- SECTION 5: AI Usage & Token Analytics (Queries 17-18)
+-- SECTION 6: Notifications & Member Engagement (Queries 19-20)
+-- SECTION 7: Comprehensive Dashboard Queries (Queries 21-24)
+-- SECTION 8: Member Search & Filtering (Queries 25-30)
+-- SECTION 9: Workout & Nutrition Plan Filtering (Queries 31-32)
+-- SECTION 10: Payment & Transaction Analytics (Queries 33-34)
+-- SECTION 11: Review & Feedback Analytics (Queries 35-39)
+-- SECTION 12: Comparative & Trend Analysis (Queries 40-44)
+-- SECTION 13: Availability & Scheduling (Queries 45-48)
+-- SECTION 14: Operational Dashboards (Query 49)
+--
+-- Key Features:
+-- - All queries support parameterization for flexible filtering
+-- - Optimized for PostgreSQL with proper date/time handling
+-- - Includes data integrity checks and operational dashboards
+-- - Comprehensive comments explaining use cases and parameters
+-- - Detailed field selection with proper aliases
+-- - Performance-optimized with appropriate indexes assumed
+-- ==========================================

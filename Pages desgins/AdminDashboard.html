@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KineticFlow Admin Dashboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48525", // Vibrant Orange
+                        "secondary": "#cbab90", // Muted Beige/Grey for text
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221810", // Deep Brown/Black
+                        "surface-dark": "#2e231c", // Slightly lighter for cards
+                        "success": "#0bda16",
+                        "danger": "#ef4444",
+                        "warning": "#eab308",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #221810; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #493422; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f48525; 
+        }
+        
+        .glass-panel {
+            background: rgba(46, 35, 28, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-white font-display overflow-hidden h-screen flex selection:bg-primary selection:text-white">
+<!-- Sidebar -->
+<aside class="w-64 flex flex-col border-r border-white/5 bg-[#1a120b] flex-shrink-0 z-20">
+<!-- Logo Area -->
+<div class="h-16 flex items-center px-6 border-b border-white/5">
+<div class="flex items-center gap-3 text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-4xl">bolt</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">KineticFlow</h2>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex-1 overflow-y-auto py-6 px-3 flex flex-col gap-2">
+<!-- User Profile Snippet in Nav -->
+<div class="mb-6 px-3 flex items-center gap-3 pb-6 border-b border-white/5">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="Admin user profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD4iOF7Uw-7Hafn5sEShhXuXdQF5KD-6KkDcayLcOgYIgnxShLzF-MLUJFEQf5AU7AbKExmzVMRs2QZKJBicjsCN1KGD05iiLvnKJoQ0SePf-heipSyGsL4kpRpm42cFeJ95zscEzqPde6zP_7OoXyvkVQr6QwK5_RxcJqfrnvdcI29PtwjEkipWf4u5yo54l7pEjI_99WM5WiSGGC17qn9r9UL-YlSMd67NNKe_FxPqBA_yhY9KFCZ_LlNX3hxaIGbFsL7HjPm-40");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-sm font-bold">Marcus Chen</h1>
+<p class="text-secondary text-xs">System Administrator</p>
+</div>
+</div>
+<div class="px-3 mb-2 text-xs font-bold text-secondary uppercase tracking-wider">Main Menu</div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary border-l-4 border-primary transition-all group" href="#">
+<span class="material-symbols-outlined filled">dashboard</span>
+<span class="text-sm font-bold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-secondary hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-secondary hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined">sports_martial_arts</span>
+<span class="text-sm font-medium">Coach Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-secondary hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-sm font-medium">Gym Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-secondary hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined">credit_card</span>
+<span class="text-sm font-medium">Billing &amp; Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-secondary hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="text-sm font-medium">Content Management</span>
+</a>
+<div class="mt-4 px-3 mb-2 text-xs font-bold text-secondary uppercase tracking-wider">System</div>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-secondary hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-secondary hover:bg-white/5 hover:text-white transition-all group" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium">Logout</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 bg-background-dark relative overflow-hidden">
+<!-- Background decorative elements -->
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/5 rounded-full blur-[80px] pointer-events-none"></div>
+<!-- Top Header -->
+<header class="h-16 flex items-center justify-between px-8 border-b border-white/5 z-10 bg-background-dark/80 backdrop-blur-md">
+<h2 class="text-xl font-bold text-white">System Overview</h2>
+<div class="flex items-center gap-4">
+<!-- Search -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-secondary text-[20px]">search</span>
+</div>
+<input class="block w-64 pl-10 pr-3 py-2 border-none rounded-xl leading-5 bg-surface-dark text-white placeholder-secondary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm transition-all" placeholder="Search system..." type="text"/>
+</div>
+<!-- Actions -->
+<button class="relative p-2 rounded-xl bg-surface-dark text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-primary rounded-full border border-[#221810]"></span>
+</button>
+<button class="p-2 rounded-xl bg-surface-dark text-white hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Dashboard Content -->
+<div class="flex-1 overflow-y-auto p-8 z-10 scroll-smooth">
+<div class="max-w-[1400px] mx-auto space-y-6">
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stat Card 1 -->
+<div class="glass-panel p-6 rounded-xl flex flex-col justify-between h-36 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-6xl text-white">groups</span>
+</div>
+<div>
+<p class="text-secondary text-sm font-medium mb-1">Total Active Members</p>
+<h3 class="text-3xl font-bold text-white tracking-tight">1,240</h3>
+</div>
+<div class="flex items-center gap-2 mt-auto">
+<span class="bg-success/20 text-success text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 12%
+                            </span>
+<span class="text-secondary text-xs">vs last month</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="glass-panel p-6 rounded-xl flex flex-col justify-between h-36 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-6xl text-white">payments</span>
+</div>
+<div>
+<p class="text-secondary text-sm font-medium mb-1">Monthly Revenue</p>
+<h3 class="text-3xl font-bold text-white tracking-tight">$42,500</h3>
+</div>
+<div class="flex items-center gap-2 mt-auto">
+<span class="bg-success/20 text-success text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 5%
+                            </span>
+<span class="text-secondary text-xs">vs last month</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="glass-panel p-6 rounded-xl flex flex-col justify-between h-36 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-6xl text-white">fitness_center</span>
+</div>
+<div>
+<p class="text-secondary text-sm font-medium mb-1">Current Occupancy</p>
+<h3 class="text-3xl font-bold text-white tracking-tight">85%</h3>
+</div>
+<div class="flex items-center gap-2 mt-auto">
+<span class="bg-warning/20 text-warning text-xs font-bold px-2 py-1 rounded-md">High Usage</span>
+<span class="text-secondary text-xs">Peak Hours</span>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="glass-panel p-6 rounded-xl flex flex-col justify-between h-36 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-6xl text-white">person_add</span>
+</div>
+<div>
+<p class="text-secondary text-sm font-medium mb-1">New Sign-ups</p>
+<h3 class="text-3xl font-bold text-white tracking-tight">+45</h3>
+</div>
+<div class="flex items-center gap-2 mt-auto">
+<span class="bg-success/20 text-success text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 8%
+                            </span>
+<span class="text-secondary text-xs">this week</span>
+</div>
+</div>
+</div>
+<!-- Main Chart Section -->
+<div class="glass-panel rounded-xl p-6">
+<div class="flex flex-wrap items-center justify-between mb-6 gap-4">
+<div>
+<h3 class="text-lg font-bold text-white">Revenue vs. Operational Costs</h3>
+<p class="text-secondary text-sm">Real-time financial performance overview</p>
+</div>
+<div class="flex items-center gap-2 bg-background-dark rounded-lg p-1 border border-white/5">
+<button class="px-3 py-1.5 rounded-md bg-primary text-white text-xs font-bold shadow-lg shadow-primary/20">Monthly</button>
+<button class="px-3 py-1.5 rounded-md text-secondary hover:text-white text-xs font-medium">Weekly</button>
+<button class="px-3 py-1.5 rounded-md text-secondary hover:text-white text-xs font-medium">Daily</button>
+</div>
+</div>
+<div class="relative w-full h-[300px] overflow-hidden rounded-lg bg-surface-dark/50 border border-white/5">
+<!-- Simulated Chart Visual -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1200 300">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#f48525" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#f48525" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Lines -->
+<line stroke="rgba(255,255,255,0.05)" stroke-width="1" x1="0" x2="1200" y1="75" y2="75"></line>
+<line stroke="rgba(255,255,255,0.05)" stroke-width="1" x1="0" x2="1200" y1="150" y2="150"></line>
+<line stroke="rgba(255,255,255,0.05)" stroke-width="1" x1="0" x2="1200" y1="225" y2="225"></line>
+<!-- The Data Line -->
+<path d="M0,200 C100,180 200,220 300,150 C400,80 500,120 600,100 C700,80 800,40 900,60 C1000,80 1100,20 1200,50 L1200,300 L0,300 Z" fill="url(#chartGradient)"></path>
+<path d="M0,200 C100,180 200,220 300,150 C400,80 500,120 600,100 C700,80 800,40 900,60 C1000,80 1100,20 1200,50" fill="none" filter="drop-shadow(0px 0px 8px rgba(244, 133, 37, 0.5))" stroke="#f48525" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<!-- Axis Labels -->
+<div class="absolute bottom-2 left-0 w-full flex justify-between px-4 text-[10px] text-secondary font-mono">
+<span>Wk 1</span>
+<span>Wk 2</span>
+<span>Wk 3</span>
+<span>Wk 4</span>
+</div>
+</div>
+</div>
+<!-- Lower Section: Grid Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Left Column (Span 2) -->
+<div class="xl:col-span-2 space-y-6">
+<!-- Pending Approvals -->
+<div class="glass-panel rounded-xl p-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-white">Pending Coach Approvals</h3>
+<button class="text-primary text-sm font-bold hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-secondary text-xs uppercase tracking-wider border-b border-white/5">
+<th class="pb-3 pl-2">Applicant</th>
+<th class="pb-3">Specialty</th>
+<th class="pb-3">Submitted</th>
+<th class="pb-3 text-right pr-2">Actions</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="group hover:bg-white/5 transition-colors border-b border-white/5">
+<td class="py-4 pl-2 flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Portrait of Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAWLzQg6d7Q6sg_cpZDEWKhGcA627aLkhgAQzz7o6g13kn1Obd-xlsGMoodkLqpA-Lu3AbMZ7eC4a7D3qWqp-eTtVEhNTzDurhsNnQXtyCJTY0HiQDiSfObORLVtsMoSy3xSi17Yg8qsgQVKMnDE4w5axLVWiujnNudoFiOL9tVTQFHFFaDgqBmOmgWRcDHgHVW1Pqk0IFlt9KNhDToq_w4NKnFHTHeEm5Gycio_em8mxJQRHRG63q1CQs5bwK3cANhLsq7xfBmKjk");'></div>
+<span class="font-medium text-white">Sarah Jenkins</span>
+</td>
+<td class="py-4 text-secondary">Yoga &amp; Flexibility</td>
+<td class="py-4 text-secondary">2 hours ago</td>
+<td class="py-4 text-right pr-2">
+<div class="flex justify-end gap-2">
+<button class="size-8 rounded-lg bg-success/20 text-success hover:bg-success hover:text-white flex items-center justify-center transition-colors" title="Approve">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+<button class="size-8 rounded-lg bg-surface-dark border border-white/10 text-secondary hover:bg-white/10 flex items-center justify-center transition-colors" title="Reject">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/5 transition-colors border-b border-white/5">
+<td class="py-4 pl-2 flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Portrait of Mike Ross" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAvXTZcn4lPG7RxoB4Ac_OjZNqMOxgt-qSft8ufc6E5qWtjcYhUxvt6S6RxnfEc8A3cpX8zdV3FkoB4Ap2wTO2zlBkT1i56KGX3lmz48vPo9crHoM7E5HTA0XgJj0F1Y3JYVxFUwXxK1CkWMbNP6okls1GsIXXW25BvLqcZhChThC99ONUWLP2bdhus761utw9DGjynA0q284INJsRnv1IuUxNDaVI0rwqfEKlVdGuy0kAO5VkTfBMM1A_35pgVojRk52t4yFOfrHo");'></div>
+<span class="font-medium text-white">Mike Ross</span>
+</td>
+<td class="py-4 text-secondary">HIIT &amp; Strength</td>
+<td class="py-4 text-secondary">5 hours ago</td>
+<td class="py-4 text-right pr-2">
+<div class="flex justify-end gap-2">
+<button class="size-8 rounded-lg bg-success/20 text-success hover:bg-success hover:text-white flex items-center justify-center transition-colors" title="Approve">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+<button class="size-8 rounded-lg bg-surface-dark border border-white/10 text-secondary hover:bg-white/10 flex items-center justify-center transition-colors" title="Reject">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="group hover:bg-white/5 transition-colors">
+<td class="py-4 pl-2 flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center" data-alt="Portrait of Elena Rodriguez" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0MeGSvFngnnc77f4qrmdjKB3wt-Lp66P-Gp4flkCl2T-Vry6CJbx6ZKwd96uOd3b4R7hrKi-_hwEhpAj1rA9tQ6ZA1ndamDpNmYkKHIeNFNTtLhfxPy3p5fYJFPLEs4VzLdxJ8NfSgK5RE_xTxtUrUOa-bQ7mPesBWLL5boNtTfzR3X_shS7PIdsJ0xetq7nbo_FNSjO-MvrpkUq-lsQK57_zZjX9-Zl8ViXvGPYmCAhXJyeBNzwh-yFsK2xbBY8xRLxxpxZMf3U");'></div>
+<span class="font-medium text-white">Elena Rodriguez</span>
+</td>
+<td class="py-4 text-secondary">Dance Fitness</td>
+<td class="py-4 text-secondary">Yesterday</td>
+<td class="py-4 text-right pr-2">
+<div class="flex justify-end gap-2">
+<button class="size-8 rounded-lg bg-success/20 text-success hover:bg-success hover:text-white flex items-center justify-center transition-colors" title="Approve">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+<button class="size-8 rounded-lg bg-surface-dark border border-white/10 text-secondary hover:bg-white/10 flex items-center justify-center transition-colors" title="Reject">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Resource Utilization (Heatmap/Bars) -->
+<div class="glass-panel rounded-xl p-6">
+<h3 class="text-lg font-bold text-white mb-4">Resource Utilization</h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-white">Treadmills</span>
+<span class="text-primary font-bold">92%</span>
+</div>
+<div class="h-2 w-full bg-surface-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[92%] shadow-[0_0_10px_rgba(244,133,37,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-white">Free Weights Area</span>
+<span class="text-success font-bold">45%</span>
+</div>
+<div class="h-2 w-full bg-surface-dark rounded-full overflow-hidden">
+<div class="h-full bg-success w-[45%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-white">Cycling Studio</span>
+<span class="text-warning font-bold">78%</span>
+</div>
+<div class="h-2 w-full bg-surface-dark rounded-full overflow-hidden">
+<div class="h-full bg-warning w-[78%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Alerts & Activity) -->
+<div class="space-y-6">
+<!-- Alerts Panel -->
+<div class="glass-panel rounded-xl p-6 border-l-4 border-danger">
+<h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-danger">warning</span> Critical Alerts
+                            </h3>
+<div class="space-y-3">
+<div class="p-3 bg-danger/10 rounded-lg border border-danger/20">
+<p class="text-white text-sm font-bold">Equipment Malfunction</p>
+<p class="text-danger text-xs mt-1">Rowing Machine #04 requires immediate maintenance.</p>
+</div>
+<div class="p-3 bg-warning/10 rounded-lg border border-warning/20">
+<p class="text-white text-sm font-bold">Capacity Warning</p>
+<p class="text-warning text-xs mt-1">Zone A is approaching max capacity (95%).</p>
+</div>
+</div>
+</div>
+<!-- Recent Activity Log -->
+<div class="glass-panel rounded-xl p-6 h-auto">
+<h3 class="text-lg font-bold text-white mb-4">Recent Activity</h3>
+<div class="relative pl-4 border-l border-white/10 space-y-6">
+<!-- Item 1 -->
+<div class="relative">
+<div class="absolute -left-[21px] top-0 size-2.5 rounded-full bg-primary ring-4 ring-background-dark"></div>
+<p class="text-sm text-white font-medium">System Backup Completed</p>
+<p class="text-xs text-secondary mt-0.5">Automated • 10 mins ago</p>
+</div>
+<!-- Item 2 -->
+<div class="relative">
+<div class="absolute -left-[21px] top-0 size-2.5 rounded-full bg-surface-dark border border-white/20 ring-4 ring-background-dark"></div>
+<p class="text-sm text-white font-medium">New Content Published</p>
+<p class="text-xs text-secondary mt-0.5">By Coach Alex • 45 mins ago</p>
+</div>
+<!-- Item 3 -->
+<div class="relative">
+<div class="absolute -left-[21px] top-0 size-2.5 rounded-full bg-surface-dark border border-white/20 ring-4 ring-background-dark"></div>
+<p class="text-sm text-white font-medium">User Role Updated</p>
+<p class="text-xs text-secondary mt-0.5">Admin Action • 1.5 hours ago</p>
+</div>
+<!-- Item 4 -->
+<div class="relative">
+<div class="absolute -left-[21px] top-0 size-2.5 rounded-full bg-surface-dark border border-white/20 ring-4 ring-background-dark"></div>
+<p class="text-sm text-white font-medium">Subscription Plan Changed</p>
+<p class="text-xs text-secondary mt-0.5">User #9942 • 3 hours ago</p>
+</div>
+</div>
+</div>
+<!-- Mini Ad / Highlight -->
+<div class="rounded-xl p-6 bg-gradient-to-br from-primary to-orange-700 text-white relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-bold text-lg">AI Insights Ready</h4>
+<p class="text-white/80 text-sm mt-1 mb-3">Weekly performance report is generated.</p>
+<button class="px-3 py-1.5 bg-white text-primary text-xs font-bold rounded-lg shadow-sm hover:bg-gray-100 transition-colors">View Report</button>
+</div>
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-[100px] opacity-20 rotate-12">psychology</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

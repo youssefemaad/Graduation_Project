@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - Staff Management</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "background-light": "#f5f8f6",
+                        "background-dark": "#102216",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                    boxShadow: {
+                        'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d1c12] relative min-h-screen overflow-x-hidden selection:bg-primary selection:text-black">
+<!-- Background Image Layer -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&amp;w=2070&amp;auto=format&amp;fit=crop')] bg-cover bg-center opacity-5 blur-md" data-alt="Abstract blurred background of a modern gym interior with weights and equipment"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-white/40 to-background-light/90"></div>
+</div>
+<!-- Main Content Wrapper -->
+<div class="relative z-10 flex flex-col h-full min-h-screen">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7f4eb]/50 bg-white/60 backdrop-blur-md px-10 py-4 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-[#0d1c12]">
+<div class="size-10 bg-black text-primary rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 28px;">ecg_heart</span>
+</div>
+<h2 class="text-[#0d1c12] text-2xl font-black tracking-tight">PulseGym</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-12 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full bg-white shadow-sm border border-gray-100 group focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+<div class="text-[#499c65] flex items-center justify-center pl-4 rounded-l-xl">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d1c12] focus:outline-0 border-none bg-transparent h-full placeholder:text-gray-400 px-4 text-sm font-normal leading-normal" placeholder="Search staff..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-gray-600 hover:text-primary transition-colors text-sm font-semibold flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span> Dashboard
+                    </a>
+<a class="text-[#0d1c12] text-sm font-bold flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px] filled">group</span> Staff
+                    </a>
+<a class="text-gray-600 hover:text-primary transition-colors text-sm font-semibold flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">fitness_center</span> Equipment
+                    </a>
+</nav>
+<div class="flex gap-3 items-center pl-6 border-l border-gray-200">
+<button class="size-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-600 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<div class="h-10 w-10 bg-center bg-no-repeat bg-cover rounded-full ring-2 ring-white shadow-md cursor-pointer" data-alt="Profile picture of the logged-in administrator" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAobTF3T3VOVnr6HpxzvNQQrmHJ-zBlB5syrwasp24MwIYcmbsjOvrnViH8nJnRpRrXnSeTUxGXFZj6Gpx6yQptPvb1Fsyf2bMr-OVy9FjmT4bffCOXdZ3UVTr-AsyaEuJW5SQjIV8MOFCg-j71kzOz3TgwMi3FSZJzR1_Cy3NEtbK72NHDGLSlNtDnDiaxbzvcxCIpYT8GNN4NxHgqnDuUqtu5hrDjj-nPqbKlhurNcj2l1MKP0vXgwDtTIlHpMe4NvWXOp6x8rr8");'></div>
+</div>
+</div>
+</header>
+<!-- Main Page Content -->
+<main class="flex-1 px-4 md:px-10 py-8 max-w-[1600px] mx-auto w-full">
+<!-- Page Heading & Actions -->
+<div class="flex flex-col md:flex-row flex-wrap justify-between items-end gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-sm text-gray-500 font-medium mb-1">
+<span>Management</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary hover:underline cursor-pointer">Staff</span>
+</div>
+<h1 class="text-[#0d1c12] text-4xl font-black tracking-tight">Staff Management</h1>
+<p class="text-gray-500 text-base max-w-2xl">Manage your team, track performance metrics, and recruit new talent to keep the pulse going.</p>
+</div>
+<button class="flex items-center gap-2 bg-black hover:bg-gray-900 text-white shadow-lg shadow-primary/20 transition-all transform hover:-translate-y-0.5 rounded-xl h-12 px-6 font-bold text-sm">
+<span class="material-symbols-outlined">add</span>
+<span>Create New Staff</span>
+</button>
+</div>
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+<div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">groups</span>
+</div>
+<p class="text-gray-500 text-sm font-medium mb-1">Total Staff</p>
+<p class="text-[#0d1c12] text-3xl font-black">24</p>
+<div class="flex items-center gap-1 text-green-600 text-xs font-bold mt-2 bg-green-50 w-fit px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+2 this month</span>
+</div>
+</div>
+<div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-blue-500">fitness_center</span>
+</div>
+<p class="text-gray-500 text-sm font-medium mb-1">Active Coaches</p>
+<p class="text-[#0d1c12] text-3xl font-black">12</p>
+<div class="flex items-center gap-1 text-gray-400 text-xs font-medium mt-2">
+<span>All schedules full</span>
+</div>
+</div>
+<div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-orange-500">support_agent</span>
+</div>
+<p class="text-gray-500 text-sm font-medium mb-1">Receptionists</p>
+<p class="text-[#0d1c12] text-3xl font-black">5</p>
+<div class="flex items-center gap-1 text-orange-600 text-xs font-bold mt-2 bg-orange-50 w-fit px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[14px]">priority_high</span>
+<span>1 on leave</span>
+</div>
+</div>
+<div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-purple-500">mail</span>
+</div>
+<p class="text-gray-500 text-sm font-medium mb-1">Pending Invites</p>
+<p class="text-[#0d1c12] text-3xl font-black">3</p>
+<button class="text-primary hover:text-green-600 text-xs font-bold mt-2 flex items-center gap-1">
+                        Resend All <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Content Grid: Table + Detail View -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+<!-- Left Column: Filters & Table (Span 8) -->
+<div class="xl:col-span-8 flex flex-col gap-6">
+<!-- Filters -->
+<div class="flex flex-wrap gap-3">
+<button class="flex items-center gap-2 h-10 px-4 rounded-xl bg-[#0d1c12] text-white shadow-lg shadow-green-900/10 transition-all font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">apps</span>
+                            All Roles
+                        </button>
+<button class="flex items-center gap-2 h-10 px-4 rounded-xl bg-white border border-[#cee8d7] text-gray-600 hover:bg-[#e7f4eb] hover:text-[#0d1c12] transition-all font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">sports_gymnastics</span>
+                            Coaches
+                        </button>
+<button class="flex items-center gap-2 h-10 px-4 rounded-xl bg-white border border-[#cee8d7] text-gray-600 hover:bg-[#e7f4eb] hover:text-[#0d1c12] transition-all font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+                            Reception
+                        </button>
+<button class="flex items-center gap-2 h-10 px-4 rounded-xl bg-white border border-[#cee8d7] text-gray-600 hover:bg-[#e7f4eb] hover:text-[#0d1c12] transition-all font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+                            Admins
+                        </button>
+<div class="ml-auto flex items-center gap-2">
+<button class="size-10 flex items-center justify-center rounded-xl bg-white border border-[#cee8d7] text-gray-500 hover:text-primary">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-xl bg-white border border-[#cee8d7] text-gray-500 hover:text-primary">
+<span class="material-symbols-outlined">sort</span>
+</button>
+</div>
+</div>
+<!-- Staff Table -->
+<div class="glass-panel rounded-2xl overflow-hidden border-0 shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50/50 border-b border-gray-100">
+<th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Staff Member</th>
+<th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Role</th>
+<th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Hire Date</th>
+<th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100">
+<!-- Row 1: Selected State -->
+<tr class="group hover:bg-green-50/30 bg-green-50/50 cursor-pointer transition-colors border-l-4 border-l-primary">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-cover bg-center shadow-sm" data-alt="Portrait of Sarah Jenkins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC_tRoxmntGRQJAwgbHzdH0Wto47k7-rmbVdFPN_Rs8vG8GzjkRJVKv6yHT0yiIi5MA1_oMnzH7ulCVedM7baWbDo1mG-QRUatimAO_jLSgtB9x8lnUza8t-5AgeB3dbi5QI5fu7TxpIytENB8ybMLvftxXNP4QWJnhifgSO_mYISZk19c-to0zYOV2Hl3s0_qF4ncCUTFhhsTtaJAR8o3bzBHlmaXACjYECBP9pcdGJJgz7VxVxQnywwI3K2ChMJm244dm7c7Ue_o");'></div>
+<div>
+<p class="font-bold text-[#0d1c12]">Sarah Jenkins</p>
+<p class="text-xs text-gray-500">sarah.j@pulsegym.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-blue-500 text-[18px]">sports_gymnastics</span>
+<span class="text-sm font-medium text-gray-700">Head Coach</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+<span class="size-1.5 rounded-full bg-green-500 animate-pulse"></span> Active
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-gray-500">Jan 12, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-gray-50/50 cursor-pointer transition-colors border-l-4 border-l-transparent">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-cover bg-center shadow-sm" data-alt="Portrait of Michael Chen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDLD7D9A1McaZ3xmIxXHhSYzQlGvKLTATahdTiuBWIE4D1BzqAh_HM6opyu3IpQ_1XZAx8lQM6mT5HL8Fc89Ke0-BNC7kvXhCiU9Gy1YGkN0dMoftKdQEUlp_mZKxLl_d2TqifgtJeCCQIzBQvXL2Hr5MhYPn1VSRGX1j279UZsX-lyEnJkH16SfVXC5sKHpfk5Wi0ysFjEBF0nilq7KMPvublfhBMCpo7lENOiDLkuUGk62qp2-h35BrQXqsRC-TLIkjtEJrO4T3c");'></div>
+<div>
+<p class="font-bold text-[#0d1c12]">Michael Chen</p>
+<p class="text-xs text-gray-500">m.chen@pulsegym.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-orange-500 text-[18px]">support_agent</span>
+<span class="text-sm font-medium text-gray-700">Receptionist</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+<span class="size-1.5 rounded-full bg-green-500"></span> Active
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-gray-500">Mar 05, 2023</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-gray-50/50 cursor-pointer transition-colors border-l-4 border-l-transparent">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-cover bg-center shadow-sm" data-alt="Portrait of Jessica Lee" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCVYx26yAZgfUfkmK2m4nAhZSQfrqwOHwRLjLSbNCXK_kQvUjqOiJCS3Y_o4gNi2N9SecY9VtyOALlfLSXs4aPZXCX6gXiiuILXVD_EJ2Zy73SNJAmxG9rCBrXIreiX7fYCLhq22YeS9LS-4RLjb-6ODm-6OK2w55vHZDKbh6D2kX0La6-ISddhRQG03MDdeQOzudFEaKEetiBEhgm4NNgM-BGRKXKuhnQ1NOih5_easqx80XCbB7djzXcuPalbdgzNKlP_UmM9Hec");'></div>
+<div>
+<p class="font-bold text-[#0d1c12]">Jessica Lee</p>
+<p class="text-xs text-gray-500">jess.lee@pulsegym.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-purple-500 text-[18px]">fitness_center</span>
+<span class="text-sm font-medium text-gray-700">Trainer</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500">
+<span class="size-1.5 rounded-full bg-gray-400"></span> Inactive
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-gray-500">Dec 10, 2022</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-gray-50/50 cursor-pointer transition-colors border-l-4 border-l-transparent">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-cover bg-center shadow-sm" data-alt="Portrait of David Ross" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBrLYTsI9cviEWaPr7fsDujaK55Y3sqeCFlYq4AVPCFTZw2V64Aq49swdNzGJgIYpAi8jIBxXOJ3_jaMRvRheKjZpXW04w8Bcw8IBRV6VAbgba9aOPilins52qXHJVhSU8FhKVvEqR9v6wT23yiLcOdK0ATAn97bfZfWj4TprYeZjiYJRh49SoA5gyd1VOD0wHddhH6qXg7Gz14Bgyw9IGGjIBbx-vz6Q5p0vgEHJuI4tvBH1X0WUb8JbKwpUeIqyGsbIygPyWAqug");'></div>
+<div>
+<p class="font-bold text-[#0d1c12]">David Ross</p>
+<p class="text-xs text-gray-500">d.ross@pulsegym.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-gray-500 text-[18px]">shield</span>
+<span class="text-sm font-medium text-gray-700">Admin</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+<span class="size-1.5 rounded-full bg-green-500"></span> Active
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-gray-500">Feb 20, 2022</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="group hover:bg-gray-50/50 cursor-pointer transition-colors border-l-4 border-l-transparent">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 shadow-sm">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="font-bold text-[#0d1c12]">Alex Morgan</p>
+<p class="text-xs text-gray-500">alex.m@pulsegym.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-blue-500 text-[18px]">sports_gymnastics</span>
+<span class="text-sm font-medium text-gray-700">Coach</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700">
+<span class="size-1.5 rounded-full bg-yellow-500"></span> Onboarding
+                                            </span>
+</td>
+<td class="px-6 py-4 text-sm text-gray-500">Today</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors p-1"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-gray-100 flex items-center justify-between">
+<p class="text-xs text-gray-400 font-medium">Showing 5 of 24 staff members</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-lg border border-gray-200 text-gray-500 text-xs font-bold disabled:opacity-50">Prev</button>
+<button class="px-3 py-1 rounded-lg border border-gray-200 text-[#0d1c12] bg-[#e7f4eb] text-xs font-bold">1</button>
+<button class="px-3 py-1 rounded-lg border border-gray-200 text-gray-500 text-xs font-bold">2</button>
+<button class="px-3 py-1 rounded-lg border border-gray-200 text-gray-500 text-xs font-bold">3</button>
+<button class="px-3 py-1 rounded-lg border border-gray-200 text-gray-500 text-xs font-bold">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Detail View (Span 4) -->
+<div class="xl:col-span-4 space-y-6">
+<!-- Detail Card -->
+<div class="bg-white rounded-3xl shadow-xl shadow-green-900/5 overflow-hidden sticky top-28 border border-gray-100">
+<!-- Profile Header -->
+<div class="relative h-32 bg-[#0d1c12]">
+<div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-30"></div>
+<div class="absolute top-4 right-4 flex gap-2">
+<button class="size-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-md">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="size-8 rounded-full bg-white/10 hover:bg-red-500/20 text-white hover:text-red-400 flex items-center justify-center backdrop-blur-md transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<div class="px-6 pb-6 relative">
+<div class="absolute -top-12 left-6 p-1 bg-white rounded-full">
+<div class="h-24 w-24 rounded-full bg-cover bg-center border-4 border-white shadow-lg" data-alt="Detailed view of Sarah Jenkins profile photo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBeig6JRWl5-h3aOlc_RbEb6mTks7m89GFJuoMOgEyf6YfCjFMWAqFEVKG4JqEdH5BreyahEeXunT8QRwpI0lAbyYkJN8MBwJR2fN344BshqsiOcKM9Ok6gBbm_di3io-UQW5uhgV5ydPMlYT08Qk5ojs0CERuiRCUnGkLdgtng0ELtLe8OIaVR6O6fGz9jo-gzdUSe1dpfgT_fnzwqc9aEcOCuffhyXPOXB8gOBOW7tYbuAJA5-tOAABVb4KK0cIF54Mt1Gcz_p4w");'></div>
+<div class="absolute bottom-1 right-1 size-6 bg-primary rounded-full border-4 border-white flex items-center justify-center text-[#0d1c12]" title="Verified Coach">
+<span class="material-symbols-outlined text-[14px] font-bold">check</span>
+</div>
+</div>
+<div class="pt-14">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-black text-[#0d1c12]">Sarah Jenkins</h3>
+<p class="text-sm text-gray-500 font-medium">Head Coach • HIIT Specialist</p>
+</div>
+<div class="bg-primary/10 px-3 py-1 rounded-full">
+<p class="text-primary text-xs font-bold uppercase tracking-wide">4.9 ★</p>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<button class="flex-1 bg-[#0d1c12] text-white py-2 rounded-xl text-sm font-bold shadow-lg hover:bg-black transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">mail</span> Message
+                                    </button>
+<button class="flex-1 bg-white border border-gray-200 text-[#0d1c12] py-2 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span> Schedule
+                                    </button>
+</div>
+<hr class="my-6 border-gray-100"/>
+<!-- Performance Metrics -->
+<div class="space-y-4">
+<div class="flex items-center justify-between mb-2">
+<h4 class="text-sm font-bold text-gray-900">Performance Pulse</h4>
+<select class="text-xs bg-gray-50 border-none rounded-lg py-1 pl-2 pr-6 text-gray-500 font-medium focus:ring-0 cursor-pointer">
+<option>This Week</option>
+<option>This Month</option>
+</select>
+</div>
+<!-- Fake Chart -->
+<div class="h-24 w-full flex items-end justify-between gap-1 px-1">
+<div class="w-full bg-primary/20 rounded-t-sm h-[40%]"></div>
+<div class="w-full bg-primary/40 rounded-t-sm h-[60%]"></div>
+<div class="w-full bg-primary/30 rounded-t-sm h-[50%]"></div>
+<div class="w-full bg-primary/60 rounded-t-sm h-[75%]"></div>
+<div class="w-full bg-primary/40 rounded-t-sm h-[60%]"></div>
+<div class="w-full bg-primary rounded-t-sm h-[85%] relative group cursor-pointer">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">24 Classes</div>
+</div>
+<div class="w-full bg-primary/30 rounded-t-sm h-[45%]"></div>
+</div>
+<div class="flex justify-between text-[10px] text-gray-400 font-medium uppercase mt-1">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<hr class="my-6 border-gray-100"/>
+<!-- Assigned Clients -->
+<div>
+<div class="flex items-center justify-between mb-4">
+<h4 class="text-sm font-bold text-gray-900">Assigned Clients (14)</h4>
+<a class="text-primary text-xs font-bold hover:underline" href="#">View All</a>
+</div>
+<div class="flex -space-x-3 overflow-hidden py-2">
+<img alt="Client 1" class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" data-alt="Client face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDh-5lbPenzlBtmqiTdC14TyYWNBmw0vtnd9vAIGwzyH7aEoc_ix5LnhGVfcWLB-AISjK6jzFrXxJ2m-hTC6LBdSWdcE6P-CoKw63NYKbUTttqkuU3sxC-vN8BHKzR9zmM13sbj1HTZV10I02_QrfFvF1_mFjPD8wiQZ-cBaMj_lLQdLGHsF6dO87t615qGS27KzujF03PuHC82VVoqwZIqbS1QmtloOSEeLQSTjVjsXhr9_9eByRCJMrHDKL9W37WX4YCRi7QO7lc"/>
+<img alt="Client 2" class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" data-alt="Client face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoBOfVHF1pFacHhWa-COFSTdDAPXXVJNiXrx7mXakhJkZtbi4P_5Jt2T34HJAU1kIDxl8WpPG5wjGE3rIpPnlfF-zcw2Xdyp5U9PRSR4QDKl9ytrNn1QdTWuDmF5z2b7GC3qGPjHCIoILnEV8lpz_6C5sBVFtU-PIgaaWggm12Ep6Z-t6NiMiLzVvubnYCMX-xju1EXh1Q7L3WG_uyoFcXsQ5Tq38ZzgmCef70yxChz0q_TMQZOnItShDtQEj-LrkkFEFpUG_nSlM"/>
+<img alt="Client 3" class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" data-alt="Client face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcFttbMyfatxkdWSk-eR-amORpSbfSJH3QObuHGDv9T1YtldEuZ0pHC8uKDw6nyek3jlyGoNCwIkHz4MXIjzl3nXy80DwSS37SaGrCQ4JOBY_rdshIx0b18Jv4_WdFhC9qt--yvmL0JQUiSIl4IX6TxHp6Utd-juGRMz59HHk5bLKchhnIRE1Ov8PikHqTWyWuWhbP_p8PSof0tmT4yx3OkqkvjQS3K2Sh7NHXa-9EAvTolvsh2874U2hvEPFstVvhgk8o7k3Sshs"/>
+<img alt="Client 4" class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" data-alt="Client face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALIOJmgsGZ2msd__4WnxANxVbtYppEqv26wRsXkPN9PgdRzHThTCm9kV2HJ3t8rzF_BBim-9Ao0ky4oV0ONgJMLpRERBeg-5jK7QtbK3DnktdKTY9aUodoVkot9SNlIT-d_VnCZPlDCuQTdxDhlzA_nNs4PEwKn8CgWTpov7eD2ALjByirBfgFPCWOfiWJU2ZUAaRBQe3ej6q0FFfhK9ZX5hHIqIDcc24QUaixxVmqYMuSq_0NHri4jl_KHod5u4yLISAe8BfN3jc"/>
+<div class="h-10 w-10 rounded-full ring-2 ring-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 hover:bg-gray-200 cursor-pointer transition-colors">+10</div>
+</div>
+</div>
+<div class="mt-6 bg-[#f8fcf9] p-4 rounded-xl border border-[#e7f4eb]">
+<h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Certifications</h4>
+<div class="flex flex-wrap gap-2">
+<span class="bg-white border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">NASM-CPT</span>
+<span class="bg-white border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">CrossFit L2</span>
+<span class="bg-white border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">First Aid</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

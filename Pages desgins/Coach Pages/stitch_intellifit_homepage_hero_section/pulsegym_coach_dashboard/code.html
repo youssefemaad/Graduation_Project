@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym Coach Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3B82F6", // Updated to requested Electric Blue
+                        "secondary": "#10B981", // Vibrant Green
+                        "accent": "#F97316", // Orange
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "2xl": "2rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background-light font-display text-slate-900 overflow-hidden antialiased selection:bg-primary/20 selection:text-primary">
+<div class="flex h-screen w-full relative">
+<!-- Background Gym Image with Blur Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Blurred gym interior with weights and equipment" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCeTWL2H9HHHM3kItjRyb1ryUrRsADzIX9XuiGQ8Bg3yjCc_Noyr3wriN1D828GX0vezjUBMAXKTYmiR3fYoIxnLy69CBPNjHEHTMjKnd0zQXJIdMqZ8DAm2P49YXZiVoAVbg1B6q9Lprgjte9vAwMjS9GZK73AFq8wtCv8Zm9U2JsXi97A4aeTSSKCflqXTGOLfBaZiSTA6s3gDDcgm4rjOw1kufCduoLVqNc9dlMQg4T_tcKHQFrFf-_4PFDbRRCQXTWkalXmk_A');"></div>
+<div class="absolute inset-0 bg-slate-50/90 backdrop-blur-sm"></div>
+</div>
+<!-- Sidebar Navigation -->
+<aside class="relative z-10 w-20 lg:w-64 flex flex-col justify-between border-r border-slate-200 bg-white/80 backdrop-blur-xl h-full transition-all duration-300">
+<div class="flex flex-col gap-6 p-4">
+<!-- Brand -->
+<div class="flex items-center gap-3 px-2">
+<div class="flex items-center justify-center size-10 rounded-xl bg-gradient-to-br from-primary to-blue-600 text-white shadow-lg shadow-blue-500/30">
+<span class="material-symbols-outlined text-2xl">ecg_heart</span>
+</div>
+<div class="hidden lg:flex flex-col">
+<h1 class="text-slate-900 text-lg font-bold leading-none tracking-tight">PulseGym</h1>
+<p class="text-slate-500 text-xs font-medium">Coach Portal</p>
+</div>
+</div>
+<!-- Navigation Items -->
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl" data-weight="fill">dashboard</span>
+<span class="hidden lg:block text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">group</span>
+<span class="hidden lg:block text-sm font-medium">Clients</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">fitness_center</span>
+<span class="hidden lg:block text-sm font-medium">Workouts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">calendar_month</span>
+<span class="hidden lg:block text-sm font-medium">Schedule</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">forum</span>
+<span class="hidden lg:block text-sm font-medium">Messages</span>
+<span class="hidden lg:flex size-2 bg-accent rounded-full ml-auto"></span>
+</a>
+</nav>
+</div>
+<!-- Bottom Actions -->
+<div class="p-4 border-t border-slate-200/50">
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform">settings</span>
+<span class="hidden lg:block text-sm font-medium">Settings</span>
+</a>
+<button class="flex w-full items-center justify-center lg:justify-start gap-3 mt-2 px-3 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-colors">
+<span class="material-symbols-outlined text-2xl">logout</span>
+<span class="hidden lg:block text-sm font-bold">Log Out</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="relative z-10 flex-1 flex flex-col h-full overflow-hidden">
+<!-- Top Bar / Header -->
+<header class="w-full px-6 py-4 flex flex-wrap items-center justify-between gap-4 bg-white/50 backdrop-blur-md sticky top-0 z-20 border-b border-white/50">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h2 class="text-slate-900 text-2xl font-black tracking-tight">Good Morning, Coach Alex! ⚡</h2>
+</div>
+<p class="text-slate-500 text-sm font-medium">You have <span class="text-primary font-bold">5 sessions</span> today. Let's crush it!</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-white rounded-full px-3 py-1.5 shadow-sm border border-slate-100">
+<span class="material-symbols-outlined text-yellow-500 text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-slate-900 font-bold ml-1 text-sm">4.98</span>
+<span class="text-slate-400 text-xs ml-1 font-medium">(128 reviews)</span>
+</div>
+<button class="size-10 flex items-center justify-center rounded-full bg-white shadow-sm border border-slate-100 text-slate-600 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white"></span>
+</button>
+<div class="size-10 rounded-full bg-slate-200 bg-cover bg-center border-2 border-white shadow-md cursor-pointer" data-alt="Coach profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhCI9gY3XIgQOOZ4CEZDoUyebdMilE6HhOHDP9Xt7bxyFk9Cn4o3zPTMFmjR6-AyVEEhi6750hgZWO1zlHmaB2H9LkSciMX0pwdmQ5fs924DA1DzAyGSGuan9ZoN_hZCINmqpocG2nWGKU5WyCo7bH36HGnJ5Cn93-vNynQ0TcQUMBz30a4-4I3ezvQAkTbBpsyHaq7x-c7BNxdkgqaN3r4HPH7QeF_gyBQiw8RVfX-YAfPHTNbGFXn3jut5Qil6TZyvwPtB3WWGo');"></div>
+</div>
+</header>
+<!-- Scrollable Dashboard Content -->
+<div class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scroll-smooth">
+<div class="max-w-[1400px] mx-auto flex flex-col gap-6">
+<!-- Stats / KPI Row -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Stat Card 1 -->
+<div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-2">
+<div class="p-2 bg-blue-50 text-primary rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">group</span>
+</div>
+<span class="bg-green-100 text-secondary text-xs font-bold px-2 py-1 rounded-full">+2 this week</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Total Clients</p>
+<h3 class="text-slate-900 text-3xl font-bold tracking-tight mt-1">42</h3>
+</div>
+<!-- Stat Card 2 -->
+<div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-2">
+<div class="p-2 bg-orange-50 text-accent rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">fitness_center</span>
+</div>
+<span class="bg-slate-100 text-slate-500 text-xs font-bold px-2 py-1 rounded-full">On track</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Sessions (Oct)</p>
+<h3 class="text-slate-900 text-3xl font-bold tracking-tight mt-1">38</h3>
+</div>
+<!-- Stat Card 3 -->
+<div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-2">
+<div class="p-2 bg-green-50 text-secondary rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">payments</span>
+</div>
+<span class="bg-green-100 text-secondary text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> 12%
+                                </span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Earnings (Tokens)</p>
+<h3 class="text-slate-900 text-3xl font-bold tracking-tight mt-1">1,250</h3>
+</div>
+<!-- Stat Card 4 -->
+<div class="glass-panel p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-2">
+<div class="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">star</span>
+</div>
+<span class="bg-purple-100 text-purple-600 text-xs font-bold px-2 py-1 rounded-full">Top 5%</span>
+</div>
+<p class="text-slate-500 text-sm font-medium">Avg Rating</p>
+<h3 class="text-slate-900 text-3xl font-bold tracking-tight mt-1">4.9</h3>
+</div>
+</section>
+<!-- Main Dashboard Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Left Column: Schedule & Tasks (Span 2) -->
+<div class="xl:col-span-2 flex flex-col gap-6">
+<!-- Pending Tasks Alert -->
+<div class="bg-gradient-to-r from-orange-50 to-white border border-accent/20 rounded-2xl p-4 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<div class="bg-accent/10 p-2 rounded-full text-accent animate-pulse">
+<span class="material-symbols-outlined">priority_high</span>
+</div>
+<div>
+<h4 class="text-slate-900 font-bold text-sm">Action Required</h4>
+<p class="text-slate-600 text-sm">You have <span class="font-bold text-accent">3 Program Reviews</span> pending.</p>
+</div>
+</div>
+<button class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md shadow-orange-200 hover:bg-orange-600 transition-colors">Review Now</button>
+</div>
+<!-- Today's Schedule -->
+<div class="glass-panel rounded-2xl shadow-sm flex flex-col flex-1">
+<div class="p-5 border-b border-slate-100 flex justify-between items-center">
+<h3 class="text-slate-900 text-lg font-bold tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+                                        Today's Schedule
+                                    </h3>
+<button class="text-primary text-sm font-semibold hover:underline">View Calendar</button>
+</div>
+<div class="p-5 flex flex-col gap-0">
+<!-- Timeline Item 1: Done -->
+<div class="grid grid-cols-[60px_1fr] gap-4 relative group">
+<div class="flex flex-col items-center">
+<p class="text-xs font-bold text-slate-400 mt-1">09:00</p>
+<div class="w-px h-full bg-slate-200 my-2 relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-secondary rounded-full border-2 border-white ring-2 ring-green-100"></div>
+</div>
+</div>
+<div class="pb-8">
+<div class="bg-slate-50 border border-slate-100 p-4 rounded-xl opacity-75">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-bold text-slate-900 line-through text-slate-400">Sarah Jenkins</h4>
+<p class="text-sm text-slate-500">HIIT • Gym Floor A</p>
+</div>
+<span class="px-2 py-1 bg-green-100 text-secondary text-xs font-bold rounded">Completed</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Item 2: Active/Next -->
+<div class="grid grid-cols-[60px_1fr] gap-4 relative group">
+<div class="flex flex-col items-center">
+<p class="text-xs font-bold text-slate-900 mt-1">11:00</p>
+<div class="w-px h-full bg-slate-200 my-2 relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-white ring-4 ring-blue-100 animate-pulse"></div>
+</div>
+</div>
+<div class="pb-8">
+<div class="bg-white border-l-4 border-primary shadow-md p-4 rounded-r-xl rounded-l-sm transform transition-all hover:-translate-y-1">
+<div class="flex flex-wrap justify-between items-center gap-3">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-200 bg-cover bg-center" data-alt="Client Mike T" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7bHbV9wmgww5iobH84NIQuibgc86OQ4Y53jeBi8em4DLZEJRcNMdgkaS1ZHQr1wDOgFOFnwTqBQTSXpteIcg7B2DoEVPX6yepX_zIb0gYyLvO16XVcKsUsADL2f2FeNYutrODjovYj68CRcWDlucWRr1QZzKr3WVZeXO4qs0MdaQOSdJ1mQYq03uv1qbmLNn3L5eK4673A63S8o516tmoQ1f419unPiiKwxUTnIUKPLnmOJMAgv4vvsPoWSg9PnIjmX34YCpRMv4');"></div>
+<div>
+<h4 class="font-bold text-slate-900">Mike Thompson</h4>
+<p class="text-sm text-primary font-medium">Strength Training • Weight Room</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg shadow-lg shadow-blue-200 hover:bg-blue-600 transition-colors">Check In</button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 hover:border-red-200 transition-all" title="Mark No Show">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+</div>
+<!-- Session Plan Preview -->
+<div class="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Focus Today</p>
+<div class="flex gap-2 flex-wrap">
+<span class="text-xs bg-white border border-slate-200 px-2 py-1 rounded text-slate-700">Deadlifts 5x5</span>
+<span class="text-xs bg-white border border-slate-200 px-2 py-1 rounded text-slate-700">OHP 4x8</span>
+<span class="text-xs bg-white border border-slate-200 px-2 py-1 rounded text-slate-700">Pullups 3xMax</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Item 3: Future -->
+<div class="grid grid-cols-[60px_1fr] gap-4 relative group">
+<div class="flex flex-col items-center">
+<p class="text-xs font-bold text-slate-400 mt-1">14:00</p>
+<div class="w-px h-full bg-slate-200 my-2 relative">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-300 rounded-full border-2 border-white"></div>
+</div>
+</div>
+<div class="pb-2">
+<div class="bg-white border border-slate-100 p-4 rounded-xl hover:bg-slate-50 transition-colors">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-200 bg-cover bg-center" data-alt="Client Emma W" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD8WlTqGtGIP9ZTWfmZO-7HRS6gf0ryf-D9YQXTbcG5gutMT-sMv6rIjtWmpekH_Jlf-VTkxDRQnSgalIcvpHuOccmE2pCba7bvaHm6ge9kP3e8fkMTFuzg_4gziGpertLkSy3IgzD2tVbRcquZDeHUe9DKGBSs-bPChI2QYy88nxtnUt18BxhRZu3pgGuVAoTlVP4P_RiVU2RTv3YQaEIAM2XWvr1D7hwTwe6DqrxzHexFU1DkJ2Ifq286RaQituNXZmHq6nULGmM');"></div>
+<div>
+<h4 class="font-bold text-slate-900">Emma Watson</h4>
+<p class="text-sm text-slate-500">Video Consultation • Zoom</p>
+</div>
+</div>
+<button class="px-3 py-1.5 bg-slate-100 text-slate-600 text-sm font-semibold rounded-lg hover:bg-slate-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-lg">videocam</span> Join
+                                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Quick Actions & Widgets (Span 1) -->
+<div class="flex flex-col gap-6">
+<!-- Quick Actions Grid -->
+<div class="grid grid-cols-2 gap-3">
+<button class="bg-primary hover:bg-blue-600 text-white p-4 rounded-xl shadow-lg shadow-blue-200 transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 text-center h-28">
+<span class="material-symbols-outlined text-3xl">add_circle</span>
+<span class="text-xs font-bold">New Plan</span>
+</button>
+<button class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 text-center h-28">
+<span class="material-symbols-outlined text-3xl text-secondary">monitor_weight</span>
+<span class="text-xs font-bold">Log Metrics</span>
+</button>
+<button class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 text-center h-28">
+<span class="material-symbols-outlined text-3xl text-accent">campaign</span>
+<span class="text-xs font-bold">Broadcast</span>
+</button>
+<button class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-1 flex flex-col items-center justify-center gap-2 text-center h-28">
+<span class="material-symbols-outlined text-3xl text-purple-500">analytics</span>
+<span class="text-xs font-bold">Analytics</span>
+</button>
+</div>
+<!-- Messages Widget -->
+<div class="glass-panel rounded-2xl shadow-sm p-5">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-slate-900 font-bold text-md">Recent Messages</h3>
+<a class="text-xs text-primary font-bold hover:underline" href="#">See All</a>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Message 1 -->
+<div class="flex gap-3 items-start p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer relative">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Mike T avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzlHX-o8k9OlH9I6SWNK8gK1dqRdoM65LVUcyXFRqwOLsbwDfsIVjXVD5aPvPajZmOwCgbK0VFzwUAlVYAzywB-EwXnR_OWYgKfdsMMyMmNKv4cujIwdKGXdGWdZXEp-2a4WeQvrExuwJJKbpnBQULXMJrnbMqnmmYdiYfyuHg53FPcCGU0YfPLfqSdcePeVpqXdWd6xxrWCEeuK05t5C95iWSn_eooCw_QO5Hei3-lPwY3AtBtuay5bZaAHwMnvXUPACDR-758Wk');"></div>
+<div class="absolute -bottom-1 -right-1 size-3 bg-secondary border-2 border-white rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h4 class="text-sm font-bold text-slate-900 truncate">Mike T.</h4>
+<span class="text-xs text-slate-400">2m ago</span>
+</div>
+<p class="text-xs text-slate-500 truncate mt-0.5">Running late! Can we start at 11:15?</p>
+</div>
+</div>
+<!-- Message 2 -->
+<div class="flex gap-3 items-start p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer relative">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Client avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnU9I3L8f2H8zZddPjVZIQLojKVd8IjtsD-iC3EtXfa6FwtofpwdEui8im3wmP2r7MsrMxJA7k09f5kDCqafUjtIN3Bx3TTXNkyNCS8CguwiXsnUp7nAE44_ARgnxDiZTxMzwR376iTKX-FqaLuxTmDk4RDSBZgei4xGc-Cu8fgs_xbg0Ssp1cisLT5dPx9j7mRiWmcgxLmC1_1_AX3iFSncUSJQhj_N_e4lxgNB_2tD7E8wY-ddZQs5gwpazVK8cpqe8PJRdN5n4');"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h4 class="text-sm font-bold text-slate-900 truncate">Sarah L.</h4>
+<span class="text-xs text-slate-400">1h ago</span>
+</div>
+<p class="text-xs text-slate-500 truncate mt-0.5">Loved the new leg day routine! 🔥</p>
+</div>
+</div>
+<!-- Message 3 -->
+<div class="flex gap-3 items-start p-2 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer relative">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Client avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuApVq2aa8013wJApm3SNgb7rDMFoaQljG7EusUZXwF3nsqZ_fgJ27v1YIMOYxQaEUzQNbUL9GcbBUYbC47KyKksv769OwRX5-f8jnvWqH-S7J_cWGs54xeFrVwTXYCvAVWQk_d8zeslIqYkY89pzuK_UeeryJbCbKI94GGNps-XnFEbhUaHAaeiAADaUKwn8xe8jgV1I9MwB2Jwu5kte7eZxVWV31O54ipVkqjslzAS5eyHEd0_35GEJwDWaFU-vv4UFt8aqPJ8PNM');"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h4 class="text-sm font-bold text-slate-900 truncate">David K.</h4>
+<span class="text-xs text-slate-400">3h ago</span>
+</div>
+<p class="text-xs text-slate-500 truncate mt-0.5">Is protein powder necessary for...</p>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100">
+<input class="w-full text-sm bg-slate-50 border-none rounded-lg py-2 px-3 focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400 text-slate-700" placeholder="Quick reply..." type="text"/>
+</div>
+</div>
+<!-- Upcoming Bookings Snippet -->
+<div class="glass-panel rounded-2xl shadow-sm p-5">
+<h3 class="text-slate-900 font-bold text-md mb-3">Next 7 Days</h3>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-2">
+<div class="bg-slate-100 p-1.5 rounded text-slate-500">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+</div>
+<span class="font-medium text-slate-700">Tomorrow</span>
+</div>
+<span class="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">6 Sessions</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-2">
+<div class="bg-slate-100 p-1.5 rounded text-slate-500">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+</div>
+<span class="font-medium text-slate-700">Wednesday</span>
+</div>
+<span class="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">4 Sessions</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex items-center gap-2">
+<div class="bg-slate-100 p-1.5 rounded text-slate-500">
+<span class="material-symbols-outlined text-sm">calendar_month</span>
+</div>
+<span class="font-medium text-slate-700">Thursday</span>
+</div>
+<span class="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">8 Sessions</span>
+</div>
+</div>
+<button class="w-full mt-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors">Manage Availability</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

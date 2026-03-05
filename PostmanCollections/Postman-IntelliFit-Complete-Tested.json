@@ -1,0 +1,1726 @@
+{
+  "info": {
+    "_postman_id": "PulseGym-Ai",
+    "name": "IntelliFit API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Complete and tested Postman collection for IntelliFit API. All endpoints verified working as of Dec 20, 2025. Includes AI Chat Sessions and Token Transaction endpoints. Test Member: member@intellifit.com (ID: 1, Pass: 224466). Test Coach: sarah.johnson@intellifit.com (ID: 7, Pass: 224466). Set {{BaseUrl}} = http://localhost:5025 and {{token}} will be auto-populated after login."
+  },
+  "variable": [
+    {
+      "key": "BaseUrl",
+      "value": "http://localhost:5025"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": "1"
+    },
+    {
+      "key": "coachId",
+      "value": "7"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) { pm.environment.set('token', res.token); pm.collectionVariables.set('token', res.token); }",
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Token received', () => pm.expect(res.token).to.exist);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Email\": \"member@intellifit.com\",\n  \"Password\": \"224466\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/auth/login",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Email\": \"newuser{{$randomInt}}@example.com\",\n  \"Password\": \"Test@1234\",\n  \"Name\": \"{{$randomFullName}}\",\n  \"Phone\": \"{{$randomPhoneNumber}}\",\n  \"Role\": \"Member\",\n  \"DateOfBirth\": \"1990-01-01T00:00:00Z\",\n  \"Gender\": 1\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/auth/register",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Check Email Exists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BaseUrl}}/api/auth/emailexists?email=test@example.com",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "auth", "emailexists"],
+              "query": [
+                {
+                  "key": "email",
+                  "value": "test@example.com"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👤 Users",
+      "item": [
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/users/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get User Token Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/users/{{userId}}/tokens",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "users", "{{userId}}", "tokens"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"Updated Name\",\n  \"Phone\": \"1234567890\",\n  \"Address\": \"123 Main St\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/users/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🪙 Token Transactions",
+      "item": [
+        {
+          "name": "Create Token Transaction (Earned)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"TransactionType\": \"Earned\",\n  \"Amount\": 100,\n  \"Description\": \"Workout milestone completed\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/token-transactions",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "token-transactions"]
+            }
+          }
+        },
+        {
+          "name": "Get Transaction By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/token-transactions/9",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "token-transactions", "9"]
+            }
+          }
+        },
+        {
+          "name": "Get User Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/token-transactions/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "token-transactions", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get User Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/token-transactions/user/{{userId}}/balance",
+              "host": ["{{BaseUrl}}"],
+              "path": [
+                "api",
+                "token-transactions",
+                "user",
+                "{{userId}}",
+                "balance"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📅 Subscriptions",
+      "item": [
+        {
+          "name": "Get All Plans",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/subscription/plans",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "subscription", "plans"]
+            }
+          }
+        },
+        {
+          "name": "Get Active Plans",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/subscription/plans/active",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "subscription", "plans", "active"]
+            }
+          }
+        },
+        {
+          "name": "Get Plan By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/subscription/plans/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "subscription", "plans", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get User Active Subscription",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/subscription/user/{{userId}}/active",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "subscription", "user", "{{userId}}", "active"]
+            }
+          }
+        },
+        {
+          "name": "Create Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"PlanId\": 1,\n  \"PaymentId\": 6\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/subscription",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "subscription"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "💳 Payments",
+      "item": [
+        {
+          "name": "Create Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"Amount\": 49.99,\n  \"PaymentMethod\": \"CreditCard\",\n  \"Status\": \"Completed\",\n  \"TransactionId\": \"TXN-{{$randomInt}}\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/payment",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "payment"]
+            }
+          }
+        },
+        {
+          "name": "Get Payment By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/payment/6",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "payment", "6"]
+            }
+          }
+        },
+        {
+          "name": "Get User Payments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/payment/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "payment", "user", "{{userId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📋 Bookings",
+      "item": [
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"EquipmentId\": 1,\n  \"BookingType\": \"Equipment\",\n  \"StartTime\": \"2025-12-02T10:00:00Z\",\n  \"EndTime\": \"2025-12-02T11:00:00Z\",\n  \"Notes\": \"Test booking\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/bookings",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Get Booking By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/bookings/4",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "bookings", "4"]
+            }
+          }
+        },
+        {
+          "name": "Get User Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/bookings/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "bookings", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/bookings/4/cancel",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "bookings", "4", "cancel"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏋️ Equipment",
+      "item": [
+        {
+          "name": "Get All Equipment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/equipment",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "equipment"]
+            }
+          }
+        },
+        {
+          "name": "Get Available Equipment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/equipment/available",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "equipment", "available"]
+            }
+          }
+        },
+        {
+          "name": "Get Equipment By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/equipment/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "equipment", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "💪 Exercises",
+      "item": [
+        {
+          "name": "Get All Exercises",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/exercise",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "exercise"]
+            }
+          }
+        },
+        {
+          "name": "Get Active Exercises",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/exercise/active",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "exercise", "active"]
+            }
+          }
+        },
+        {
+          "name": "Get Exercise By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/exercise/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "exercise", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get By Muscle Group",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/exercise/muscle-group/Chest",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "exercise", "muscle-group", "Chest"]
+            }
+          }
+        },
+        {
+          "name": "Get By Difficulty (Numeric)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/exercise/difficulty/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "exercise", "difficulty", "1"]
+            },
+            "description": "Use numeric difficulty: 1=Easy, 2=Medium, 3=Hard"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🍽️ Meals",
+      "item": [
+        {
+          "name": "Get All Meals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/meals",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "meals"]
+            }
+          }
+        },
+        {
+          "name": "Get Active Meals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/meals/active",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "meals", "active"]
+            }
+          }
+        },
+        {
+          "name": "Get Meal By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/meals/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "meals", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔔 Notifications",
+      "item": [
+        {
+          "name": "Get User Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/notifications/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "notifications", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Unread Count",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/notifications/user/{{userId}}/unread-count",
+              "host": ["{{BaseUrl}}"],
+              "path": [
+                "api",
+                "notifications",
+                "user",
+                "{{userId}}",
+                "unread-count"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark As Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/notifications/1/read",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "notifications", "1", "read"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📝 Workout Logs",
+      "item": [
+        {
+          "name": "Get User Workout Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-logs/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-logs", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Workout Log By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-logs/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-logs", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Workout Log",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"WorkoutPlanId\": 1,\n  \"Duration\": 60,\n  \"CaloriesBurned\": 300,\n  \"Notes\": \"Great workout session\",\n  \"WorkoutDate\": \"2025-12-01T00:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-logs",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-logs"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏃 Workout Plans",
+      "item": [
+        {
+          "name": "Get Templates",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-plans/templates",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-plans", "templates"]
+            }
+          }
+        },
+        {
+          "name": "Get Member Plans",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-plans/member/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-plans", "member", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Template By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-plans/templates/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-plans", "templates", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🥗 Nutrition Plans",
+      "item": [
+        {
+          "name": "Get By Member",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/nutrition-plans/member/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "nutrition-plans", "member", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/nutrition-plans/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "nutrition-plans", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 InBody Measurements",
+      "item": [
+        {
+          "name": "Get User Measurements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/inbody/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "inbody", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Latest Measurement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/inbody/user/1/latest",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "inbody", "user", "1", "latest"]
+            },
+            "description": "Note: Returns 404 if user has no measurements"
+          }
+        },
+        {
+          "name": "Create Measurement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"Weight\": 75.5,\n  \"Height\": 175,\n  \"BodyFatPercentage\": 18.5,\n  \"MuscleMass\": 60.2,\n  \"MeasurementDate\": \"2025-12-02T00:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/inbody",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "inbody"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎯 User Milestones",
+      "item": [
+        {
+          "name": "Get User Milestones",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/user-milestones/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "user-milestones", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Progress",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"MilestoneId\": 1,\n  \"CurrentProgress\": 75\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/user-milestones/user/{{userId}}/progress",
+              "host": ["{{BaseUrl}}"],
+              "path": [
+                "api",
+                "user-milestones",
+                "user",
+                "{{userId}}",
+                "progress"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📰 Activity Feed",
+      "item": [
+        {
+          "name": "Get Recent Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/activity-feed/recent",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "activity-feed", "recent"]
+            }
+          }
+        },
+        {
+          "name": "Get User Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/activity-feed/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "activity-feed", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"ActivityType\": \"workout_completed\",\n  \"Title\": \"Completed workout\",\n  \"Description\": \"Finished today's workout session\",\n  \"IsPublic\": true\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/activity-feed",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "activity-feed"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📈 Stats",
+      "item": [
+        {
+          "name": "Get Member Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/stats/member/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "stats", "member", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Coach Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/stats/coach/{{coachId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "stats", "coach", "{{coachId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "⭐ Coach Reviews",
+      "item": [
+        {
+          "name": "Get Coach Reviews",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/coach-reviews/coach/{{coachId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "coach-reviews", "coach", "{{coachId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Coach Rating",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/coach-reviews/coach/{{coachId}}/rating",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "coach-reviews", "coach", "{{coachId}}", "rating"]
+            }
+          }
+        },
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"CoachId\": {{coachId}},\n  \"MemberId\": {{userId}},\n  \"Rating\": 5,\n  \"ReviewText\": \"Excellent coach! Very professional.\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/coach-reviews",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "coach-reviews"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📋 Workout Templates",
+      "item": [
+        {
+          "name": "Get Public Templates",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-templates/public",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-templates", "public"]
+            }
+          }
+        },
+        {
+          "name": "Get Template By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-templates/1",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-templates", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Coach Templates",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-templates/coach/{{coachId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-templates", "coach", "{{coachId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🤖 AI Services",
+      "item": [
+        {
+          "name": "AI Test Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/ai/test",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "ai", "test"]
+            },
+            "description": "Test endpoint to verify AI service is running"
+          }
+        },
+        {
+          "name": "Gemini Chat - New Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"Message\": \"Hello, I need help with my workout routine\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/ai/gemini-chat",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "ai", "gemini-chat"]
+            },
+            "description": "Start a new AI chat session. Costs 1 token. Returns sessionId for continuing the conversation."
+          }
+        },
+        {
+          "name": "Gemini Chat - Continue Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"Message\": \"Can you give me more details?\",\n  \"SessionId\": \"your-session-id-here\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/ai/gemini-chat",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "ai", "gemini-chat"]
+            },
+            "description": "Continue an existing chat session. Include SessionId from previous response. Costs 1 token per message."
+          }
+        },
+        {
+          "name": "Get User Chat Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/ai/sessions/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "ai", "sessions", "{{userId}}"]
+            },
+            "description": "Get all chat sessions for a user with message count and preview"
+          }
+        },
+        {
+          "name": "Get Session Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/ai/sessions/{{userId}}/your-session-id-here",
+              "host": ["{{BaseUrl}}"],
+              "path": [
+                "api",
+                "ai",
+                "sessions",
+                "{{userId}}",
+                "your-session-id-here"
+              ]
+            },
+            "description": "Get all messages in a specific chat session"
+          }
+        },
+        {
+          "name": "Generate Workout Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"Goal\": \"Build muscle and increase strength\",\n  \"FitnessLevel\": \"Intermediate\",\n  \"DaysPerWeek\": 4,\n  \"Duration\": 60\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/ai/generate-workout-plan",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "ai", "generate-workout-plan"]
+            },
+            "description": "Generate a personalized workout plan using AI. Costs 50 tokens."
+          }
+        },
+        {
+          "name": "Generate Nutrition Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"UserId\": {{userId}},\n  \"Goal\": \"Weight loss\",\n  \"DietaryRestrictions\": \"Vegetarian\",\n  \"CalorieTarget\": 2000,\n  \"MealsPerDay\": 3\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/ai/generate-nutrition-plan",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "ai", "generate-nutrition-plan"]
+            },
+            "description": "Generate a personalized nutrition plan using AI. Costs 50 tokens."
+          }
+        },
+        {
+          "name": "Get Chat History (Legacy)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/ai/history/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "ai", "history", "{{userId}}"]
+            },
+            "description": "Get chat history (old format without sessions). Use Get User Chat Sessions instead."
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏋️ AI Workout Generator (Flan-T5)",
+      "item": [
+        {
+          "name": "Generate AI Workout Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": {{userId}},\n  \"fitnessLevel\": \"Intermediate\",\n  \"goal\": \"Muscle\",\n  \"daysPerWeek\": 4,\n  \"equipment\": [\"Barbell\", \"Dumbbells\", \"Cable Machine\"],\n  \"injuries\": [],\n  \"includeUserContext\": true,\n  \"forceRegenerate\": false\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-ai/generate",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-ai", "generate"]
+            },
+            "description": "Generate a personalized AI workout plan using Flan-T5 ML model. Includes user context (InBody, strength profile, muscle scan). Results cached for 24h unless forceRegenerate is true. Returns plan with exercises, sets, reps, and progressive overload recommendations. FitnessLevel: Beginner|Intermediate|Advanced. Goal: Muscle|Strength|WeightLoss|Cardio|Endurance."
+          }
+        },
+        {
+          "name": "Submit Workout Feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workoutLogId\": 1,\n  \"rating\": 4,\n  \"difficultyLevel\": \"perfect\",\n  \"exerciseFeedbacks\": [\n    {\n      \"exerciseId\": 1,\n      \"exerciseName\": \"Bench Press\",\n      \"actualWeight\": 80,\n      \"actualSets\": 4,\n      \"actualReps\": 10,\n      \"weightFeeling\": \"perfect\",\n      \"difficultyFeeling\": \"just_right\",\n      \"notes\": \"Great exercise, felt strong\"\n    },\n    {\n      \"exerciseId\": 5,\n      \"exerciseName\": \"Squat\",\n      \"actualWeight\": 120,\n      \"actualSets\": 4,\n      \"actualReps\": 8,\n      \"weightFeeling\": \"too_heavy\",\n      \"difficultyFeeling\": \"too_hard\",\n      \"notes\": \"Struggled on last set\"\n    }\n  ],\n  \"comments\": \"Overall great workout, but squat was challenging\",\n  \"feedbackType\": \"workout_completion\"\n}"
+            },
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-ai/feedback",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-ai", "feedback"]
+            },
+            "description": "Submit feedback after completing a workout. Updates user's strength profile based on weight feelings (too_light, perfect, too_heavy). Adjusts 1RM estimates and increases confidence scores. This data personalizes future workout plan generations. WeightFeeling: too_light|perfect|too_heavy. DifficultyFeeling: too_easy|just_right|too_hard."
+          }
+        },
+        {
+          "name": "Check ML Service Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-ai/health",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-ai", "health"]
+            },
+            "description": "Check if ML service (FastAPI on port 5300) is available and model is loaded. Returns health status and message. No authentication required."
+          }
+        },
+        {
+          "name": "Get User Strength Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-ai/strength/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-ai", "strength", "{{userId}}"]
+            },
+            "description": "Get user's strength profile with estimated 1RM for all exercises they've performed. Includes confidence scores, trends (improving/plateauing), and feedback count. Used to personalize workout weight recommendations."
+          }
+        },
+        {
+          "name": "Get Latest Muscle Scan",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-ai/muscle-scan/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-ai", "muscle-scan", "{{userId}}"]
+            },
+            "description": "Get user's latest muscle development scan results from AI vision analysis. Shows muscle scores, underdeveloped areas, well-developed areas, body fat estimate, and asymmetry detection. Used to focus workout plans on weak muscle groups."
+          }
+        },
+        {
+          "name": "Get Feedback History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/workout-ai/feedback/history?limit=20",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "workout-ai", "feedback", "history"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of feedback records to return (default: 20)"
+                }
+              ]
+            },
+            "description": "Get user's workout feedback history. Shows ratings, difficulty levels, exercise-specific feedback, and comments. Useful for tracking workout progression and user satisfaction over time."
+          }
+        },
+        {
+          "name": "Direct ML Service - Generate Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 99999,\n  \"fitness_level\": \"Intermediate\",\n  \"goal\": \"Muscle\",\n  \"days_per_week\": 4,\n  \"equipment\": [\"Barbell\", \"Dumbbells\"],\n  \"injuries\": [\"lower back\"],\n  \"user_context\": {\n    \"inbody_data\": {\n      \"muscle_mass_kg\": 68.5,\n      \"body_fat_percent\": 17.3\n    },\n    \"muscle_scan\": {\n      \"weak_areas\": [\"shoulders\", \"calves\"],\n      \"strong_areas\": [\"legs\"]\n    },\n    \"strength_profile\": [\n      {\n        \"exercise_name\": \"Bench Press\",\n        \"one_rm_kg\": 90,\n        \"confidence_score\": 0.88\n      },\n      {\n        \"exercise_name\": \"Squat\",\n        \"one_rm_kg\": 120,\n        \"confidence_score\": 0.92\n      }\n    ]\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5300/predict",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5300",
+              "path": ["predict"]
+            },
+            "description": "Call the ML service directly (bypasses C# backend). For testing and debugging purposes. Returns raw ML service response with plan data, latency metrics, and model version. Port 5300 must be accessible."
+          }
+        },
+        {
+          "name": "Direct ML Service - Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5300/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5300",
+              "path": ["health"]
+            },
+            "description": "Direct health check of ML service. Returns status, version, mode (rule_based or ml), exercises count, and timestamp. No authentication required."
+          }
+        },
+        {
+          "name": "Direct ML Service - Get Body Parts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5300/bodyparts",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5300",
+              "path": ["bodyparts"]
+            },
+            "description": "Get list of all body parts in the exercise database. Returns array of body part names (chest, back, legs, etc.)."
+          }
+        },
+        {
+          "name": "Direct ML Service - Get Equipment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5300/equipment",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5300",
+              "path": ["equipment"]
+            },
+            "description": "Get list of all equipment types in the database. Returns array of equipment names (barbell, dumbbell, cable machine, etc.)."
+          }
+        },
+        {
+          "name": "Direct ML Service - Query Exercises",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5300/exercises?body_part=chest&limit=10",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5300",
+              "path": ["exercises"],
+              "query": [
+                {
+                  "key": "body_part",
+                  "value": "chest",
+                  "description": "Filter by body part (optional)"
+                },
+                {
+                  "key": "equipment",
+                  "value": "barbell",
+                  "description": "Filter by equipment type (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Max results to return (default: 20)"
+                }
+              ]
+            },
+            "description": "Query exercises from the ML service database. Filter by body_part, equipment, or get all. Returns exercise details including name, target muscles, equipment, and image URLs (if available)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Audit Logs (Admin Only)",
+      "item": [
+        {
+          "name": "Get User Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/audit-logs/user/{{userId}}",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "audit-logs", "user", "{{userId}}"]
+            },
+            "description": "Note: Requires Admin role, returns Forbidden for regular users"
+          }
+        },
+        {
+          "name": "Get By Table Name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BaseUrl}}/api/audit-logs/table/Users",
+              "host": ["{{BaseUrl}}"],
+              "path": ["api", "audit-logs", "table", "Users"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

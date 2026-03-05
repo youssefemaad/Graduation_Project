@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - Book a Coach</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#19f073",
+                        "primary-dark": "#0ea84c",
+                        "secondary": "#3B82F6",
+                        "accent": "#F97316",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102218",
+                        "surface": "#ffffff",
+                        "surface-dark": "#1a2c24",
+                        "text-main": "#0d1c13",
+                        "text-muted": "#4b9b6c",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    backgroundImage: {
+                        'gym-pattern': "url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop')",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Modal Visibility Logic */
+        #booking-modal {
+            display: none;
+        }
+        #booking-modal:target {
+            display: flex;
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background-light text-text-main font-display antialiased overflow-x-hidden relative">
+<!-- Background Layer -->
+<div class="fixed inset-0 z-0 pointer-events-none opacity-5">
+<div class="w-full h-full bg-gym-pattern bg-cover bg-center bg-no-repeat" data-alt="Abstract blurred background pattern of a modern gym interior"></div>
+</div>
+<!-- Navigation -->
+<header class="relative z-20 sticky top-0 w-full bg-white/90 backdrop-blur-md border-b border-[#e7f3ec]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<!-- Logo -->
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-text-main">
+<span class="material-symbols-outlined font-bold">ecg_heart</span>
+</div>
+<h2 class="text-text-main text-xl font-bold tracking-tight">PulseGym</h2>
+</div>
+<!-- Nav Links -->
+<nav class="hidden md:flex gap-8">
+<a class="text-text-main text-sm font-medium hover:text-primary transition-colors" href="#">Coaches</a>
+<a class="text-text-muted text-sm font-medium hover:text-text-main transition-colors" href="#">Classes</a>
+<a class="text-text-muted text-sm font-medium hover:text-text-main transition-colors" href="#">Dashboard</a>
+<a class="text-text-muted text-sm font-medium hover:text-text-main transition-colors" href="#">My Profile</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex items-center gap-2 h-9 px-3 bg-primary/10 hover:bg-primary/20 rounded-lg border border-primary/20 transition-colors">
+<span class="material-symbols-outlined text-primary text-lg">token</span>
+<span class="text-text-main text-sm font-bold">450</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-gray-200 bg-cover bg-center border-2 border-white shadow-sm cursor-pointer" data-alt="User profile picture showing a smiling man" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAoy6M8o1ctdfECQ2azoVXuByBIv4YNKS2MrxTleqiHI8YcbqP7LhPGrWZgU3yo9EpOZ-5kQSUs0H-qoZJDFdgxNE7PXDoVgbjLU2zGj6wAPhmkYNWX7P_SHNHkQncVd176SZTbE5N4JoiZh2qtiI4xeism3unhvz4hwRiBzMUZ_NtPUNPqKecYE-bj09JdZt_36C1DJyER3_N8RPGy5E9AD_LUWmQMM8JzCzN0tWvA0iNvF9gi4xjngak76k6zmBMddwrOSvffOQs");'>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[calc(100vh-64px)]">
+<!-- Page Header -->
+<div class="mb-8">
+<h1 class="text-3xl md:text-4xl font-black text-text-main tracking-tight mb-2">Find Your Perfect Coach</h1>
+<p class="text-text-muted text-lg max-w-2xl">Browse elite trainers powered by AI to reach your fitness goals faster.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-64 flex-shrink-0 space-y-6">
+<!-- Mobile Toggle (Hidden on large) -->
+<div class="lg:hidden flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-[#e7f3ec]">
+<span class="font-bold">Filters</span>
+<span class="material-symbols-outlined">filter_list</span>
+</div>
+<!-- Desktop Filters Content -->
+<div class="hidden lg:block space-y-8">
+<!-- Price Slider -->
+<div class="bg-white p-5 rounded-xl border border-[#e7f3ec] shadow-sm">
+<h3 class="font-bold text-text-main mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">payments</span>
+                            Price Range
+                        </h3>
+<div class="relative h-12 pt-2">
+<div class="relative h-1.5 w-full bg-[#e7f3ec] rounded-full">
+<div class="absolute left-[10%] right-[30%] h-full bg-primary rounded-full"></div>
+<!-- Handle 1 -->
+<div class="absolute left-[10%] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full shadow cursor-pointer transform -translate-x-1/2"></div>
+<!-- Handle 2 -->
+<div class="absolute right-[30%] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full shadow cursor-pointer transform translate-x-1/2"></div>
+</div>
+<div class="flex justify-between mt-4 text-xs font-bold text-text-main">
+<span>20 T</span>
+<span>150 T</span>
+</div>
+</div>
+</div>
+<!-- Availability -->
+<div class="bg-white p-5 rounded-xl border border-[#e7f3ec] shadow-sm">
+<h3 class="font-bold text-text-main mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+                            Availability
+                        </h3>
+<label class="flex items-center justify-between cursor-pointer group">
+<span class="text-sm font-medium text-text-main group-hover:text-primary transition-colors">Available Today</span>
+<div class="relative inline-flex h-6 w-11 items-center rounded-full bg-[#e7f3ec] transition-colors">
+<span class="translate-x-6 inline-block h-4 w-4 transform rounded-full bg-primary transition"></span>
+</div>
+</label>
+<label class="flex items-center justify-between cursor-pointer group mt-3">
+<span class="text-sm font-medium text-text-main group-hover:text-primary transition-colors">Instant Booking</span>
+<div class="relative inline-flex h-6 w-11 items-center rounded-full bg-[#e7f3ec] transition-colors">
+<span class="translate-x-1 inline-block h-4 w-4 transform rounded-full bg-white shadow transition"></span>
+</div>
+</label>
+</div>
+<!-- Ratings -->
+<div class="bg-white p-5 rounded-xl border border-[#e7f3ec] shadow-sm">
+<h3 class="font-bold text-text-main mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">star</span>
+                            Rating
+                        </h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked="" class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-text-main">4.5 Stars &amp; up</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-text-main">4.0 Stars &amp; up</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-text-main">3.0 Stars &amp; up</span>
+</label>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col gap-6">
+<!-- Search & Quick Filters -->
+<div class="bg-white p-4 rounded-xl border border-[#e7f3ec] shadow-sm flex flex-col md:flex-row gap-4 justify-between items-center sticky top-20 z-10">
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-[#f8fcfa] border border-[#e7f3ec] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="Search by name or keyword..." type="text"/>
+</div>
+<div class="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 no-scrollbar">
+<button class="whitespace-nowrap px-4 py-1.5 bg-primary/10 text-text-main text-xs font-bold rounded-full border border-primary/20 hover:bg-primary/20 transition-colors">
+                            All Coaches
+                        </button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-white text-text-muted text-xs font-medium rounded-full border border-[#e7f3ec] hover:border-primary/50 hover:text-primary transition-colors">
+                            Yoga
+                        </button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-white text-text-muted text-xs font-medium rounded-full border border-[#e7f3ec] hover:border-primary/50 hover:text-primary transition-colors">
+                            HIIT
+                        </button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-white text-text-muted text-xs font-medium rounded-full border border-[#e7f3ec] hover:border-primary/50 hover:text-primary transition-colors">
+                            Strength
+                        </button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-white text-text-muted text-xs font-medium rounded-full border border-[#e7f3ec] hover:border-primary/50 hover:text-primary transition-colors">
+                            Cardio
+                        </button>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Coach Card 1 -->
+<div class="group bg-white rounded-2xl border border-[#e7f3ec] overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 flex flex-col">
+<div class="relative h-48 bg-gray-100 overflow-hidden">
+<img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of a fit male coach in gym attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAewD-W1GEJDEUbtHO14qd8EPQ6eRLku8F2KiGYsBDJvrTiaOVMf5nopUxW4WpcCGWl3-oQrgKDN5usuQMKW4FkSgIaPZC-LsdCM4eKZ8Lh4puneE_AwHs0t8m8h1n5vJ9Cwira4iKS1hDP5nLKy0h4UWfVjMNH6c2TEWlGElaqOxi0NHWTmcdDMrhZZLzN6fAwLxnaNY5iO40W-cRyh0kOWIpbfVEwW2os5Xk9vMmvk2OYcC7c8ipn4cVs8iVHCiT_hNprDi6XC4c"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-text-main">Available</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">HIIT</span>
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">CrossFit</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-lg font-bold text-text-main group-hover:text-primary transition-colors">Marcus Holt</h3>
+<div class="flex items-center gap-1 text-sm text-text-muted">
+<span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-text-main">4.9</span>
+<span>(128 reviews)</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-bold text-primary">60 T<span class="text-xs text-text-muted font-normal">/hr</span></p>
+</div>
+</div>
+<p class="text-sm text-text-muted line-clamp-2 mb-4">Specializing in high-intensity interval training and functional strength specifically for busy professionals.</p>
+<div class="mt-auto pt-4 border-t border-[#e7f3ec] flex items-center justify-between">
+<span class="text-xs font-medium text-text-muted">7 Years Exp.</span>
+<a class="px-4 py-2 bg-primary text-text-main text-sm font-bold rounded-lg hover:bg-primary-dark hover:text-white transition-colors shadow-sm hover:shadow-md transform active:scale-95" href="#booking-modal">
+                                    Book Now
+                                </a>
+</div>
+</div>
+</div>
+<!-- Coach Card 2 -->
+<div class="group bg-white rounded-2xl border border-[#e7f3ec] overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 flex flex-col">
+<div class="relative h-48 bg-gray-100 overflow-hidden">
+<img class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of a female yoga instructor outdoors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvTGnpneDWAIli-jMcqMkak2tHlhj_couJMGpqT41R7FpNPnd3uw9bY5wHRplQknCbROD3PtRUBUroIWdoTs70BeFX-E1Uhdq9aYVg_NU3p8YtyHl-07OCpqY_8V1Sg6ookrWP315IGFi5HCN4Vy5V5mVzb44PENnwM0UjGDMY8xw9VenlVfTMRLwwpTZCbuNEFbqXZfVb_G3TzTgT3D71lTVPOCixo5cCvBToy_fIbBSRN4ADvn-Tp28wAbRK95y6P89srn2ub5g"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-red-400"></div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Busy</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Yoga</span>
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Mindfulness</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-lg font-bold text-text-main group-hover:text-primary transition-colors">Sarah Chen</h3>
+<div class="flex items-center gap-1 text-sm text-text-muted">
+<span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-text-main">5.0</span>
+<span>(243 reviews)</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-bold text-primary">85 T<span class="text-xs text-text-muted font-normal">/hr</span></p>
+</div>
+</div>
+<p class="text-sm text-text-muted line-clamp-2 mb-4">Certified Vinyasa and Hatha instructor helping you find balance and flexibility through guided practice.</p>
+<div class="mt-auto pt-4 border-t border-[#e7f3ec] flex items-center justify-between">
+<span class="text-xs font-medium text-text-muted">10 Years Exp.</span>
+<button class="px-4 py-2 bg-white border border-[#e7f3ec] text-text-main text-sm font-bold rounded-lg hover:border-primary hover:text-primary transition-colors">
+                                    View Profile
+                                </button>
+</div>
+</div>
+</div>
+<!-- Coach Card 3 -->
+<div class="group bg-white rounded-2xl border border-[#e7f3ec] overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 flex flex-col">
+<div class="relative h-48 bg-gray-100 overflow-hidden">
+<img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of a muscular male bodybuilding coach" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1lbCKz_PJQbFU4zPlKaMFWbFcyXb31B4CQ8Jax7Z29IFqKhRfhaMMbSwEtHISSZ05UDz1uiOmBcKTmiTsY9zcVJdCyGIigz0oeWJXJfpyWhv6wLqAwTOeLKpJfiRqsPWpdTLwXWPAxPi12dBCplN0BjutdBUoUw2e0i7yAXKG4WCYGRkCJHtB1lk8fAp8MirfUqlq7IdNJQidbgB1aQZ7JdY9Lb0FBu214FXYECirpZ0iLa-p6QHFtNJ2gUbDMpX_O8ACH4DcH3g"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-text-main">Available</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Strength</span>
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Nutrition</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-lg font-bold text-text-main group-hover:text-primary transition-colors">Jaxson Miller</h3>
+<div class="flex items-center gap-1 text-sm text-text-muted">
+<span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-text-main">4.8</span>
+<span>(89 reviews)</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-bold text-primary">55 T<span class="text-xs text-text-muted font-normal">/hr</span></p>
+</div>
+</div>
+<p class="text-sm text-text-muted line-clamp-2 mb-4">Former competitive bodybuilder focusing on hypertrophy and sustainable nutrition planning.</p>
+<div class="mt-auto pt-4 border-t border-[#e7f3ec] flex items-center justify-between">
+<span class="text-xs font-medium text-text-muted">5 Years Exp.</span>
+<a class="px-4 py-2 bg-primary text-text-main text-sm font-bold rounded-lg hover:bg-primary-dark hover:text-white transition-colors shadow-sm hover:shadow-md transform active:scale-95" href="#booking-modal">
+                                    Book Now
+                                </a>
+</div>
+</div>
+</div>
+<!-- Coach Card 4 -->
+<div class="group bg-white rounded-2xl border border-[#e7f3ec] overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 flex flex-col">
+<div class="relative h-48 bg-gray-100 overflow-hidden">
+<img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of a female pilates instructor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC87f6PTqLYdBXprJccFrHYYtQ_JTvHWOzfkwf5mgZ64Jt9jqI5hXEVpZSN5TLxGqmfV0etBPwlP5afZegIgoJrL-exTkgIDcTEvo_3a7neE4LuSO0xVp7_6cb19ZtKez5VbxAlJg5mnS_TURq74ibCF_e4vpCpuFbTaJEIGvp8LcI1dlKAAoDorA2DFJioGrXHl0p6Nphx38N-8aqR-qM-O3oeTb7BEZHCzYMqpDzgT7um3k2xwRDuqDljvEzEqn2nHNFnu5fDRsE"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-text-main">Available</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Pilates</span>
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Rehab</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-lg font-bold text-text-main group-hover:text-primary transition-colors">Elena Rodriguez</h3>
+<div class="flex items-center gap-1 text-sm text-text-muted">
+<span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-text-main">4.9</span>
+<span>(56 reviews)</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-bold text-primary">70 T<span class="text-xs text-text-muted font-normal">/hr</span></p>
+</div>
+</div>
+<p class="text-sm text-text-muted line-clamp-2 mb-4">Specialized in injury recovery and core strengthening through classical Pilates methods.</p>
+<div class="mt-auto pt-4 border-t border-[#e7f3ec] flex items-center justify-between">
+<span class="text-xs font-medium text-text-muted">12 Years Exp.</span>
+<a class="px-4 py-2 bg-primary text-text-main text-sm font-bold rounded-lg hover:bg-primary-dark hover:text-white transition-colors shadow-sm hover:shadow-md transform active:scale-95" href="#booking-modal">
+                                    Book Now
+                                </a>
+</div>
+</div>
+</div>
+<!-- Coach Card 5 -->
+<div class="group bg-white rounded-2xl border border-[#e7f3ec] overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 flex flex-col">
+<div class="relative h-48 bg-gray-100 overflow-hidden">
+<img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of a male running coach" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDMKdRm2MyB7-3GB_q08kQwy8bjH35dCoOzvrRvZs43vtVhFTbWNyJzBSFa-9qWZ5s0tTjUs2MM01wTBb1KHJv_zVV6DN0QVigDxvxJixC_RbF1HJU-aq5PgZBQLILJoFdUZJQK1OZeoeQkbY2_v3JqJjeS1pNNAgk8vpGIzmvbclzyGNM57yTr4HrlhuZs4rNHD5ivd4Re1qDo5t68pAdCr8Apu3ux3Usy_PM1kd76qxKSVIZuriTz_lSjaG-CCsxL4l8aq1THK0"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-red-400"></div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Offline</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Cardio</span>
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Endurance</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-lg font-bold text-text-main group-hover:text-primary transition-colors">David Kim</h3>
+<div class="flex items-center gap-1 text-sm text-text-muted">
+<span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-text-main">4.7</span>
+<span>(32 reviews)</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-bold text-primary">45 T<span class="text-xs text-text-muted font-normal">/hr</span></p>
+</div>
+</div>
+<p class="text-sm text-text-muted line-clamp-2 mb-4">Marathon runner and endurance coach. I help you run further, faster, and injury-free.</p>
+<div class="mt-auto pt-4 border-t border-[#e7f3ec] flex items-center justify-between">
+<span class="text-xs font-medium text-text-muted">4 Years Exp.</span>
+<button class="px-4 py-2 bg-white border border-[#e7f3ec] text-text-main text-sm font-bold rounded-lg hover:border-primary hover:text-primary transition-colors">
+                                    View Profile
+                                </button>
+</div>
+</div>
+</div>
+<!-- Coach Card 6 -->
+<div class="group bg-white rounded-2xl border border-[#e7f3ec] overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 flex flex-col">
+<div class="relative h-48 bg-gray-100 overflow-hidden">
+<img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" data-alt="Portrait of a female dance fitness coach" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfWsufECegaHz2TzRun7h7zkeTeaiTkb9AT_8nlZ_DThFxjXWwLpG3RUfzxTc8Jm5rQSVHcNsBC5t5SehJWCdc7NQMlway8qjjDFAiqyvy_bagVu8ApuPeUrbXaOlltsSIZIIPjycS0l7gE4nEo1ylopm6PQaDQ_tb4o7RQz3QgOkmI6Jz4oQItYf7feodO36iogFlnIQykPeUvzqnT0TScXvENXaSZRb6Xq0MXiXfdscoKi2ClXw2Z0D6xzgJXeE2ZzOpZ6UKiQ4"/>
+<div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-text-main">Available</span>
+</div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Zumba</span>
+<span class="px-2 py-1 bg-black/60 backdrop-blur-md text-white text-xs font-medium rounded-md">Dance</span>
+</div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="text-lg font-bold text-text-main group-hover:text-primary transition-colors">Maria Silva</h3>
+<div class="flex items-center gap-1 text-sm text-text-muted">
+<span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-text-main">4.8</span>
+<span>(210 reviews)</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-lg font-bold text-primary">50 T<span class="text-xs text-text-muted font-normal">/hr</span></p>
+</div>
+</div>
+<p class="text-sm text-text-muted line-clamp-2 mb-4">Energetic dance fitness instructor making burning calories feel like a party!</p>
+<div class="mt-auto pt-4 border-t border-[#e7f3ec] flex items-center justify-between">
+<span class="text-xs font-medium text-text-muted">6 Years Exp.</span>
+<a class="px-4 py-2 bg-primary text-text-main text-sm font-bold rounded-lg hover:bg-primary-dark hover:text-white transition-colors shadow-sm hover:shadow-md transform active:scale-95" href="#booking-modal">
+                                    Book Now
+                                </a>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More / AI Suggestion -->
+<div class="mt-8 flex justify-center">
+<button class="flex items-center gap-2 px-6 py-3 bg-white border border-[#e7f3ec] rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors group">
+<span class="material-symbols-outlined group-hover:animate-bounce">smart_toy</span>
+<span class="font-medium">Let AI recommend a coach for you</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Booking Modal (Hidden by default, targeted via URL hash #booking-modal) -->
+<div class="fixed inset-0 z-50 items-center justify-center bg-black/50 backdrop-blur-sm p-4" id="booking-modal">
+<div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col md:flex-row relative animate-in fade-in zoom-in duration-200">
+<!-- Close Button -->
+<a class="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center bg-white/50 hover:bg-white rounded-full transition-colors cursor-pointer" href="#">
+<span class="material-symbols-outlined">close</span>
+</a>
+<!-- Left Col: Coach Info -->
+<div class="w-full md:w-1/3 bg-background-light p-6 md:p-8 flex flex-col border-r border-[#e7f3ec]">
+<div class="flex flex-col items-center text-center mb-6">
+<div class="w-24 h-24 rounded-full p-1 border-2 border-primary mb-3">
+<img class="w-full h-full object-cover rounded-full" data-alt="Portrait of Marcus Holt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbIjExQc7eeEmQefaYQIa3sqpRM9UCA6wTpbvcgxS6dOX3V5aLJtal5gw3LbQnvsLFjKQ-YIwYo3xsOQc0PX9SWD2w4DzjfYelgFg3ewnnFNOtoKI8pEnhflbnbMyBeDXlK0YSDEvT2ed_Vk59MAVQ8TsEfcF2pTnFErKL6A4XauV7Inwz2t_h7ZEuzIfpNL5Eh16fhP40z1hhnfde4GChs74_lm_y3dn-8S_MdordVKwRISsLElJp-w1-lhw6VBENEiOMECrP7ZE"/>
+</div>
+<h3 class="text-2xl font-black text-text-main">Marcus Holt</h3>
+<p class="text-primary font-bold">HIIT Specialist</p>
+<div class="flex items-center gap-1 text-sm mt-2 text-text-muted">
+<span class="material-symbols-outlined text-yellow-400 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-text-main">4.9</span>
+<span>(128 reviews)</span>
+</div>
+</div>
+<div class="space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+<div>
+<h4 class="text-sm font-bold text-text-main uppercase tracking-wide mb-2">About</h4>
+<p class="text-sm text-text-muted leading-relaxed">Certified NASM trainer with a passion for high-intensity training. I help clients shred fat and build lean muscle through scientifically backed programming.</p>
+</div>
+<div>
+<h4 class="text-sm font-bold text-text-main uppercase tracking-wide mb-2">Certifications</h4>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-white border border-[#e7f3ec] rounded text-xs font-medium text-text-main">NASM CPT</span>
+<span class="px-2 py-1 bg-white border border-[#e7f3ec] rounded text-xs font-medium text-text-main">CrossFit L2</span>
+<span class="px-2 py-1 bg-white border border-[#e7f3ec] rounded text-xs font-medium text-text-main">CPR/AED</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Col: Booking Form -->
+<div class="flex-1 p-6 md:p-8 flex flex-col bg-white overflow-y-auto">
+<h3 class="text-xl font-bold text-text-main mb-6">Select a Session</h3>
+<div class="space-y-6">
+<!-- Session Type -->
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="session_type" type="radio"/>
+<div class="p-3 border rounded-lg peer-checked:border-primary peer-checked:bg-primary/5 hover:bg-gray-50 transition-all text-center">
+<span class="block font-bold text-text-main text-sm">1-on-1 Virtual</span>
+<span class="block text-xs text-text-muted">Zoom Integration</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="session_type" type="radio"/>
+<div class="p-3 border rounded-lg peer-checked:border-primary peer-checked:bg-primary/5 hover:bg-gray-50 transition-all text-center">
+<span class="block font-bold text-text-main text-sm">In-Person</span>
+<span class="block text-xs text-text-muted">PulseGym Main St.</span>
+</div>
+</label>
+</div>
+<!-- Date & Time Picker Mockup -->
+<div>
+<label class="block text-sm font-medium text-text-main mb-2">Date &amp; Time</label>
+<div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+<div class="flex-shrink-0 w-16 h-20 rounded-lg bg-primary text-text-main flex flex-col items-center justify-center cursor-pointer shadow-md transform scale-105 border-2 border-primary">
+<span class="text-xs font-medium opacity-80">Oct</span>
+<span class="text-xl font-bold">24</span>
+<span class="text-xs font-medium opacity-80">Today</span>
+</div>
+<div class="flex-shrink-0 w-16 h-20 rounded-lg bg-white border border-[#e7f3ec] text-text-muted hover:border-primary hover:text-primary flex flex-col items-center justify-center cursor-pointer transition-colors">
+<span class="text-xs font-medium">Oct</span>
+<span class="text-xl font-bold">25</span>
+<span class="text-xs font-medium">Tue</span>
+</div>
+<div class="flex-shrink-0 w-16 h-20 rounded-lg bg-white border border-[#e7f3ec] text-text-muted hover:border-primary hover:text-primary flex flex-col items-center justify-center cursor-pointer transition-colors">
+<span class="text-xs font-medium">Oct</span>
+<span class="text-xl font-bold">26</span>
+<span class="text-xs font-medium">Wed</span>
+</div>
+<div class="flex-shrink-0 w-16 h-20 rounded-lg bg-white border border-[#e7f3ec] text-text-muted hover:border-primary hover:text-primary flex flex-col items-center justify-center cursor-pointer transition-colors">
+<span class="text-xs font-medium">Oct</span>
+<span class="text-xl font-bold">27</span>
+<span class="text-xs font-medium">Thu</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 mt-3">
+<button class="py-2 text-sm border rounded hover:border-primary hover:text-primary transition-colors text-text-muted">09:00 AM</button>
+<button class="py-2 text-sm border rounded hover:border-primary hover:text-primary transition-colors text-text-muted">11:00 AM</button>
+<button class="py-2 text-sm border bg-primary/10 border-primary text-text-main font-bold rounded shadow-sm">02:30 PM</button>
+<button class="py-2 text-sm border rounded hover:border-primary hover:text-primary transition-colors text-text-muted">04:00 PM</button>
+<button class="py-2 text-sm border rounded hover:border-primary hover:text-primary transition-colors text-text-muted bg-gray-50 opacity-50 cursor-not-allowed">05:00 PM</button>
+<button class="py-2 text-sm border rounded hover:border-primary hover:text-primary transition-colors text-text-muted">06:30 PM</button>
+</div>
+</div>
+<!-- Note -->
+<div>
+<label class="block text-sm font-medium text-text-main mb-2">Note for Coach</label>
+<textarea class="w-full rounded-lg border-[#e7f3ec] bg-[#f8fcfa] text-sm p-3 focus:ring-primary focus:border-primary" placeholder="Focus on cardio today..." rows="2"></textarea>
+</div>
+<!-- Summary & Action -->
+<div class="mt-auto pt-6 border-t border-[#e7f3ec]">
+<div class="flex justify-between items-center mb-4">
+<span class="text-text-muted font-medium">Total Cost</span>
+<div class="flex items-center gap-1">
+<span class="text-2xl font-black text-text-main">60</span>
+<span class="material-symbols-outlined text-primary">token</span>
+</div>
+</div>
+<button class="w-full py-3.5 bg-primary text-text-main font-bold text-lg rounded-xl hover:bg-primary-dark hover:text-white transition-all shadow-lg hover:shadow-xl active:scale-98 flex items-center justify-center gap-2">
+<span>Confirm Booking</span>
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+<p class="text-center text-xs text-text-muted mt-3">Calendar invite will be sent to your email.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

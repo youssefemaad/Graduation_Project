@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - Coach Profile</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "secondary": "#10B981", 
+                        "accent": "#F97316",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for modern feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d141b] font-display min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf3] bg-white/95 backdrop-blur-md px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#0d141b]">
+<div class="size-8 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[28px]">ecg_heart</span>
+</div>
+<h2 class="text-[#0d141b] text-xl font-bold leading-tight tracking-[-0.015em]">PulseGym</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-[#0d141b] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-[#0d141b] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Coaches</a>
+<a class="text-[#0d141b] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Members</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">My Profile</a>
+<a class="text-[#0d141b] text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden lg:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full border border-[#e7edf3] bg-white hover:border-primary/50 transition-colors">
+<div class="text-[#4c739a] flex border-none items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141b] focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-full placeholder:text-[#4c739a] px-3 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search..." value=""/>
+</div>
+</label>
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-white shadow-md cursor-pointer" data-alt="Coach profile picture thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANGWcm82AE0fupicuUUUi6QyA_kbgSuIfk18BlU9k5bwB3z176sTYoHsI5K8oSVLdCjQmg4kmpbZL6w1Pzb9Ugzvh9bfIJuF9FTyAD7g1yRxoUobNpsJfwjwaU1NsnDZ_sjB2TWUTQWuaDKD_GOyFzO5RzAzd8MoWrY8LwlDbHEow8ULQ0VS-jwYqqmGWVsFqwb97Msyes0J3yXAqmbfrQkXFtXNOE8joFXu0waC20daTIhJhjTQka7QKwtoPop1SF5u4Li2Zkkw4");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content Wrapper -->
+<main class="flex-1 relative">
+<!-- Blurred Background Graphic -->
+<div class="absolute inset-0 z-0 h-[400px] w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center opacity-30 blur-sm scale-110" data-alt="Abstract blurry gym background with weights and energetic lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2O4usM142P_hGmHgRUdvKnIOsQ3jvLY6NgQYabx8tpcZx4JcJddDhBTq2qillY4c52diN7X7075dK8VLk1q6BUszUtTm5zvPY-wcZ7hbcxx0hl_7A9FMWde5W_J4X9NMd5r1xRXo1STuBF9fL-Oree4XTiPST4hdph8j-dOPJwv0uofbVszGjWk-JgrhMPYwTDeLUgWOMGXgivvi3kwpPBZSagzG7ujxuh9K2N-Wt4-V5Noe7rlFigLay6_d9Jr6RHofdm44i_Vc');"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-white/20 to-background-light"></div>
+</div>
+<div class="layout-container flex h-full grow flex-col relative z-10">
+<div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1100px] flex-1 gap-6">
+<!-- Profile Header Card -->
+<div class="rounded-2xl border border-[#cfdbe7] bg-white/80 backdrop-blur-md p-6 shadow-sm mt-8">
+<div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+<div class="relative group">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-2xl min-h-32 w-32 md:min-h-40 md:w-40 shadow-lg ring-4 ring-white" data-alt="Portrait of Sarah Jenkins, fitness coach" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBT87dITDH4YBM1dfPBlM064CzUn8eLYH4enUb0Apm2BWlgWQ7TzglM-vaRRqBbYZzsX2_JYOZOFrUH-kGFYhTUDDk446xk53m9RmIea523BQKvzlHmMR45q-AB6oBVvkFEJmVIFlC6blWSsaMZgoE-lbUQsIcRipkFuLIGPy_ewpGFhlEeSVYCI4z0296Ob1EV8Qi1t5e22cCmP_1gVlEJz85SjJYMWHobM412ZNIGlJ6xB_rxSzIKcatSyc7ww83ABmG5DzSy07o");'></div>
+<div class="absolute -bottom-2 -right-2 bg-secondary text-white p-1.5 rounded-full shadow-md border-2 border-white">
+<span class="material-symbols-outlined text-sm font-bold">check_circle</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 gap-2 text-center md:text-left">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4">
+<div>
+<h1 class="text-[#0d141b] text-3xl font-bold leading-tight tracking-[-0.015em]">Sarah Jenkins</h1>
+<p class="text-primary text-lg font-medium mt-1">Elite Personal Trainer</p>
+</div>
+<!-- Edit Toggle -->
+<div class="flex items-center gap-3 bg-slate-50 p-2 rounded-xl border border-slate-200">
+<span class="text-sm font-medium text-slate-500">View</span>
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-[#e7edf3] p-0.5 has-[:checked]:justify-end has-[:checked]:bg-primary transition-colors">
+<div class="h-full w-[24px] rounded-full bg-white shadow-sm transition-all" style="box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 8px;"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+<span class="text-sm font-bold text-[#0d141b]">Edit Mode</span>
+</div>
+</div>
+<p class="text-[#4c739a] text-base leading-normal max-w-2xl mt-2">
+                                    Helping clients achieve their peak performance through data-driven training and holistic nutrition planning.
+                                </p>
+<div class="flex flex-wrap gap-3 mt-3 justify-center md:justify-start">
+<span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+<span class="material-symbols-outlined text-[16px]">school</span> 8 Years Exp.
+                                    </span>
+<span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+<span class="material-symbols-outlined text-[16px]">location_on</span> New York, NY
+                                    </span>
+<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
+<span class="material-symbols-outlined text-[16px] text-green-600">fiber_manual_record</span> Available Now
+                                    </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-2 rounded-2xl p-6 bg-white border border-[#e7edf3] shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-blue-50 rounded-lg text-primary">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<p class="text-[#4c739a] text-sm font-medium">Total Sessions</p>
+</div>
+<div class="flex items-end justify-between">
+<p class="text-[#0d141b] text-3xl font-bold leading-tight">1,240</p>
+<span class="inline-flex items-center text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span> +12%
+                                </span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-2xl p-6 bg-white border border-[#e7edf3] shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-orange-50 rounded-lg text-orange-500">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<p class="text-[#4c739a] text-sm font-medium">Clients Trained</p>
+</div>
+<div class="flex items-end justify-between">
+<p class="text-[#0d141b] text-3xl font-bold leading-tight">85</p>
+<span class="inline-flex items-center text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span> +5%
+                                </span>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-2xl p-6 bg-white border border-[#e7edf3] shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-yellow-50 rounded-lg text-yellow-600">
+<span class="material-symbols-outlined">star</span>
+</div>
+<p class="text-[#4c739a] text-sm font-medium">Satisfaction Score</p>
+</div>
+<div class="flex items-end justify-between">
+<p class="text-[#0d141b] text-3xl font-bold leading-tight">4.9/5</p>
+<span class="inline-flex items-center text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] mr-0.5">trending_up</span> +0.2%
+                                </span>
+</div>
+</div>
+</div>
+<!-- Main Grid Content -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Left Column (2/3 width) -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- About Me -->
+<div class="bg-white rounded-2xl p-6 border border-[#e7edf3] shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-[#0d141b] text-lg font-bold">About Me</h3>
+<button class="text-primary text-sm font-bold hover:bg-blue-50 px-3 py-1 rounded-lg transition-colors">Edit</button>
+</div>
+<p class="text-slate-600 leading-relaxed">
+                                    I believe that fitness is not just about physical strength, but about building resilience and confidence that translates into every aspect of life. My coaching philosophy combines scientifically proven training methods with personalized nutrition strategies to help you reach your goals safely and effectively. Whether you are training for a marathon, looking to lose weight, or just want to feel healthier, I'm here to guide you every step of the way.
+                                </p>
+</div>
+<!-- Specializations -->
+<div class="bg-white rounded-2xl p-6 border border-[#e7edf3] shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-[#0d141b] text-lg font-bold">Specializations</h3>
+<button class="text-primary text-sm font-bold hover:bg-blue-50 px-3 py-1 rounded-lg transition-colors">Add New</button>
+</div>
+<div class="flex flex-wrap gap-2">
+<div class="px-4 py-2 bg-slate-100 rounded-xl text-sm font-medium text-slate-700 border border-slate-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">exercise</span> Strength Training
+                                    </div>
+<div class="px-4 py-2 bg-slate-100 rounded-xl text-sm font-medium text-slate-700 border border-slate-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">self_improvement</span> Yoga Flow
+                                    </div>
+<div class="px-4 py-2 bg-slate-100 rounded-xl text-sm font-medium text-slate-700 border border-slate-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">restaurant</span> Nutrition Planning
+                                    </div>
+<div class="px-4 py-2 bg-slate-100 rounded-xl text-sm font-medium text-slate-700 border border-slate-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">directions_run</span> HIIT
+                                    </div>
+<div class="px-4 py-2 bg-slate-100 rounded-xl text-sm font-medium text-slate-700 border border-slate-200 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">healing</span> Injury Rehab
+                                    </div>
+<button class="px-4 py-2 bg-white rounded-xl text-sm font-medium text-slate-400 border border-dashed border-slate-300 hover:border-primary hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Tag
+                                    </button>
+</div>
+</div>
+<!-- Availability Grid -->
+<div class="bg-white rounded-2xl p-6 border border-[#e7edf3] shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-[#0d141b] text-lg font-bold">Weekly Availability</h3>
+<p class="text-slate-500 text-sm">Click slots to toggle availability</p>
+</div>
+<div class="flex gap-2 text-sm">
+<span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-primary"></span> Available</span>
+<span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-slate-200"></span> Busy</span>
+</div>
+</div>
+<div class="grid grid-cols-8 gap-2 text-center text-xs text-slate-500 font-medium">
+<div class="py-2"></div> <!-- Spacer for time labels -->
+<div class="py-2">Mon</div>
+<div class="py-2">Tue</div>
+<div class="py-2">Wed</div>
+<div class="py-2">Thu</div>
+<div class="py-2">Fri</div>
+<div class="py-2">Sat</div>
+<div class="py-2">Sun</div>
+<!-- Row 1: Morning -->
+<div class="text-right pr-2 py-3 self-center">Morning</div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<!-- Row 2: Afternoon -->
+<div class="text-right pr-2 py-3 self-center">Afternoon</div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<!-- Row 3: Evening -->
+<div class="text-right pr-2 py-3 self-center">Evening</div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-primary/90 rounded-md cursor-pointer hover:bg-primary transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+<div class="h-10 bg-slate-100 rounded-md cursor-pointer hover:bg-slate-200 transition-colors"></div>
+</div>
+</div>
+<!-- Reviews -->
+<div>
+<h3 class="text-[#0d141b] text-lg font-bold mb-4">Latest Client Reviews</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-white p-5 rounded-2xl border border-[#e7edf3] shadow-sm">
+<div class="flex items-center gap-3 mb-3">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Client avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbjWxjlUxb5CChS0TOnE5OaJi1x1yxff0lZkBwsyAnrSbpWAxlkb25EF4fe-1BHbO33L_gTNyUMH_X8FyqRFuXii5phMbylRwXSseRJ4fy8Cpfn2yUYqXslJXl8D_Rq0RVIQXBtyfalbf8BzQy6ES93yRcNl6XFAFAju52RkVIjyKrNN24cncee7hCcr0i77IXRcY5BA4ME1h1Oa8z-8cUExy-jmUmnjoIeuqLjCEaLgj2aENklPdE5pLcctBi6vgHrZlGwam8fjE')"></div>
+<div>
+<p class="font-bold text-sm">Mark Thompson</p>
+<div class="flex text-yellow-400 text-[16px]">
+<span class="material-symbols-outlined filled">star</span>
+<span class="material-symbols-outlined filled">star</span>
+<span class="material-symbols-outlined filled">star</span>
+<span class="material-symbols-outlined filled">star</span>
+<span class="material-symbols-outlined filled">star</span>
+</div>
+</div>
+<span class="text-xs text-slate-400 ml-auto">2 days ago</span>
+</div>
+<p class="text-slate-600 text-sm">"Sarah is amazing! The sessions are tough but super rewarding. I've seen massive improvements in my stamina."</p>
+</div>
+<div class="bg-white p-5 rounded-2xl border border-[#e7edf3] shadow-sm">
+<div class="flex items-center gap-3 mb-3">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Client avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCO9gMHscdxLLd7h3C4yMWkdXv1DMlwtglTANnR2z4eVQLDDrqE924yMgzkSXmuuPoWbEaBdnm_eFjzmAYuMzee2wPqxiMXoHIfDcRoR6UjWtjU0XonRYe9xx8cTC2kNzgbCW8NCNuMtu4GBOi9B_reG6XENdvQs-OsJpKEm1Q-pIKMO63vgMUPO-Jv2CYzSUQApG8S2tBCx0M0Ysw1j7EBpBygLO9Z1r4czzQJJSjVZAxf-z7EPQCPyMxgFqRdXAFSFZ614JjctAE')"></div>
+<div>
+<p class="font-bold text-sm">Emily Chen</p>
+<div class="flex text-yellow-400 text-[16px]">
+<span class="material-symbols-outlined filled">star</span>
+<span class="material-symbols-outlined filled">star</span>
+<span class="material-symbols-outlined filled">star</span>
+<span class="material-symbols-outlined filled">star</span>
+<span class="material-symbols-outlined filled">star_half</span>
+</div>
+</div>
+<span class="text-xs text-slate-400 ml-auto">1 week ago</span>
+</div>
+<p class="text-slate-600 text-sm">"Great nutrition advice and workout plans. The booking system is seamless too!"</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (1/3 width) - Sidebar -->
+<div class="flex flex-col gap-6">
+<!-- Session Rates -->
+<div class="bg-white rounded-2xl p-6 border border-[#e7edf3] shadow-sm">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-[#0d141b] text-lg font-bold">Session Rates</h3>
+<button class="text-primary hover:text-blue-700"><span class="material-symbols-outlined">edit</span></button>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-700">1-on-1 Training</span>
+<span class="text-xs text-slate-500">60 Minutes</span>
+</div>
+<div class="text-right">
+<span class="text-lg font-bold text-primary">50</span>
+<span class="text-xs font-medium text-slate-400 block">Tokens</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-700">Nutrition Consult</span>
+<span class="text-xs text-slate-500">45 Minutes</span>
+</div>
+<div class="text-right">
+<span class="text-lg font-bold text-primary">35</span>
+<span class="text-xs font-medium text-slate-400 block">Tokens</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-700">Group Class</span>
+<span class="text-xs text-slate-500">HIIT - 45 Mins</span>
+</div>
+<div class="text-right">
+<span class="text-lg font-bold text-primary">15</span>
+<span class="text-xs font-medium text-slate-400 block">Tokens</span>
+</div>
+</div>
+<button class="mt-2 w-full flex items-center justify-center gap-2 rounded-xl h-10 bg-primary/10 text-primary text-sm font-bold hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Rate
+                                    </button>
+</div>
+</div>
+<!-- Certifications -->
+<div class="bg-white rounded-2xl p-6 border border-[#e7edf3] shadow-sm">
+<h3 class="text-[#0d141b] text-lg font-bold mb-4">Certifications</h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="mt-1 size-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-800">NASM CPT</p>
+<p class="text-xs text-slate-500">Certified Personal Trainer</p>
+<p class="text-[10px] text-slate-400 mt-0.5">Verified • ID: #993821</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 size-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+<span class="material-symbols-outlined text-[18px]">restaurant_menu</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-800">Precision Nutrition L1</p>
+<p class="text-xs text-slate-500">Nutrition Coach</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 size-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 shrink-0">
+<span class="material-symbols-outlined text-[18px]">medical_services</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-800">CPR/AED</p>
+<p class="text-xs text-slate-500">Red Cross</p>
+<p class="text-[10px] text-slate-400 mt-0.5">Expires: Dec 2024</p>
+</div>
+</li>
+</ul>
+<button class="mt-5 w-full rounded-xl h-10 border border-[#e7edf3] text-slate-600 text-sm font-medium hover:bg-slate-50 transition-colors">
+                                    Upload Certificate
+                                </button>
+</div>
+<!-- Booking Settings -->
+<div class="bg-white rounded-2xl p-6 border border-[#e7edf3] shadow-sm">
+<h3 class="text-[#0d141b] text-lg font-bold mb-4">Booking Settings</h3>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-slate-800">Auto-Confirm</span>
+<span class="text-xs text-slate-500">Accept bookings automatically</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<hr class="border-slate-100"/>
+<div class="flex flex-col gap-2">
+<span class="text-sm font-medium text-slate-800">Buffer Time</span>
+<select class="form-select block w-full rounded-xl border-slate-200 bg-slate-50 text-sm focus:border-primary focus:ring-primary">
+<option>15 Minutes</option>
+<option>30 Minutes</option>
+<option>No Buffer</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Space -->
+<div class="h-10"></div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

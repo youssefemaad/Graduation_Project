@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym AI Coach</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec5b", // Electric Green
+                        "primary-dark": "#0ea842",
+                        "secondary": "#3B82F6", // Electric Blue
+                        "accent": "#F97316", // Vibrant Orange
+                        "background-light": "#f8fcf9",
+                        "background-dark": "#102216",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a3322",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .dark .glass-panel {
+            background: rgba(16, 34, 22, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .message-bubble-ai {
+            border-top-left-radius: 4px;
+        }
+        .message-bubble-user {
+            border-bottom-right-radius: 4px;
+        }
+        
+        /* Custom scrollbar for chat area */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .pulse-ring {
+            box-shadow: 0 0 0 0 rgba(19, 236, 91, 0.7);
+            animation: pulse-green 2s infinite;
+        }
+        
+        @keyframes pulse-green {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(19, 236, 91, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(19, 236, 91, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(19, 236, 91, 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 h-screen overflow-hidden selection:bg-primary selection:text-black">
+<!-- Background Layer with Image and Overlay -->
+<div class="fixed inset-0 z-0">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Blurred modern gym background with weights and warm lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxiMMzLkiTOU7R79yz8JCIfxc48fD0dGbO2QMX1dCod10Km_kiuBynhRcw1IOwfu8SL3Mp-BwOW8-7gkaxHNqKnBLJWe60_m1WP7Fb2r7CQg3EPaXzB5tL1sGHDrunbge76STLFaaxEv2NlyU9v7xdwKdte4vDSMRgaKDBd0Y8MvziZKzKtUMuFoD6TiQL7rSWRQ82aXT078BNr8DjbJLRJQ5BNaeuJ1dKzgMUrobUgB_5diqVwXktDmUf1pI-yWJcOMhyogZVdz0');"></div>
+<div class="absolute inset-0 bg-white/85 dark:bg-background-dark/90 backdrop-blur-sm"></div>
+</div>
+<div class="relative z-10 flex h-full w-full max-w-[1600px] mx-auto">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col w-72 h-full glass-panel border-r border-white/50 dark:border-white/10 pt-6 pb-4 px-4 gap-6 shrink-0 z-20 transition-all duration-300">
+<!-- Logo Area -->
+<div class="flex items-center gap-3 px-2">
+<div class="flex items-center justify-center size-10 rounded-xl bg-gradient-to-br from-primary to-emerald-600 text-white shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined text-[24px]">ecg_heart</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">PulseGym</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">AI Coach v2.4</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 flex flex-col gap-2 overflow-y-auto scrollbar-hide">
+<div class="px-2 pb-2">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Menu</p>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary/15 text-primary-dark dark:text-primary font-semibold transition-colors" href="#">
+<span class="material-symbols-outlined filled">chat_bubble</span>
+<span>AI Coach Chat</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-secondary transition-colors">fitness_center</span>
+<span>Workouts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-accent transition-colors">restaurant</span>
+<span>Nutrition</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-secondary transition-colors">monitoring</span>
+<span>Progress</span>
+</a>
+</div>
+<div class="px-2 pt-2 border-t border-slate-200 dark:border-white/10">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 mt-4">History</p>
+<div class="flex flex-col gap-1">
+<button class="flex items-start gap-3 px-3 py-2 rounded-xl text-left hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined text-slate-400 text-[18px] mt-0.5">history</span>
+<div class="overflow-hidden">
+<p class="text-sm font-medium text-slate-700 dark:text-slate-200 truncate">Leg Day Adjustments</p>
+<p class="text-xs text-slate-400">2 hours ago</p>
+</div>
+</button>
+<button class="flex items-start gap-3 px-3 py-2 rounded-xl text-left hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined text-slate-400 text-[18px] mt-0.5">history</span>
+<div class="overflow-hidden">
+<p class="text-sm font-medium text-slate-700 dark:text-slate-200 truncate">Post-Workout Meal</p>
+<p class="text-xs text-slate-400">Yesterday</p>
+</div>
+</button>
+</div>
+</div>
+</nav>
+<!-- User Mini Profile -->
+<div class="flex items-center gap-3 px-3 py-3 mt-auto bg-white/50 dark:bg-white/5 rounded-2xl border border-white/60 dark:border-white/5">
+<div class="size-10 rounded-full bg-cover bg-center ring-2 ring-white dark:ring-white/10" data-alt="Portrait of a young man, the user avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAf9xPfr43er1w2s3dMJXZ2XXe2-JhBeoHHjqF513T6l3YdkkvvJz7ZZwFtZveGies1o8a7SyL42uzBmNslalFJKL5ngdLhRNClpezh3bif3rtXuVG_5HjqyB45G863KCErSyWrVtEiTU14T2VWmzOIzPYRwNEMats_vXhV9elTZxCr45p5B71BCq3ZncWPtyE7COr4rjtngQJl4IM-uEfFs0t9jEaUelfqNnvdBQud4XHTZIAXU-k9MJCfDpExUBYtxWdL_y6fB3w');"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-slate-800 dark:text-white truncate">Alex Johnson</p>
+<p class="text-xs text-secondary truncate">Pro Member</p>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</aside>
+<!-- Main Chat Area -->
+<main class="flex-1 flex flex-col h-full relative overflow-hidden">
+<!-- Top Header -->
+<header class="h-16 flex items-center justify-between px-6 glass-panel border-b border-white/50 dark:border-white/10 shrink-0 z-10">
+<div class="flex items-center gap-4">
+<div class="md:hidden">
+<button class="p-2 -ml-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center shadow-sm" data-alt="Coach Mike avatar, a fit male trainer smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCnwoScGgN-zxpvgCXKf_aSsJAEcBolgeeNBIKiCVLIMNZw3ORLNsYth2uGSXkIl2FgQDJwxvA9WS7LC66ySvwLeTCR9fRucpJAhsygFZQcNKiackBYodky9RWgEhOuW93WZNdNGdLt3mkMx8ALymWE9rc23abm9bWivpwWI4Y5FJ1T04QXI_CPPnmSix01adPlQk9KWv7SK67ijbKgk4lGawLOUQSAP2erN4uM1sVfHIvTootqUm6UjAsJDXl5xSeQ8rVrpqDgtho');"></div>
+<div class="absolute bottom-0 right-0 size-3 bg-primary border-2 border-white dark:border-slate-800 rounded-full"></div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-sm font-bold text-slate-900 dark:text-white">Coach Mike</h2>
+<span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wide">Strength Specialist</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="relative flex size-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full size-2 bg-primary"></span>
+</span>
+<span class="text-xs text-primary font-medium">Vapi AI Connected</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="hidden sm:flex h-9 items-center justify-center gap-2 px-3 rounded-lg bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-primary/50 text-sm font-medium text-slate-600 dark:text-slate-200 transition-all">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+<span>Export</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Chat Messages Container -->
+<div class="flex-1 overflow-y-auto px-4 py-6 md:px-12 lg:px-24 flex flex-col gap-6 scroll-smooth" id="chat-container">
+<!-- Date Separator -->
+<div class="flex justify-center">
+<span class="bg-slate-100 dark:bg-white/5 text-slate-400 text-xs font-medium px-3 py-1 rounded-full">Today, 8:30 AM</span>
+</div>
+<!-- AI Message 1 -->
+<div class="flex items-end gap-3 max-w-3xl">
+<div class="size-8 rounded-full bg-cover bg-center shrink-0 mb-1" data-alt="Coach Mike avatar small" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCH1nqQCCpKCT1SMsdpIfMLRLQMVkeQu7gvGMUnvedMrjsZr_SMlSyYkO9RR1N2aM977A1EIiCnspYmfwnCxxJyp9ekLT7mYZy4Px7N9cUZeNU6XNcSwblllJ4RZXA_2v60qhiqT4ZoUZuei29nb4VkRmJvfeH-HsE3-9VtKZMBTIDrh_exOcMI3hKUI9oQm5O0qpWKS1wVqDETDnApiVyPT0v0zV8ae4oqNBU39RRkCUvU0j_93vNB4sGr-c6BPN56xwa64X5-zY8');"></div>
+<div class="flex flex-col gap-1 w-full">
+<div class="flex items-baseline gap-2 ml-1">
+<span class="text-xs font-bold text-slate-500 dark:text-slate-400">Coach Mike</span>
+</div>
+<div class="message-bubble-ai bg-white dark:bg-surface-dark border border-slate-100 dark:border-white/5 p-5 rounded-2xl shadow-sm">
+<p class="text-slate-700 dark:text-slate-200 leading-relaxed">
+                                Good morning, Alex! <span class="text-[20px]">💪</span> Ready to crush leg day? I've analyzed your sleep data (7h 20m, 85% efficiency) and your recovery score looks solid at 92%.
+                            </p>
+<p class="text-slate-700 dark:text-slate-200 leading-relaxed mt-2">
+                                We're aiming for hypertrophy today. Here is the initial plan. Let me know if you want any adjustments before we start!
+                            </p>
+</div>
+<div class="flex gap-2 ml-1 mt-1">
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"><span class="material-symbols-outlined text-[16px]">thumb_up</span></button>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"><span class="material-symbols-outlined text-[16px]">thumb_down</span></button>
+<button class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"><span class="material-symbols-outlined text-[16px]">content_copy</span></button>
+</div>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex items-end gap-3 max-w-3xl self-end flex-row-reverse">
+<div class="size-8 rounded-full bg-cover bg-center shrink-0 mb-1" data-alt="User avatar small" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAcwL9Wj9IYl6o3X2rGLLo8Sswmj74_MbmxR0NsIwV5VJ-ZNYPxyR6FA9YKTp-3CD1eB5sYOOXSsO7hoAOD8xI_A0ebC0qS35tzbuuopTsipzeVtn39UElyTqWGBEwRRaeIrapq3VgpkGmQ8dFcan_9f0H9vhNuDRPDmaQbRzMlxMokQUUgdnpopWwA7bnI8iH6oBRqYPeuZrmca5mQKjl348fhrywQN3D4MS1PmLYVB3fC6ITEqFXC4veAX9JynZidzdpy__DPvAU');"></div>
+<div class="flex flex-col gap-1 items-end w-full">
+<div class="flex items-baseline gap-2 mr-1">
+<span class="text-xs font-bold text-slate-500 dark:text-slate-400">You</span>
+</div>
+<div class="message-bubble-user bg-primary text-slate-900 p-4 rounded-2xl shadow-md max-w-[85%]">
+<p class="font-medium leading-relaxed">
+                                Can we swap squats for leg press today? My lower back feels a tiny bit tight from yesterday's deadlifts.
+                            </p>
+</div>
+<div class="text-xs text-slate-400 mr-1 mt-0.5">Read 8:32 AM</div>
+</div>
+</div>
+<!-- AI Message 2 (Complex Response) -->
+<div class="flex items-end gap-3 max-w-3xl w-full">
+<div class="size-8 rounded-full bg-cover bg-center shrink-0 mb-1" data-alt="Coach Mike avatar small" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCt9kVWxr-6FGN4n2hXGM-P5ntBcdkfjfe3aM9RMjj8NvQSar1WZValuTp2Xhsm9A1qeUrtB4L-h7ROiHZuOjl8WCuKAsqhc4i-ofqitx6pgUOV9rYOBQihEnXyI1bSqo4ooU_vMthBVe3Ec-lzTZOuFI7yQ5vsCF6BPZUxOuwPAG_ZDXo4DlMNFIa4ApXW7KAq4t8vfog3gSTgeTamH-Tv4HBQwj170QxH8gkdUJ39FaJ5a_YUkIk7BoaVM9RDVI57IGdFL3uQ444');"></div>
+<div class="flex flex-col gap-1 w-full">
+<div class="flex items-baseline gap-2 ml-1">
+<span class="text-xs font-bold text-slate-500 dark:text-slate-400">Coach Mike</span>
+<span class="text-[10px] text-primary font-bold bg-primary/10 px-1.5 rounded uppercase">Adjusted Plan</span>
+</div>
+<div class="message-bubble-ai bg-white dark:bg-surface-dark border border-slate-100 dark:border-white/5 p-0 rounded-2xl shadow-sm overflow-hidden">
+<div class="p-5 border-b border-slate-100 dark:border-white/5">
+<p class="text-slate-700 dark:text-slate-200 leading-relaxed">
+                                    Smart call. No need to load the spine if it's fatigued. Swapping Squats for Leg Press is a perfect alternative to keep the intensity high on the quads without the back strain.
+                                </p>
+</div>
+<!-- Workout Card Block -->
+<div class="bg-slate-50 dark:bg-black/20 p-5">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-slate-800 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-accent">fitness_center</span>
+                                        Modified Leg Hypertrophy
+                                    </h3>
+<span class="text-xs font-medium bg-secondary/10 text-secondary px-2 py-1 rounded-lg">45 Mins</span>
+</div>
+<div class="space-y-3">
+<!-- Exercise Item -->
+<div class="flex items-start gap-3 bg-white dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="mt-1">
+<div class="size-5 rounded-full border-2 border-slate-300 dark:border-slate-500 group-hover:border-primary flex items-center justify-center"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-800 dark:text-slate-200">Leg Press</h4>
+<span class="text-[10px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">NEW</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">4 sets × 10-12 reps <span class="text-xs text-slate-400 mx-1">•</span> 90s rest</p>
+</div>
+</div>
+<!-- Exercise Item -->
+<div class="flex items-start gap-3 bg-white dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="mt-1">
+<div class="size-5 rounded-full border-2 border-slate-300 dark:border-slate-500 group-hover:border-primary flex items-center justify-center"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-800 dark:text-slate-200">Bulgarian Split Squats</h4>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">3 sets × 10 reps/leg <span class="text-xs text-slate-400 mx-1">•</span> 60s rest</p>
+</div>
+</div>
+<!-- Exercise Item -->
+<div class="flex items-start gap-3 bg-white dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/5 shadow-sm hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="mt-1">
+<div class="size-5 rounded-full border-2 border-slate-300 dark:border-slate-500 group-hover:border-primary flex items-center justify-center"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-800 dark:text-slate-200">Romanian Deadlifts (Dumbbell)</h4>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">3 sets × 12 reps <span class="text-xs text-slate-400 mx-1">•</span> Focus on stretch</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 bg-primary hover:bg-primary-dark text-black font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">play_arrow</span>
+                                    Start Workout
+                                </button>
+</div>
+</div>
+<div class="flex gap-2 ml-1 mt-1">
+<button class="flex items-center gap-1 px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-white/5 text-xs text-slate-500 transition-colors">
+<span class="material-symbols-outlined text-[14px]">refresh</span> Regenerate
+                            </button>
+<button class="flex items-center gap-1 px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-white/5 text-xs text-slate-500 transition-colors">
+<span class="material-symbols-outlined text-[14px]">share</span> Share
+                            </button>
+</div>
+</div>
+</div>
+<!-- Spacer for scrolling -->
+<div class="h-24"></div>
+</div>
+<!-- Bottom Input Section -->
+<div class="absolute bottom-0 left-0 right-0 z-20 px-4 md:px-12 lg:px-24 pb-6 pt-10 bg-gradient-to-t from-white via-white/90 to-transparent dark:from-background-dark dark:via-background-dark/90 pointer-events-none">
+<div class="pointer-events-auto max-w-4xl mx-auto w-full">
+<!-- Suggestion Chips -->
+<div class="flex items-center gap-2 overflow-x-auto pb-3 scrollbar-hide">
+<button class="whitespace-nowrap flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-white/10 text-xs font-semibold text-secondary hover:border-secondary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[16px]">restaurant_menu</span>
+                            Analyze Meal Photo
+                        </button>
+<button class="whitespace-nowrap flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-white/10 text-xs font-semibold text-accent hover:border-accent transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[16px]">self_improvement</span>
+                            Post-Workout Stretch
+                        </button>
+<button class="whitespace-nowrap flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-white/10 text-xs font-semibold text-primary-dark dark:text-primary hover:border-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[16px]">water_drop</span>
+                            Log Hydration
+                        </button>
+</div>
+<!-- Input Bar -->
+<div class="relative flex items-end gap-2 bg-white dark:bg-[#1e2a22] rounded-[24px] p-2 shadow-xl shadow-slate-200/50 dark:shadow-black/30 border border-slate-200 dark:border-white/10 ring-1 ring-slate-100 dark:ring-white/5">
+<!-- File Upload -->
+<button class="flex items-center justify-center size-10 rounded-full text-slate-400 hover:text-secondary hover:bg-secondary/10 transition-all shrink-0">
+<span class="material-symbols-outlined">add_photo_alternate</span>
+</button>
+<!-- Text Input -->
+<div class="flex-1 py-2.5">
+<textarea class="w-full bg-transparent border-none p-0 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:ring-0 resize-none max-h-32 text-base leading-relaxed" placeholder="Message Coach Mike..." rows="1"></textarea>
+</div>
+<!-- Voice Input (Vapi AI) -->
+<div class="flex items-center gap-2 pb-0.5">
+<button class="pulse-ring relative flex items-center justify-center size-10 rounded-full bg-primary hover:bg-primary-dark text-black transition-all shrink-0 group shadow-lg shadow-primary/30">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">mic</span>
+</button>
+<!-- Send Button -->
+<button class="flex items-center justify-center size-10 rounded-full bg-slate-100 dark:bg-white/10 text-slate-400 hover:text-primary hover:bg-slate-200 dark:hover:bg-white/20 transition-all shrink-0">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+</div>
+</div>
+<p class="text-center text-[10px] text-slate-400 mt-2 font-medium">PulseGym AI can make mistakes. Please verify important medical info.</p>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Simple textarea auto-resize
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+</body></html>

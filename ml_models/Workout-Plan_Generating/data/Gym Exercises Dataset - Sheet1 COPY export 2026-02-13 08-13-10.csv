@@ -1,0 +1,472 @@
+Exercise_Name,muscle_gp,Equipment,Rating,Description
+Rickshaw Carry,Forearms,Other,9.6,Average
+Single-Leg Press,Quadriceps,Machine,9.6,Average
+Landmine twist,Abdominals,Other,9.5,Average
+Weighted pull-up,Lats,Other,9.5,Average
+T-Bar Row with Handle,Middle Back,Other,9.5,Average
+Palms-down wrist curl over bench,Forearms,Barbell,9.5,Average
+Atlas Stones,Lower Back,Other,9.5,Average
+Dumbbell front raise to lateral raise,Shoulders,Dumbbell,9.5,Average
+Clean from Blocks,Quadriceps,Barbell,9.5,Average
+Incline Hammer Curls,Biceps,Dumbbell,9.5,Average
+Straight-bar wrist roll-up,Forearms,,9.5,Average
+Barbell glute bridge,Glutes,Barbell,9.4,Average
+Clean and press,Shoulders,Barbell,9.4,Average
+Triceps dip,Triceps,Body Only,9.4,Average
+Dumbbell farmer's walk,Forearms,Other,9.4,Average
+Palms-up wrist curl over bench,Forearms,Barbell,9.4,Average
+Barbell Full Squat,Quadriceps,Barbell,9.4,Average
+Barbell deficit deadlift,Lower Back,Barbell,9.4,Average
+Barbell Deadlift,Hamstrings,Barbell,9.4,Average
+Single-arm palm-in dumbbell shoulder press,Shoulders,Dumbbell,9.4,Average
+Romanian Deadlift With Dumbbells,Hamstrings,Dumbbell,9.4,Average
+Tire flip,Quadriceps,Other,9.4,Average
+Clean Deadlift,Hamstrings,Barbell,9.4,Average
+Elbow plank,Abdominals,Body Only,9.3,Average
+Bottoms Up,Abdominals,Body Only,9.3,Average
+Barbell back squat to box,Quadriceps,Barbell,9.3,Average
+Clean and jerk,Shoulders,Barbell,9.3,Average
+Single-arm kettlebell push-press,Shoulders,Kettlebells,9.3,Average
+Push-press,Quadriceps,Barbell,9.3,Average
+Suspended ab fall-out,Abdominals,Other,9.3,Average
+Military press,Shoulders,Barbell,9.3,Average
+Power snatch-,Quadriceps,Barbell,9.3,Average
+Sumo deadlift,Hamstrings,Barbell,9.3,Average
+Hang Clean,Quadriceps,Barbell,9.3,Average
+Dumbbell V-Sit Cross Jab,Abdominals,Dumbbell,9.3,Average
+Reverse Band Box Squat,Quadriceps,,9.3,Average
+Standing palms-in shoulder press,Shoulders,Dumbbell,9.3,Average
+Standing cable low-to-high twist,Abdominals,Cable,9.3,Average
+Decline EZ-bar skullcrusher,Triceps,E-Z Curl Bar,9.3,Average
+Standing behind-the-back wrist curl,Forearms,Barbell,9.3,Average
+Seated finger curl,Forearms,Barbell,9.3,Average
+Wide-grip barbell curl,Biceps,Barbell,9.3,Average
+Dumbbell spell caster,Abdominals,Dumbbell,9.3,Average
+Dumbbell floor press,Triceps,Dumbbell,9.3,Average
+Lying Face Down Plate Neck Resistance,Neck,Other,9.3,Average
+Pullups,Lats,Body Only,9.2,Average
+Decline reverse crunch,Abdominals,Other,9.2,Average
+Dumbbell Bench Press,Chest,Dumbbell,9.2,Average
+Jumping rope,Quadriceps,Body Only,9.2,Average
+Seated barbell shoulder press,Shoulders,Barbell,9.2,Average
+EZ-bar spider curl,Biceps,Barbell,9.2,Average
+Smith machine shrug,Traps,Machine,9.2,Average
+Smith Machine Calf Raise,Calves,Machine,9.2,Average
+Romanian Deadlift from Deficit,Hamstrings,Barbell,9.2,Average
+Power Snatch,Hamstrings,Barbell,9.2,Average
+Pushups,Chest,Body Only,9.2,Average
+Barbell walking lunge,Quadriceps,Barbell,9.2,Average
+Front Squats With Two Kettlebells,Quadriceps,Kettlebells,9.2,Average
+Spider crawl,Abdominals,Body Only,9.2,Average
+Power Clean from Blocks,Hamstrings,Barbell,9.2,Average
+Single Leg Push-off,Quadriceps,Other,9.2,Average
+Hip Circles (Prone),Abductors,,9.2,Average
+Reverse-grip bent-over row,Middle Back,Barbell,9.2,Average
+Seated Two-Arm Palms-Up Low-Pulley Wrist Curl,Forearms,Cable,9.2,Average
+Back extension,Lower Back,Body Only,9.1,Average
+Close-grip bench press,Chest,Barbell,9.1,Average
+Cocoons,Abdominals,Body Only,9.1,Average
+Cross-Body Crunch,Abdominals,Body Only,9.1,Average
+Dumbbell Flyes,Chest,Dumbbell,9.1,Average
+Hammer Curls,Biceps,Dumbbell,9.1,Average
+Incline dumbbell bench press,Chest,Dumbbell,9.1,Average
+Low-cable cross-over,Chest,Cable,9.1,Average
+Single-arm high-cable side bend,Abdominals,Cable,9.1,Average
+Seated Dumbbell Press,Shoulders,Dumbbell,9.1,Average
+Standing dumbbell shoulder press,Shoulders,Dumbbell,9.1,Average
+Single Leg Push-off,Quadriceps,Other,9.2,Average
+Hip Circles (Prone),Abductors,,9.2,Average
+Reverse-grip bent-over row,Middle Back,Barbell,9.2,Average
+Seated Two-Arm Palms-Up Low-Pulley Wrist Curl,Forearms,Cable,9.2,Average
+Back extension,Lower Back,Body Only,9.1,Average
+Close-grip bench press,Chest,Barbell,9.1,Average
+Cocoons,Abdominals,Body Only,9.1,Average
+Cross-Body Crunch,Abdominals,Body Only,9.1,Average
+Dumbbell Flyes,Chest,Dumbbell,9.1,Average
+Hammer Curls,Biceps,Dumbbell,9.1,Average
+Incline dumbbell bench press,Chest,Dumbbell,9.1,Average
+Seated Dumbbell Press,Shoulders,Dumbbell,9.1,Average
+Standing dumbbell shoulder press,Shoulders,Dumbbell,9.1,Average
+EZ-Bar Curl,Biceps,E-Z Curl Bar,9.1,Average
+Olympic Squat,Quadriceps,Barbell,9.1,Average
+Natural Glute Ham Raise,Hamstrings,Body Only,9.1,Average
+Axle Deadlift,Lower Back,Other,9.1,Average
+Zottman Curl,Biceps,,9.1,Average
+Glute ham raise-,Hamstrings,None,9.1,Average
+Single-arm lateral raise,Shoulders,Dumbbell,9.1,Average
+Power Partials,Shoulders,Dumbbell,9.1,Average
+Leverage Shrug,Traps,Machine,9.1,Average
+Cable V-bar push-down,Triceps,Cable,9.1,Average
+Wrist Roller,Forearms,Other,9.1,Average
+Incline dumbbell reverse fly,Shoulders,Dumbbell,9.1,Average
+Stair climber,Quadriceps,Machine,9.1,Average
+Elbow-to-knee crunch,Abdominals,Body Only,9.1,Average
+Kettlebell Pistol Squat,Quadriceps,Kettlebells,9.1,Average
+Overhead dumbbell front raise,Shoulders,Dumbbell,9.1,Average
+Biceps curl to shoulder press,Biceps,Dumbbell,9.1,Average
+Weighted bench dip,Triceps,Body Only,9.1,Average
+Barbell Hip Thrust,Glutes,Barbell,9.1,Average
+Forward lunge,Quadriceps,Body Only,9,Average
+Barbell Bench Press - Medium Grip,Chest,Barbell,9,Average
+Chest dip,Chest,Other,9,Average
+Seated dumbbell shoulder press,Shoulders,Dumbbell,9,Average
+Barbell Curl,Biceps,Barbell,9,Average
+EZ-Bar Skullcrusher,Triceps,E-Z Curl Bar,9,Average
+One-Arm Dumbbell Row,Middle Back,Dumbbell,9,Average
+Alternating standing shoulder press,Shoulders,Dumbbell,9,Average
+Concentration curl,Biceps,Dumbbell,9,Average
+Decline Crunch,Abdominals,Body Only,9,Average
+Decline Dumbbell Flyes,Chest,Dumbbell,9,Average
+Single-arm incline rear delt raise,Shoulders,Dumbbell,9,Average
+Alternating dumbbell front raise,Shoulders,Dumbbell,9,Average
+Hanging toes-to-bar,Abdominals,Body Only,9,Average
+Narrow-stance squat,Quadriceps,Barbell,9,Average
+Kneeling cable oblique crunch,Abdominals,Cable,9,Average
+Reverse Grip Triceps Pushdown,Triceps,Cable,9,Average
+Bear crawl sled drag,Quadriceps,Other,9,Average
+Rocky Pull-Ups/Pulldowns,Lats,Other,9,Average
+Snatch-Grip Behind-The-Neck Overhead Press,Shoulders,Barbell,9,Average
+Box Squat with Bands,Quadriceps,Barbell,9,Average
+Flexor Incline Dumbbell Curls,Biceps,Dumbbell,9,Average
+Seated One-Arm Dumbbell Palms-Up Wrist Curl,Forearms,Dumbbell,9,Average
+Thigh adductor,Adductors,Machine,9,Average
+Machine Bicep Curl,Biceps,Machine,9,Average
+Seated Palms-Down Barbell Wrist Curl,Forearms,,9,Average
+Single-arm incline rear delt raise,Shoulders,Dumbbell,9,Average
+Alternating dumbbell front raise,Shoulders,Dumbbell,9,Average
+Hanging toes-to-bar,Abdominals,Body Only,9,Average
+Narrow-stance squat,Quadriceps,Barbell,9,Average
+Kneeling cable oblique crunch,Abdominals,Cable,9,Average
+Reverse Grip Triceps Pushdown,Triceps,Cable,9,Average
+Bear crawl sled drag,Quadriceps,Other,9,Average
+Rocky Pull-Ups/Pulldowns,Lats,Other,9,Average
+Snatch-Grip Behind-The-Neck Overhead Press,Shoulders,Barbell,9,Average
+Box Squat with Bands,Quadriceps,Barbell,9,Average
+Flexor Incline Dumbbell Curls,Biceps,Dumbbell,9,Average
+Seated One-Arm Dumbbell Palms-Up Wrist Curl,Forearms,Dumbbell,9,Average
+Machine Bicep Curl,Biceps,Machine,9,Average
+Seated Palms-Down Barbell Wrist Curl,Forearms,,9,Average
+Car driver,Shoulders,Other,9,Average
+Alternating Deltoid Raise,Shoulders,Dumbbell,9,Average
+Hanging Oblique Knee Raise,Abdominals,Body Only,9,Average
+Bodyweight Flyes,Chest,E-Z Curl Bar,9,Average
+Standing Calf Raises,Calves,Machine,9,Average
+Push-Ups - Close Triceps Position,Triceps,Body Only,9,Average
+One-Arm Long Bar Row,Middle Back,Barbell,9,Average
+Overhead cable curl,Biceps,Cable,9,Average
+Single-dumbbell front raise,Shoulders,Dumbbell,9,Average
+Incline cable chest fly,Chest,Cable,9,Average
+Single-leg depth squat,Quadriceps,Bands,9,Average
+Dumbbell suitcase crunch,Abdominals,Medicine Ball,9,Average
+Plate Twist,Abdominals,Other,9,Average
+Single-leg cable hip extension,Glutes,Cable,9,Average
+Weighted Jump Squat,Quadriceps,Barbell,9,Average
+Squat with Chains,Quadriceps,Barbell,9,Average
+Gorilla Chin/Crunch,Abdominals,Body Only,9,Average
+Kneeling cable triceps extension,Triceps,Cable,9,Average
+Kneeling Cable Crunch With Alternating Oblique Twists,Abdominals,Cables,8.9,Average
+Bicycling,Quadriceps,Other,8.9,Average
+Arnold press,Shoulders,Dumbbell,8.9,Average
+Weighted Crunches,Abdominals,Other,8.9,Average
+Single-arm cable triceps extension,Triceps,Cable,8.9,Average
+Barbell roll-out,Abdominals,Barbell,8.9,Average
+Kneeling cable crunch,Abdominals,Cable,8.9,Average
+Exercise Ball Pull-In,Abdominals,Exercise Ball,8.9,Average
+Hanging leg raise,Abdominals,Body Only,8.9,Average
+Barbell Ab Rollout - On Knees,Abdominals,Barbell,8.9,Average
+Barbell Squat,Quadriceps,Barbell,8.9,Average
+Decline barbell bench press,Chest,Barbell,8.9,Average
+Dumbbell Bicep Curl,Biceps,Dumbbell,8.9,Average
+Dumbbell Goblet Squat,Quadriceps,Dumbbell,8.9,Average
+Dumbbell squat,Quadriceps,Dumbbell,8.9,Average
+Barbell front squat,Quadriceps,Barbell,8.9,Average
+Close-grip pull-down,Lats,Cable,8.9,Average
+Triceps Pushdown - Rope Attachment,Triceps,Cables,8.9,Average
+Side-to-side box skip,Quadriceps,Body Only,8.9,Average
+Smith machine shoulder press,Shoulders,Machine,8.9,Average
+Seated triceps press,Triceps,Dumbbell,8.9,Average
+Dumbbell Lying Supination,Forearms,,8.9,Average
+Pull-up,Lats,Body Only,8.9,Average
+Wide-grip bench press,Chest,Barbell,8.9,Average
+Close-grip EZ-bar curl,Biceps,Barbell,8.9,Average
+T-Bar Row,Middle Back,Other,8.9,Average
+Bent Over Two-Arm Long Bar Row,Middle Back,Barbell,8.9,Average
+Muscle Up,Lats,Body Only,8.9,Average
+Machine shoulder press,Shoulders,Machine,8.9,Average
+Incline EZ-bar skullcrusher,Triceps,Barbell,8.9,Average
+Alternating sit-through with crunch,Middle Back,Other,8.9,Average
+Wide-Grip Decline Barbell Bench Press,Chest,Barbell,8.9,Average
+Rower,Middle Back,Machine,8.9,Average
+Snatch Deadlift,Hamstrings,Barbell,8.9,Average
+Front Plate Raise,Shoulders,Other,8.9,Average
+Decline Close-Grip Bench To Skull Crusher,Triceps,Barbell,8.9,Average
+Lying Leg Curls,Hamstrings,Machine,8.9,Average
+Cross-body hammer curl,Biceps,Dumbbell,8.9,Average
+Shotgun row,Lats,Cable,8.9,Average
+Ab Roller,Abdominals,Other,8.9,Average
+Reverse-grip incline dumbbell bench press,Chest,Dumbbell,8.9,Average
+Leg Press,Quadriceps,Machine,8.8,Average
+Stiff-Legged Dumbbell Deadlift,Hamstrings,Dumbbell,8.8,Average
+Cable Crossover,Chest,Cable,8.8,Average
+Barbell Incline Bench Press Medium-Grip,Chest,Barbell,8.8,Average
+Incline Dumbbell Flyes,Chest,Dumbbell,8.8,Average
+Seated Cable Rows,Middle Back,Cable,8.8,Average
+Tricep Dumbbell Kickback,Triceps,Dumbbell,8.8,Average
+Otis-Up,Abdominals,Other,8.8,Average
+Mountain climber,Abdominals,Body Only,8.8,Average
+Ab bicycle,Abdominals,Body Only,8.8,Average
+Barbell forward lunge,Quadriceps,Barbell,8.8,Average
+3/4 sit-up,Abdominals,Body Only,8.8,Average
+Exercise ball leg curl,Hamstrings,Exercise Ball,8.8,Average
+Glute bridge,Glutes,Body Only,8.8,Average
+Close-Grip Front Lat Pulldown,Lats,Cable,8.8,Average
+Dip Machine,Triceps,Cable,8.8,Average
+Incline dumbbell row,Middle Back,Dumbbell,8.8,Average
+Dumbbell Lunges,Quadriceps,Dumbbell,8.8,Average
+Single-arm standing shoulder press,Shoulders,Dumbbell,8.8,Average
+Preacher Curl,Biceps,Barbell,8.8,Average
+Reverse crunch,Abdominals,Body Only,8.8,Average
+Standing Dumbbell Triceps Extension,Triceps,Dumbbell,8.8,Average
+Elliptical trainer,Quadriceps,Machine,8.8,Average
+Bodyweight squat,Quadriceps,Body Only,8.8,Average
+Bent Over Two-Dumbbell Row With Palms In,Middle Back,Dumbbell,8.8,Average
+Hex-bar deadlift,Quadriceps,Other,8.8,Average
+Narrow-stance leg press,Quadriceps,Machine,8.8,Average
+Single-leg glute bridge,Glutes,Body Only,8.8,Average
+Barbell Curls Lying Against An Incline,Biceps,Barbell,8.8,Average
+Standing Hip Circles,Abductors,Body Only,8.8,Average
+Clam,Abductors,,8.8,Average
+Narrow Stance Hack Squats,Quadriceps,Machine,8.8,Average
+Seated Close-Grip Concentration Barbell Curl,Biceps,Barbell,8.8,Average
+Dumbbell Lying Pronation,Forearms,,8.8,Average
+Smith machine box squat,Quadriceps,Barbell,8.8,Average
+Drop Push,Chest,Other,8.8,Average
+Upside-down pull-up,Middle Back,Other,8.8,Average
+Reverse Barbell Preacher Curls,Biceps,E-Z Curl Bar,8.8,Average
+Close-grip EZ-bar bench press,Chest,E-Z Curl Bar,8.8,Average
+Incline Push-Up,Chest,Body Only,8.8,Average
+Hyperextensions With No Hyperextension Bench,Lower Back,Body Only,8.8,Average
+Dumbbell front raise,Shoulders,Dumbbell,8.8,Average
+Parallel Bar Dip,Triceps,Body Only,8.8,Average
+Stairmaster,Quadriceps,Machine,8.8,Average
+Double Leg Butt Kick,Quadriceps,,8.8,Average
+Groiners,Adductors,Body Only,8.8,Average
+Neck Press,Chest,Barbell,8.8,Average
+Broad jump,Quadriceps,Body Only,8.8,Average
+Machine Squat,Quadriceps,Machine,8.8,Average
+V-bar pull-up,Lats,,8.8,Average
+Ring dip,Triceps,Body Only,8.8,Average
+Standing One-Arm Cable Curl,Biceps,Cable,8.8,Average
+Burpee,Quadriceps,Body Only,8.8,Average
+Double-arm triceps kick-back,Triceps,Dumbbell,8.8,Average
+Dumbbell reverse lunge,Quadriceps,Dumbbell,8.7,Average
+Seated Calf Raise,Calves,Machine,8.7,Average
+Standing dumbbell shrug,Traps,Dumbbell,8.7,Average
+Calf Press On The Leg Press Machine,Calves,Machine,8.7,Average
+Barbell step-up,Quadriceps,Barbell,8.7,Average
+Feet-elevated bench dip,Triceps,Body Only,8.7,Average
+Bent Over Barbell Row,Middle Back,Barbell,8.7,Average
+Crunches,Abdominals,Body Only,8.7,Average
+Dumbbell Alternate Bicep Curl,Biceps,Dumbbell,8.7,Average
+Bent-over dumbbell rear delt row,Shoulders,Dumbbell,8.7,Average
+External Rotation with Cable,Shoulders,Cables,8.7,Average
+Handstand push-up,Shoulders,Body Only,8.7,Average
+Single-arm dumbbell preacher curl,Biceps,Dumbbell,8.7,Average
+Step-up with knee raise,Glutes,Body Only,8.7,Average
+Smith machine back squat,Quadriceps,Machine,8.7,Average
+Incline dumbbell front raise,Shoulders,Dumbbell,8.7,Average
+Alternate Incline Dumbbell Curl,Biceps,Dumbbell,8.7,Average
+Standing dumbbell upright row,Traps,Dumbbell,8.7,Average
+Single-arm cable front raise,Shoulders,Cable,8.7,Average
+Two-Arm Kettlebell Military Press,Shoulders,Kettlebells,8.7,Average
+Incline cable chest press,Chest,Cable,8.7,Average
+Rope climb,Lats,Body Only,8.7,Average
+Single-arm dumbbell preacher curl,Biceps,Dumbbell,8.7,Average
+Step-up with knee raise,Glutes,Body Only,8.7,Average
+Incline dumbbell front raise,Shoulders,Dumbbell,8.7,Average
+Rope climb,Lats,Body Only,8.7,Average
+Trail Running/Walking,Quadriceps,Body Only,8.7,Average
+Standing Bradford press,Shoulders,Barbell,8.7,Average
+Neutral-grip dumbbell bench press,Chest,Dumbbell,8.7,Average
+Cable Chest Press,Chest,Cable,8.7,Average
+Standing concentration curl,Biceps,Dumbbell,8.7,Average
+Wide-Grip Rear Pull-Up,Lats,Body Only,8.7,Average
+Kettlebell pass-through lunge,Hamstrings,Kettlebells,8.7,Average
+Hands-elevated push-up,Chest,Body Only,8.7,Average
+Deadlift with Bands,Lower Back,Barbell,8.7,Average
+Straight-arm rope pull-down,Lats,Cable,8.7,Average
+Barbell Shoulder Press,Shoulders,Barbell,8.7,Average
+Power clean,Hamstrings,Barbell,8.7,Average
+Hang Snatch,Hamstrings,Barbell,8.7,Average
+Kettlebell sumo deadlift high pull,Traps,Kettlebells,8.7,Average
+Calf-Machine Shoulder Shrug,Traps,Machine,8.7,Average
+Bench Press - Powerlifting,Triceps,Barbell,8.7,Average
+Rocking Standing Calf Raise,Calves,Barbell,8.7,Average
+Goblet Squat,Quadriceps,Kettlebells,8.7,Average
+Behind-the-head skullcrusher,Triceps,Barbell,8.7,Average
+Seated palms-up wrist curl,Forearms,Barbell,8.7,Average
+Reverse Cable Curl,Biceps,Cable,8.7,Average
+Dumbbell side bend,Abdominals,Dumbbell,8.6,Average
+Lat pull-down,Lats,Cable,8.6,Average
+Side Lateral Raise,Shoulders,Dumbbell,8.6,Average
+Alternating incline dumbbell biceps curl,Biceps,Dumbbell,8.6,Average
+Kettlebell One-Legged Deadlift,Hamstrings,Kettlebells,8.6,Average
+Alternate Hammer Curl,Biceps,Dumbbell,8.6,Average
+Decline Push-Up,Chest,Body Only,8.6,Average
+Captain's chair knee raise,Abdominals,Other,8.6,Average
+Triceps Pushdown,Triceps,Cable,8.6,Average
+Low cable overhead triceps extension,Triceps,Cable,8.6,Average
+Single-arm cable cross-over,Chest,Cable,8.6,Average
+Seated dumbbell biceps curl,Biceps,Dumbbell,8.6,Average
+Battle ropes,Shoulders,Other,8.6,Average
+Dead bug reach,Abdominals,Body Only,8.6,Average
+Deadlift with Chains,Lower Back,Barbell,8.6,Average
+Rope Crunch,Abdominals,Cable,8.6,Average
+Palms-Up Dumbbell Wrist Curl Over A Bench,Forearms,Dumbbell,8.6,Average
+Kettlebell thruster,Glutes,Kettlebells,8.6,Average
+Single-Arm Push-Up,Chest,Body Only,8.6,Average
+Band Hip Adductions,Adductors,Bands,8.6,Average
+Single-arm kettlebell clean,Hamstrings,Kettlebells,8.6,Average
+Preacher Hammer Dumbbell Curl,Biceps,Dumbbell,8.6,Average
+Alternating Kettlebell Press,Shoulders,Kettlebells,8.6,Average
+Split Squat with Dumbbells,Quadriceps,Dumbbell,8.6,Average
+Standing One-Arm Dumbbell Curl Over Incline Bench,Biceps,,8.6,Average
+Standing Olympic Plate Hand Squeeze,Forearms,Other,8.6,Average
+Sledgehammer swing,Abdominals,Other,8.6,Average
+Kneeling Squat,Glutes,Barbell,8.6,Average
+Single-arm kettlebell snatch,Shoulders,Kettlebells,8.6,Average
+Close-grip barbell curl,Biceps,Barbell,8.6,Average
+Box jump,Hamstrings,Other,8.6,Average
+Standing cable crunch,Abdominals,Cable,8.6,Average
+Leverage Incline Chest Press,Chest,Machine,8.6,Average
+Standing barbell overhead triceps extension,Triceps,Barbell,8.6,Average
+Lying cable triceps extension,Triceps,Cable,8.6,Average
+Kettlebell Turkish Get-Up (Squat style),Shoulders,,8.6,Average
+Crunch - Hands Overhead,Abdominals,Body Only,8.6,Average
+Cable Internal Rotation,Shoulders,Cable,8.6,Average
+Leg Extensions,Quadriceps,Machine,8.5,Average
+Standing One-Arm Dumbbell Curl Over Incline Bench,Biceps,,8.6,Average
+Standing Olympic Plate Hand Squeeze,Forearms,Other,8.6,Average
+Sledgehammer swing,Abdominals,Other,8.6,Average
+Single-arm kettlebell snatch,Shoulders,Kettlebells,8.6,Average
+Box jump,Hamstrings,Other,8.6,Average
+Standing cable crunch,Abdominals,Cable,8.6,Average
+Standing barbell overhead triceps extension,Triceps,Barbell,8.6,Average
+Lying cable triceps extension,Triceps,Cable,8.6,Average
+Close push-up to wide push-up,Chest,Body Only,8.5,Average
+Single-arm dumbbell triceps extension,Triceps,Dumbbell,8.5,Average
+Butterfly,Chest,Machine,8.5,Average
+Decline dumbbell bench press,Chest,Dumbbell,8.5,Average
+V-up,Abdominals,Body Only,8.5,Average
+Seated face pull,Shoulders,Cable,8.5,Average
+Barbell Bulgarian split squat,Quadriceps,Barbell,8.5,Average
+Reverse-grip lat pull-down,Lats,Machine,8.5,Average
+Standing Biceps Cable Curl,Biceps,Cable,8.5,Average
+Single-arm cable seated row,Middle Back,Cable,8.5,Average
+Single-arm kettlebell row,Chest,Dumbbell,8.5,Average
+Scissors Jump,Quadriceps,Body Only,8.5,Average
+Wide Stance Stiff Legs,Hamstrings,Barbell,8.5,Average
+Rack Pull with Bands,Lower Back,Barbell,8.5,Average
+Drag curl,Biceps,Barbell,8.5,Average
+Close push-up to wide push-up,Chest,Body Only,8.5,Average
+Single-arm dumbbell triceps extension,Triceps,Dumbbell,8.5,Average
+Butterfly,Chest,Machine,8.5,Average
+Seated face pull,Shoulders,Cable,8.5,Average
+Rack Pull with Bands,Lower Back,Barbell,8.5,Average
+Drag curl,Biceps,Barbell,8.5,Average
+Hang Clean - Below the Knees,Quadriceps,Barbell,8.5,Average
+Decline oblique crunch,Abdominals,None,8.5,Average
+Dumbbell external shoulder rotation,Shoulders,Dumbbell,8.5,Average
+Single-arm bent-over cable rear delt fly,Shoulders,Cable,8.5,Average
+Clean,Hamstrings,Barbell,8.5,Average
+Single-arm incline lateral raise,Shoulders,Dumbbell,8.5,Average
+Decline bar press sit-up,Abdominals,Barbell,8.5,Average
+Barbell rear delt bent-over row,Shoulders,Barbell,8.5,Average
+Calf Press,Calves,Machine,8.5,Average
+Kettlebell alternating renegade row,Middle Back,Kettlebells,8.5,Average
+Bosu Ball Cable Crunch With Side Bends,Abdominals,Cable,8.5,Average
+Stomach Vacuum,Abdominals,Body Only,8.5,Average
+Hammer Grip Incline DB Bench Press,Chest,Dumbbell,8.5,Average
+Wide-grip hands-elevated push-up,Chest,Body Only,8.5,Average
+Decline Dumbbell Triceps Extension,Triceps,Dumbbell,8.5,Average
+Jumping jack-,Quadriceps,Body Only,8.5,Average
+Push-Ups With Feet On An Exercise Ball,Chest,Body Only,8.5,Average
+Seated cable shoulder press,Shoulders,Cable,8.5,Average
+Barbell hack squat,Quadriceps,Barbell,8.5,Average
+Feet-elevated push-up,Chest,Body Only,8.5,Average
+Good Morning,Hamstrings,Barbell,8.5,Average
+Leverage Chest Press,Chest,Machine,8.5,Average
+Gironda Sternum Chins,Lats,Other,8.5,Average
+Exercise ball crunch,Abdominals,Exercise Ball,8.4,Average
+Seated rear delt fly,Shoulders,Dumbbell,8.4,Average
+Standing face pull,Shoulders,Cable,8.4,Average
+Glute Ham Raise,Hamstrings,Machine,8.4,Average
+Russian twist,Abdominals,Body Only,8.4,Average
+Seated Flat Bench Leg Pull-In,Abdominals,Weight Bench,8.4,Average
+Barbell shrug,Traps,Barbell,8.4,Average
+Seated Flat Bench Leg Pull-In,Abdominals,Weight Bench,8.4,Average
+Barbell shrug,Traps,Barbell,8.4,Average
+Standing cable rear delt row,Shoulders,Cable,8.4,Average
+Flat Bench Lying Leg Raise,Abdominals,Body Only,8.4,Average
+Hack Squat,Quadriceps,Barbell,8.4,Average
+Dumbbell skullcrusher,Triceps,Dumbbell,8.4,Average
+Man-maker,Middle Back,Dumbbell,8.4,Average
+Pallof press,Abdominals,Other,8.4,Average
+Knees tucked crunch,Abdominals,Body Only,8.4,Average
+Straight-arm dumbbell pull-over,Chest,Dumbbell,8.4,Average
+Arms-crossed jump squat,Quadriceps,Body Only,8.4,Average
+Decline Smith Press,Chest,Machine,8.4,Average
+Band Skull Crusher,Triceps,,8.4,Average
+Side Wrist Pull,Shoulders,None,8.4,Average
+Isometric Wipers,Chest,Body Only,8.4,Average
+Skating,Quadriceps,Other,8.4,Average
+Cable cross-over,Chest,Cable,8.4,Average
+Treadmill running,Quadriceps,Machine,8.4,Average
+One Arm Pronated Dumbbell Triceps Extension,Triceps,Dumbbell,8.4,Average
+Single-arm kettlebell clean and jerk,Shoulders,Kettlebells,8.4,Average
+Side To Side Chins,Lats,Body Only,8.4,Average
+Incline Dumbbell Bench With Palms Facing In,Chest,Dumbbell,8.4,Average
+Seated palms-down wrist curl,Forearms,Dumbbell,8.4,Average
+Standing leg swing,Hamstrings,Body Only,8.4,Average
+Clock push-up,Chest,Body Only,8.4,Average
+Machine seated row,Lats,Machine,8.4,Average
+Lying Face Up Plate Neck Resistance,Neck,Other,8.4,Average
+Weighted sissy squat,Quadriceps,Other,8.4,Average
+Jog In Place,Quadriceps,,8.4,Average
+Dumbbell Raise,Shoulders,Dumbbell,8.4,Average
+Palms-Down Dumbbell Wrist Curl Over A Bench,Forearms,Dumbbell,8.4,Average
+One Arm Supinated Dumbbell Triceps Extension,Triceps,Dumbbell,8.4,Average
+Jog In Place,Quadriceps,,8.4,Average
+Dumbbell Raise,Shoulders,Dumbbell,8.4,Average
+Palms-Down Dumbbell Wrist Curl Over A Bench,Forearms,Dumbbell,8.4,Average
+One Arm Supinated Dumbbell Triceps Extension,Triceps,Dumbbell,8.4,Average
+Stationary bike,Quadriceps,Machine,8.3,Average
+Dumbbell bent-over row,Middle Back,Dumbbell,8.3,Average
+Barbell thruster,Quadriceps,Barbell,8.3,Average
+Flutter Kicks,Glutes,Weight Bench,8.3,Average
+Dumbbell sumo squat,Quadriceps,Dumbbell,8.3,Average
+Barbell upright row,Shoulders,Barbell,8.3,Average
+Superman,Lower Back,Body Only,8.3,Average
+Straight-Arm Pulldown,Lats,Cable,8.3,Average
+Barbell stiff-legged deadlift,Hamstrings,Barbell,8.3,Average
+Standing One-Arm Dumbbell Triceps Extension,Triceps,Dumbbells,8.3,Average
+Smith machine bench press,Chest,Machine,8.3,Average
+Seated Side Lateral Raise,Shoulders,Dumbbell,8.3,Average
+Dumbbell Lying Rear Lateral Raise,Shoulders,Dumbbell,8.3,Average
+Dumbbell preacher curl,Biceps,Dumbbell,8.3,Average
+Front Raise And Pullover,Chest,Barbell,8.3,Average
+Dumbbell seated box jump,Quadriceps,Dumbbell,8.3,Average
+Middle Back Shrug,Middle Back,Dumbbell,8.3,Average
+Incline face-down bar front raise,Shoulders,E-Z Curl Bar,8.3,Average
+Butt-Ups,Abdominals,Body Only,8.3,Average
+Band Good Morning (Pull Through),Hamstrings,Bands,8.3,Average
+Bodyweight Reverse Lunge,Quadriceps,Body Only,8.3,Average
+Seated One-Arm Dumbbell Palms-Down Wrist Curl,Forearms,Dumbbell,8.3,Average
+Glute Kickback,Glutes,Body Only,8.3,Average
+Treadmill jogging,Quadriceps,Machine,8.3,Average
+Plate Pinch,Forearms,Other,8.3,Average
+Yates Row Reverse Grip,Middle Back,Barbell,8.3,Average
+Linear Acceleration Wall Drill,Hamstrings,Body Only,8.3,Average
+Reverse-grip bench press,Triceps,Barbell,8.3,Average
+Leverage Decline Chest Press,Chest,Machine,8.3,Average
+Chain Handle Extension,Triceps,Other,8.3,Average

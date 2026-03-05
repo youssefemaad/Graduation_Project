@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym Reception Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#25f478",
+                        "primary-hover": "#20d468",
+                        "background-light": "#f5f8f7",
+                        "background-dark": "#102217",
+                        "slate-900": "#0f172a",
+                        "slate-800": "#1e293b",
+                        "slate-600": "#475569",
+                        "slate-500": "#64748b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="font-display text-slate-900 antialiased selection:bg-primary selection:text-slate-900 h-screen overflow-hidden">
+<!-- Background Image Layer -->
+<div class="fixed inset-0 z-[-1] bg-cover bg-center" data-alt="Blurred modern gym interior background with equipment" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDTEEiG_Jb-8wgV-kMWWN3FePtIobEJSorUVDkPPVXZhuPoUiYz2vV21-Y_zBWJLWDeAGDd4KN_eBxXqOoonFUjS-Gw1FoxRjJWY6QgK01Yc8Cab4SppoHojvJNeghtUQHb8APyH-J0F6C4Wg6uAwuVF4NEeadZhFP6BawV4murRajL1CfleBf6zbzMfujJOAzK1W7ri3gBKbJqK44BsG1kFidT8KtHkCkK-edA6TrxSI3FG_F-EFXjA9h4voG2cZTTWQGp4E4aAD4');">
+</div>
+<!-- Overlay to lighten the background for readability -->
+<div class="fixed inset-0 z-[-1] bg-white/40 backdrop-blur-sm"></div>
+<div class="flex h-full w-full">
+<!-- Side Navigation Bar -->
+<aside class="w-64 h-full glass-panel flex flex-col justify-between border-r border-white/50 z-20 hidden md:flex flex-shrink-0 transition-all duration-300">
+<div class="flex flex-col p-6 gap-8">
+<!-- Brand -->
+<div class="flex flex-col gap-1">
+<h1 class="text-slate-900 text-2xl font-bold tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">ecg_heart</span>
+                        PulseGym
+                    </h1>
+<p class="text-slate-500 text-xs font-medium uppercase tracking-wider pl-1">Reception Console</p>
+</div>
+<!-- Nav Items -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/20 border border-primary/10 text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined filled text-slate-900">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/50 text-slate-600 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-sm font-medium">Members</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/50 text-slate-600 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="text-sm font-medium">Classes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/50 text-slate-600 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm font-medium">Finance</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/50 text-slate-600 hover:text-slate-900 transition-colors group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<div class="p-6">
+<button class="flex items-center gap-3 px-4 py-3 w-full rounded-lg hover:bg-red-50 text-slate-600 hover:text-red-600 transition-colors">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm font-medium">Log Out</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full relative overflow-hidden">
+<!-- Top Header -->
+<header class="h-20 glass-panel border-b border-white/50 px-8 flex items-center justify-between z-10 shrink-0">
+<div class="flex items-center gap-6 flex-1">
+<!-- Date Widget -->
+<div class="hidden lg:flex flex-col border-r border-slate-200 pr-6">
+<span class="text-slate-900 text-lg font-bold leading-none" id="clock-time">10:42 AM</span>
+<span class="text-slate-500 text-xs font-medium uppercase mt-1">Wed, Oct 25</span>
+</div>
+<!-- Search -->
+<div class="flex w-full max-w-md items-center rounded-lg bg-white/50 px-3 h-11 focus-within:ring-2 focus-within:ring-primary/50 transition-all shadow-sm">
+<span class="material-symbols-outlined text-slate-400">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-slate-900 placeholder:text-slate-400 text-sm h-full ml-2" placeholder="Search members, classes, or transactions..." type="text"/>
+<div class="hidden sm:flex text-[10px] font-bold text-slate-400 border border-slate-200 rounded px-1.5 py-0.5 bg-white">⌘K</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Notifications -->
+<button class="relative p-2 rounded-full hover:bg-white/50 text-slate-600 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+</button>
+<!-- Profile -->
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+<div class="text-right hidden md:block">
+<p class="text-sm font-bold text-slate-900">Sarah Jenkins</p>
+<p class="text-xs text-slate-500">Head Receptionist</p>
+</div>
+<div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden ring-2 ring-white shadow-sm" data-alt="Profile picture of Sarah Jenkins">
+<img alt="Sarah" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcw4v_eX27rUxx2Kre0AwOvVH4k9C1QFQUQ8SayshCQ3vL5jYOgEQ1xF5Yskz3MzX_YmEAeTVzfFYr80utRdDFGjVhjW5dtVoZ9KCrp3epFEbVH8VJaDNZwCphsL-ZgJ-AxxLkDqZkRNgP5Vl9EKTCVRlDcN6Y7TVrG-xEqM83ciR_5f1URlHQ4Cw5ixpJ9DvIugJfwd0mm3XdlAMoNiQf192DpssduyuK5VmZ5IPeueK2cAGmWYIrrEs1gRyvIRRxKUDgoG9uFUY"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Scrollable Dashboard Content -->
+<div class="flex-1 overflow-y-auto p-8 no-scrollbar">
+<div class="max-w-[1400px] mx-auto flex flex-col gap-8">
+<!-- Welcome & Headline -->
+<div class="flex justify-between items-end">
+<div>
+<h1 class="text-3xl font-bold text-slate-900 tracking-tight">Good Morning, Sarah 👋</h1>
+<p class="text-slate-600 mt-1 text-base">Here's what's happening at PulseGym today.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-800 transition shadow-lg shadow-slate-900/10">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                Custom Widget
+                            </button>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+<!-- Stat Card 1 -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between h-40 group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-blue-100 rounded-lg text-blue-600">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<span class="flex items-center text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> +12%
+                                </span>
+</div>
+<div>
+<p class="text-slate-500 text-sm font-medium">Members Checked In</p>
+<p class="text-3xl font-bold text-slate-900 mt-1">124</p>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between h-40 group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-orange-100 rounded-lg text-orange-600">
+<span class="material-symbols-outlined">fitness_center</span>
+</div>
+<span class="flex items-center text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
+                                    0%
+                                </span>
+</div>
+<div>
+<p class="text-slate-500 text-sm font-medium">Active Sessions</p>
+<p class="text-3xl font-bold text-slate-900 mt-1">8</p>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between h-40 group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-purple-100 rounded-lg text-purple-600">
+<span class="material-symbols-outlined">monitor_heart</span>
+</div>
+<span class="flex items-center text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> +5%
+                                </span>
+</div>
+<div>
+<p class="text-slate-500 text-sm font-medium">Equip. in Use</p>
+<p class="text-3xl font-bold text-slate-900 mt-1">42</p>
+</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="glass-card p-6 rounded-xl flex flex-col justify-between h-40 group hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-teal-100 rounded-lg text-teal-600">
+<span class="material-symbols-outlined">accessibility_new</span>
+</div>
+<span class="flex items-center text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> +2%
+                                </span>
+</div>
+<div>
+<p class="text-slate-500 text-sm font-medium">Scans Scheduled</p>
+<p class="text-3xl font-bold text-slate-900 mt-1">14</p>
+</div>
+</div>
+</div>
+<!-- Main Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Left Column (2/3) -->
+<div class="xl:col-span-2 flex flex-col gap-8">
+<!-- Quick Actions -->
+<div class="glass-card p-6 rounded-xl">
+<h3 class="text-lg font-bold text-slate-900 mb-4">Quick Actions</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<button class="flex flex-col items-center justify-center gap-3 p-6 rounded-xl bg-primary text-slate-900 hover:bg-primary-hover transition-all shadow-lg shadow-primary/20 group">
+<div class="bg-black/10 p-2 rounded-full group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">qr_code_scanner</span>
+</div>
+<span class="font-bold text-sm">Check-In</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-6 rounded-xl bg-white border border-slate-200 text-slate-700 hover:border-primary hover:text-primary transition-all group">
+<div class="bg-slate-100 p-2 rounded-full group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[28px]">person_add</span>
+</div>
+<span class="font-bold text-sm">Register</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-6 rounded-xl bg-white border border-slate-200 text-slate-700 hover:border-blue-500 hover:text-blue-500 transition-all group">
+<div class="bg-slate-100 p-2 rounded-full group-hover:bg-blue-50 transition-colors">
+<span class="material-symbols-outlined text-[28px]">calendar_today</span>
+</div>
+<span class="font-bold text-sm">Bookings</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-6 rounded-xl bg-white border border-slate-200 text-slate-700 hover:border-orange-500 hover:text-orange-500 transition-all group">
+<div class="bg-slate-100 p-2 rounded-full group-hover:bg-orange-50 transition-colors">
+<span class="material-symbols-outlined text-[28px]">credit_card</span>
+</div>
+<span class="font-bold text-sm">Payment</span>
+</button>
+</div>
+</div>
+<!-- Live Activity Feed -->
+<div class="glass-card rounded-xl overflow-hidden flex flex-col flex-1 min-h-[400px]">
+<div class="p-6 border-b border-slate-100 flex justify-between items-center">
+<h3 class="text-lg font-bold text-slate-900">Live Activity</h3>
+<button class="text-sm text-primary font-semibold hover:underline">View All</button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<!-- Feed Item 1 -->
+<div class="flex items-center gap-4 p-4 border-b border-slate-50 hover:bg-white/40 transition-colors">
+<div class="relative">
+<div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden" data-alt="Avatar of Mike Ross">
+<img alt="Mike" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvCqCIAFCc5ix_GMpR32vK9S_M5eh4lYXm6zuK4GR43UoR5loDo9XL3-qmqBvsEZFnbhaTCnn85FB1sxeoD-lny7go0nM9sViIAk-thMlULP8iYow6BXyUhD62EdN08f7_1mKSeLY7xPP35CW-U_vm6wXUEaD8EO6mKrahbNNZmz-25vjW_AbdlRd5bQCQ76FeasvnJQbIbX31KEqec7U5P9zvBhKuqglqeR9H9eT4MiRfY2jZDKS8VJ7iMLNdUL5gnkMFQ8ltcB0"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-0.5 border-2 border-white">
+<span class="material-symbols-outlined text-[10px] text-white block">check</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900">Mike Ross <span class="font-normal text-slate-500">checked in at Main Entrance</span></p>
+</div>
+<p class="text-xs text-slate-400 font-medium">Just now</p>
+</div>
+<!-- Feed Item 2 -->
+<div class="flex items-center gap-4 p-4 border-b border-slate-50 hover:bg-white/40 transition-colors">
+<div class="relative">
+<div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold" data-alt="Initials Avatar">
+                                                 JD
+                                            </div>
+<div class="absolute -bottom-1 -right-1 bg-blue-500 rounded-full p-0.5 border-2 border-white">
+<span class="material-symbols-outlined text-[10px] text-white block">event</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900">Jane Doe <span class="font-normal text-slate-500">booked</span> HIIT Class <span class="font-normal text-slate-500">for 5:00 PM</span></p>
+</div>
+<p class="text-xs text-slate-400 font-medium">5m ago</p>
+</div>
+<!-- Feed Item 3 -->
+<div class="flex items-center gap-4 p-4 border-b border-slate-50 hover:bg-white/40 transition-colors">
+<div class="relative">
+<div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden" data-alt="Avatar of Alex">
+<img alt="Alex" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4OMTTwKewjqMvBcxG8MxPzPug8V1O0OSUN2GvUzz47YkfMQOTRCePeKbkUnrgh_VpDeKG1vV4eyQwWpMu_51yy_CMZl42DC3VX0hY625VYAp5qmDcoblwW8MxrAjJlcR5w1_QTgAeMvSnQrEtSy-WUQEMuCMleyRKCxbgw-tcopzZWG5UnaUdfolGzyW82Gt8SxvEDVZSH2k3AHpuygzBJ8X9GpGZ8nTar5l18C5nhvJspwetjxTWW_s5h7zSLnKp5jUl_XcWtYU"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-orange-500 rounded-full p-0.5 border-2 border-white">
+<span class="material-symbols-outlined text-[10px] text-white block">priority_high</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900">Alex Smith <span class="font-normal text-slate-500">payment failed for Monthly Sub.</span></p>
+</div>
+<p class="text-xs text-slate-400 font-medium">12m ago</p>
+</div>
+<!-- Feed Item 4 -->
+<div class="flex items-center gap-4 p-4 hover:bg-white/40 transition-colors">
+<div class="relative">
+<div class="h-10 w-10 rounded-full bg-slate-200 overflow-hidden" data-alt="Avatar of Rachel">
+<img alt="Rachel" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4iwI5fnI3Bx_olLf66Y9y0ggD0wzERqpukBmTTGEk3Cwx5_R0O4tGQIzMS2tWkz2BfboRBT9lNNLn0LTYBd-mgssfPwPgeztxrzz3ry6OkNjF7z7cBLe5n1t2r_hUAJScqEBjIoHgj3ddtjaMwd5Syb1ZsP-CLQWkB4Uij_ZUJkkNqv3IEQU7D_9_AGE3X-Zsl8htBxOJMyEEncET1avK2K9wh4jWkSmjHAEQloQgZslIxHFumk7vMGJOoI-0SI_5sSwLbrKRbfA"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-0.5 border-2 border-white">
+<span class="material-symbols-outlined text-[10px] text-white block">check</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-semibold text-slate-900">Rachel Green <span class="font-normal text-slate-500">checked in at Main Entrance</span></p>
+</div>
+<p class="text-xs text-slate-400 font-medium">18m ago</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (1/3) -->
+<div class="flex flex-col gap-8">
+<!-- Occupancy Gauge -->
+<div class="glass-card p-6 rounded-xl">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold text-slate-900">Gym Occupancy</h3>
+<span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">Normal</span>
+</div>
+<div class="relative pt-2 pb-6">
+<!-- Custom Gauge Visual using CSS Gradients & Flex -->
+<div class="flex justify-between items-end mb-2">
+<span class="text-4xl font-bold text-slate-900">65%</span>
+<span class="text-sm text-slate-500 font-medium mb-1">Capacity</span>
+</div>
+<div class="h-4 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 65%;"></div>
+</div>
+<div class="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+<span>0%</span>
+<span>Current: 145 / 220</span>
+<span>100%</span>
+</div>
+</div>
+<div class="p-4 bg-white/50 rounded-lg border border-white/60">
+<p class="text-sm text-slate-600">Peak hours predicted around <span class="font-bold text-slate-900">5:00 PM - 7:00 PM</span> based on historical data.</p>
+</div>
+</div>
+<!-- Alerts Panel -->
+<div class="glass-card p-6 rounded-xl flex-1">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-bold text-slate-900">Alerts</h3>
+<span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded-full">3 New</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Alert Item -->
+<div class="flex gap-3 items-start p-3 rounded-lg bg-orange-50 border border-orange-100">
+<span class="material-symbols-outlined text-orange-500 mt-0.5 text-xl">build</span>
+<div>
+<p class="text-sm font-bold text-slate-800">Maintenance Required</p>
+<p class="text-xs text-slate-600 mt-0.5">Treadmill #04 reported belt slippage.</p>
+<button class="text-xs font-bold text-orange-600 mt-2 hover:underline">Create Ticket</button>
+</div>
+</div>
+<!-- Alert Item -->
+<div class="flex gap-3 items-start p-3 rounded-lg bg-red-50 border border-red-100">
+<span class="material-symbols-outlined text-red-500 mt-0.5 text-xl">payment</span>
+<div>
+<p class="text-sm font-bold text-slate-800">Payment Issues</p>
+<p class="text-xs text-slate-600 mt-0.5">3 members have declined payments today.</p>
+<button class="text-xs font-bold text-red-600 mt-2 hover:underline">Review List</button>
+</div>
+</div>
+<!-- Alert Item -->
+<div class="flex gap-3 items-start p-3 rounded-lg bg-blue-50 border border-blue-100">
+<span class="material-symbols-outlined text-blue-500 mt-0.5 text-xl">person_off</span>
+<div>
+<p class="text-sm font-bold text-slate-800">No Shows</p>
+<p class="text-xs text-slate-600 mt-0.5">5 members missed their morning bookings.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="h-8"></div> <!-- Spacer -->
+</div>
+</div>
+</main>
+</div>
+</body></html>

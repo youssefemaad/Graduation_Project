@@ -1,0 +1,51 @@
+# TensorFlow and Deep Learning
+tensorflow==2.15.0
+tensorflow-hub==0.15.0
+
+
+# Data Processing
+pandas==2.1.4
+numpy==1.24.3
+scikit-learn==1.3.2
+
+# Visualization
+matplotlib==3.8.2
+seaborn==0.13.0
+plotly==5.18.0
+
+# Configuration
+pyyaml==6.0.1
+python-dotenv==1.0.0
+
+# Utilities
+joblib==1.3.2
+tqdm==4.66.1
+
+# Database
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.23
+
+# API and Serving
+flask==3.0.0
+flask-cors==4.0.0
+requests==2.31.0
+
+# Jupyter for experimentation
+jupyterlab==4.0.9
+ipykernel==6.27.1
+ipywidgets==8.1.1
+
+# Model Optimization
+tensorflow-model-optimization==0.7.5
+
+# Logging and Monitoring
+wandb==0.16.1  # Optional: for experiment tracking
+mlflow==2.9.2  # Optional: for ML lifecycle management
+
+# Embeddings & Transformers (open-source, free)
+sentence-transformers==2.2.2
+transformers==4.36.0
+torch==2.1.0
+accelerate==0.25.0
+huggingface-hub==0.18.0
+pgvector==0.6.0

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - My Programs</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b8cee",
+                        "secondary": "#10B981", // Vibrant Green
+                        "accent": "#F97316", // Orange
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Lexend", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>body {
+    font-family: "Lexend", sans-serif
+    }
+/* Soften the background image */
+.bg-gym-blur {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuCJ6BVh746amtPg1PlmuKfqsZ2Rk6YMDZ2mP4IyPeb-NjV8FWppkIBOlTNtfu0gSwLCJAmL-UYUdCBa_Hx6rF5KlqZ3oKXrsjPeVGFwTZ3Jua04wp8iqix2291wPLjLRRnNOwn43pTI0Ep0DLxRcvyMBcnxv8VYcx_3zkoRh1KFs6p7XZkrdiXxtRlT7m-mWjUW60LKzCvXd2NejxFKoPSoM6gx5y31LWPHtksMPTAIxpR1xf1X5TcmfE2OmIt-FZ229QvGgRNWgR4);
+    filter: blur(8px);
+    opacity: 0.15
+    }
+.hide-scrollbar::-webkit-scrollbar {
+    display: none
+    }
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none
+    }</style>
+</head>
+<body class="bg-slate-50 text-[#0d141b] overflow-x-hidden min-h-screen flex flex-col relative group/design-root">
+<!-- Background Layer -->
+<div class="fixed inset-0 bg-gym-blur bg-cover bg-center bg-no-repeat pointer-events-none z-0" data-alt="Blurred background of a modern gym with weights and equipment"></div>
+<!-- Main Content Wrapper -->
+<div class="relative z-10 flex flex-col h-full grow">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7edf3] bg-white/90 backdrop-blur-md px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#0d141b]">
+<div class="size-8 text-primary flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary" style="font-size: 24px;">ecg_heart</span>
+</div>
+<h2 class="text-[#0d141b] text-xl font-bold leading-tight tracking-[-0.015em]">PulseGym</h2>
+</div>
+<div class="hidden lg:flex items-center gap-9">
+<a class="text-[#4c739a] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-bold leading-normal transition-colors" href="#">My Programs</a>
+<a class="text-[#4c739a] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Coaches</a>
+<a class="text-[#4c739a] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Community</a>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full shadow-sm">
+<div class="text-[#4c739a] flex border-none bg-[#f0f4f8] items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d141b] focus:outline-0 focus:ring-0 border-none bg-[#f0f4f8] focus:border-none h-full placeholder:text-[#4c739a] px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search programs..." value=""/>
+</div>
+</label>
+<div class="flex gap-3">
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#f0f4f8] hover:bg-primary/10 hover:text-primary text-[#0d141b] transition-all shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 20px;">notifications</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[#f0f4f8] hover:bg-primary/10 hover:text-primary text-[#0d141b] transition-all shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 20px;">settings</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white shadow-md cursor-pointer" data-alt="User profile picture of a fitness enthusiast" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuABLzZqw10U9kz6hJ1BZXvq-L1BX8M2jFh2a7ZCJEKjEJFLO-INXKLMLOy3d18rK1SQY-HiJ6-zYUeVJ1oQG9T43APqPlDGIFOG3pCxaW5VoSnnGXIQzNMhcCvynR5pjSMYgKIXYxqXy4PFDccjS8lks-vyqYjHGvUtiyLoUKZ8cxnQCQDFR6n0aGSl87rFosEQJ1jE4aJAItBFSQn2VkBBImu_FlWwZJmMQwfbZdyjvJXOE6dygMBr93BkZOs3jmvs-mwI8prUozw");'></div>
+</div>
+</div>
+</header>
+<!-- Main Layout -->
+<main class="flex-1 flex justify-center py-8 px-4 md:px-10 lg:px-20">
+<div class="flex flex-col max-w-[1200px] flex-1 gap-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 items-center">
+<a class="text-[#4c739a] hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[#4c739a]" style="font-size: 16px;">chevron_right</span>
+<span class="text-[#0d141b] text-sm font-medium leading-normal">My Programs</span>
+</div>
+<!-- Page Heading & CTA -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-2">
+<div class="flex flex-col gap-2">
+<h1 class="text-[#0d141b] text-3xl md:text-4xl font-black leading-tight tracking-[-0.02em]">Your Training Hub</h1>
+<p class="text-[#4c739a] text-base font-normal leading-normal">Manage your AI-generated and coach-assigned plans.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 font-bold text-sm">
+<span class="material-symbols-outlined" style="font-size: 20px;">auto_awesome</span>
+<span>Generate AI Program</span>
+</button>
+</div>
+<!-- Tabs -->
+<div class="border-b border-[#cfdbe7] mb-4">
+<div class="flex gap-8 overflow-x-auto hide-scrollbar">
+<a class="flex items-center gap-2 border-b-[3px] border-b-primary text-[#0d141b] pb-3 px-1 cursor-pointer transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Active</p>
+<span class="bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+</a>
+<a class="flex items-center gap-2 border-b-[3px] border-b-transparent hover:border-b-gray-300 text-[#4c739a] hover:text-[#0d141b] pb-3 px-1 cursor-pointer transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Pending Approval</p>
+<span class="bg-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">1</span>
+</a>
+<a class="flex items-center gap-2 border-b-[3px] border-b-transparent hover:border-b-gray-300 text-[#4c739a] hover:text-[#0d141b] pb-3 px-1 cursor-pointer transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Approved</p>
+</a>
+<a class="flex items-center gap-2 border-b-[3px] border-b-transparent hover:border-b-gray-300 text-[#4c739a] hover:text-[#0d141b] pb-3 px-1 cursor-pointer transition-colors" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Archived</p>
+</a>
+</div>
+</div>
+<!-- Programs Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1: Active, AI Generated -->
+<div class="group bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all duration-300 flex flex-col border border-slate-100">
+<!-- Card Image Header -->
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Muscular person lifting weights in a gym" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAu6uYI0U9qQ_I0y_AMdIUuqF08o-kgzyTJD8lJ8wUW1BTzif7KtZR4Y6VLg2j8yr7NQOe5aP_SB9S51lKsl-M1TBaPNFpbazFFNTiP73RdpoCXJs2VB8I_8FF0HFxENMK9UsJSpvS24bB9GzlWFwq5RslrrUcFlIZdjcS2ghLcNYutK7lGT5KxwceoxOB0SBl2lPeFNS8nSH9JZFY8ZrzihVTg-U7M1rphXZRq51hlKBoIe85rTaLcvUICJSvOs9FzO22fcoEciu8");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-white/90 backdrop-blur-sm text-[#0d141b] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-primary" style="font-size: 14px;">fitness_center</span> Workout
+                                </span>
+</div>
+<div class="absolute bottom-3 left-3 text-white">
+<p class="text-xs font-medium opacity-90 mb-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">smart_toy</span> PulseAI
+                                </p>
+<h3 class="text-lg font-bold leading-tight">Hypertrophy Phase 1</h3>
+</div>
+</div>
+<!-- Card Body -->
+<div class="p-5 flex flex-col gap-4 flex-1">
+<!-- Progress Section -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="text-xs font-bold text-[#4c739a] uppercase tracking-wide">Progress</span>
+<span class="text-sm font-bold text-primary">65%</span>
+</div>
+<div class="w-full bg-[#e7edf3] rounded-full h-2">
+<div class="bg-primary h-2 rounded-full transition-all duration-500" style="width: 65%"></div>
+</div>
+</div>
+<!-- Date Info -->
+<div class="flex items-center gap-2 text-[#4c739a] text-xs mt-auto pt-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">calendar_today</span>
+<span>Started: Oct 12, 2023</span>
+</div>
+<!-- Actions Footer -->
+<div class="flex gap-2 pt-2 border-t border-slate-100 mt-1">
+<button class="flex-1 h-9 flex items-center justify-center rounded-lg bg-[#f0f4f8] hover:bg-primary text-sm font-medium hover:text-white transition-colors text-[#0d141b]">
+                                    Details
+                                </button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-slate-200 text-[#4c739a] hover:border-primary hover:text-primary transition-colors" title="Download PDF">
+<span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-slate-200 text-[#4c739a] hover:border-primary hover:text-primary transition-colors" title="Share Link">
+<span class="material-symbols-outlined" style="font-size: 18px;">share</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Pending Approval, Coach Generated -->
+<div class="group bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all duration-300 flex flex-col border border-slate-100">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Healthy meal preparation with vegetables and chicken" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBQe1aLPS6DnHEheycGZkIysV64fwq6FEbByHyKigXpVl82AzZYaOanQoOoF4ZVCfCcnxISDi8rog6BUgpguBDFwgdAO-A2DIfDwhxuqUQtHwZO2J9xiB6o5xW3P7mYnublTbDc2ShaaZkGgtN0YLC8A4TsKtTOsL7ihWuG5smy1W6g2i-oufii26JOjlOdr7OafFqr2Yf5NUDJ9vDfhs_g2HbpvVe_vf6WTmatBGxGf4mjKjQdMMdVJ6xbL0yy9sLfjqxJPTQC9HM");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-white/90 backdrop-blur-sm text-[#0d141b] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary" style="font-size: 14px;">restaurant</span> Diet Plan
+                                </span>
+<span class="bg-accent/90 backdrop-blur-sm text-white text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">pending</span> Pending
+                                </span>
+</div>
+<div class="absolute bottom-3 left-3 text-white">
+<p class="text-xs font-medium opacity-90 mb-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">person</span> Coach Sarah
+                                </p>
+<h3 class="text-lg font-bold leading-tight">Low-Carb Cycle</h3>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="bg-accent/10 border border-accent/20 rounded-lg p-3">
+<p class="text-xs text-accent font-medium leading-relaxed">
+<span class="font-bold">Action Required:</span> Please review the dietary restrictions before accepting.
+                                </p>
+</div>
+<div class="flex items-center gap-2 text-[#4c739a] text-xs mt-auto pt-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+<span>Created: 2 hours ago</span>
+</div>
+<div class="flex gap-2 pt-2 border-t border-slate-100 mt-1">
+<button class="flex-1 h-9 flex items-center justify-center rounded-lg bg-accent text-white text-sm font-bold hover:bg-orange-600 transition-colors shadow-md shadow-orange-500/20">
+                                    Review Plan
+                                </button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-slate-200 text-[#4c739a] hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">chat</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Active, Mixed Type, High Progress -->
+<div class="group bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all duration-300 flex flex-col border border-slate-100">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Woman running on a treadmill in a modern gym" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAboIybJoTJNSzhWdGc_R_82RNFZxNHipfffLCgvPMXQPa-ObjrdiVuj1zr9SWVNHTOTfLUcWVzY5TbnlyXrMXrFx4m_ndjjx6rxe7AziEyQgdsa0eOH0Vf6AeQxgnQUltoUum61YsNDloVm4FPSdGkqC6m_e2peI57iNH2rBG_AFLxWvVB6ZLNzMxW60VboIVTl8G6EqvC8zEdhXF4qZwNwG6zqP5GyAdA-3RkMKs0Jfhtbm-ZgYBq13LM1eoKtQ641DV7WJ5PHX0");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-white/90 backdrop-blur-sm text-[#0d141b] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-purple-500" style="font-size: 14px;">layers</span> Hybrid
+                                </span>
+</div>
+<div class="absolute bottom-3 left-3 text-white">
+<p class="text-xs font-medium opacity-90 mb-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">smart_toy</span> PulseAI
+                                </p>
+<h3 class="text-lg font-bold leading-tight">Endurance &amp; Core</h3>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="text-xs font-bold text-[#4c739a] uppercase tracking-wide">Progress</span>
+<span class="text-sm font-bold text-secondary">92%</span>
+</div>
+<div class="w-full bg-[#e7edf3] rounded-full h-2">
+<div class="bg-secondary h-2 rounded-full transition-all duration-500" style="width: 92%"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 text-[#4c739a] text-xs mt-auto pt-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">calendar_today</span>
+<span>Started: Sep 01, 2023</span>
+</div>
+<div class="flex gap-2 pt-2 border-t border-slate-100 mt-1">
+<button class="flex-1 h-9 flex items-center justify-center rounded-lg bg-[#f0f4f8] hover:bg-primary text-sm font-medium hover:text-white transition-colors text-[#0d141b]">
+                                    Details
+                                </button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-slate-200 text-[#4c739a] hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg border border-slate-200 text-[#4c739a] hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">share</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4: Approved, Not Started -->
+<div class="group bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all duration-300 flex flex-col border border-slate-100 opacity-90 hover:opacity-100">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center grayscale-[30%] group-hover:grayscale-0 transition-all duration-700" data-alt="Yoga mat and water bottle in a sunny studio" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC6s8wAzvMt7rEi3_he_JbLRXi2pteQd0JMgqHC5_5SdVeITv3MwrAuj4pOrOtIPabn6RSGDIc5Em2uAvd5k-GlvjHr22VM_9NQSavf0dGudbtvxSWIzFJZg6iwXobBbGZJD-BiEr1AkaV6RvPGuWA9YErIaXoi7wkFctncjx9vdVGKEZc4fEclWUzHqMqGL0BUztMWq21za7C8lMELXXjFqO4jPJZVPAIRluwdvs2mUhYkuHRMRLO1dKU3naB0lAS1h7ieuF1L-SI");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-white/90 backdrop-blur-sm text-[#0d141b] text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-primary" style="font-size: 14px;">self_improvement</span> Mobility
+                                </span>
+<span class="bg-secondary/90 backdrop-blur-sm text-white text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">check_circle</span> Approved
+                                </span>
+</div>
+<div class="absolute bottom-3 left-3 text-white">
+<p class="text-xs font-medium opacity-90 mb-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">smart_toy</span> PulseAI
+                                </p>
+<h3 class="text-lg font-bold leading-tight">Morning Mobility</h3>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex items-center gap-2 py-2">
+<div class="size-2 rounded-full bg-secondary"></div>
+<span class="text-sm font-medium text-[#4c739a]">Ready to start</span>
+</div>
+<div class="flex items-center gap-2 text-[#4c739a] text-xs mt-auto">
+<span class="material-symbols-outlined" style="font-size: 16px;">calendar_today</span>
+<span>Approved: Yesterday</span>
+</div>
+<div class="flex gap-2 pt-2 border-t border-slate-100 mt-1">
+<button class="flex-1 h-9 flex items-center justify-center rounded-lg bg-secondary text-white text-sm font-bold hover:bg-green-600 transition-colors shadow-md shadow-green-500/20 gap-2">
+<span class="material-symbols-outlined" style="font-size: 18px;">play_arrow</span>
+                                    Start Now
+                                </button>
+</div>
+</div>
+</div>
+<!-- Card 5: Archived -->
+<div class="group bg-white/60 rounded-2xl overflow-hidden shadow-none border border-slate-200 flex flex-col hover:bg-white transition-all duration-300">
+<div class="relative h-48 w-full overflow-hidden grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-300">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Close up of heavy dumbbells on a rack" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuByaSqJxFzX9lIfm2-G-WtjGhA4yN0sV0QkvKAkw5wwIh6Hqz76Q2SOJ4qvuNLs0QUMLmyXhTI8Gw3UnhdzVYKlcG7UA7gOPIHDBGvIgBJwX_oTFnNjrHeolb5Lcu-yr98WBerZlCzNVCjNfImrU2ot8tE_-xGmBD5ZxsqPSXg3moNX9Fo2Q5SiDjhIBCf-l_9eCYN7vQxdURY23WX0p9fUoVKU93_H45oNcRX4xrHfMlfzNWU3WGUexahrmCp8W5qpAtRVbE40oAE");'></div>
+<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute top-3 left-3">
+<span class="bg-gray-200/90 text-gray-600 text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">archive</span> Archived
+                                </span>
+</div>
+<div class="absolute bottom-3 left-3 text-white">
+<h3 class="text-lg font-bold leading-tight">Summer Shred 2023</h3>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex justify-between text-sm text-[#4c739a]">
+<span>Completed</span>
+<span class="font-bold text-[#0d141b]">100%</span>
+</div>
+<div class="flex items-center gap-2 text-[#4c739a] text-xs mt-auto">
+<span class="material-symbols-outlined" style="font-size: 16px;">event_available</span>
+<span>Finished: Aug 30, 2023</span>
+</div>
+<div class="flex gap-2 pt-2 border-t border-slate-200 mt-1">
+<button class="flex-1 h-9 flex items-center justify-center rounded-lg border border-slate-300 text-[#4c739a] text-sm font-medium hover:bg-slate-100 transition-colors">
+                                    View Summary
+                                </button>
+</div>
+</div>
+</div>
+<!-- New Program Placeholder -->
+<div class="group flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#cfdbe7] bg-white/30 p-8 text-center hover:border-primary hover:bg-white/60 transition-all duration-300 cursor-pointer min-h-[350px]">
+<div class="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-size: 32px;">add</span>
+</div>
+<h3 class="text-[#0d141b] text-lg font-bold mb-2">Create New Plan</h3>
+<p class="text-[#4c739a] text-sm max-w-[200px]">Use AI to generate a custom workout or diet plan in seconds.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button for Mobile/Scroll -->
+<div class="fixed bottom-6 right-6 z-50 md:hidden">
+<button class="size-14 bg-primary text-white rounded-full shadow-xl shadow-blue-500/40 flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-size: 28px;">auto_awesome</span>
+</button>
+</div>
+</body></html>

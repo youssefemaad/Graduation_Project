@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PulseGym - Equipment Management</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#25f46a",
+                        "background-light": "#f8fcf9", 
+                        "background-dark": "#102216",
+                        "surface": "#ffffff",
+                        "text-main": "#0d1c12",
+                        "text-sub": "#499c65",
+                        "border-color": "#e7f4eb",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main antialiased overflow-x-hidden">
+<!-- Background Image Layer with Blur -->
+<div class="fixed inset-0 z-0 opacity-10 pointer-events-none" data-alt="Blurred modern gym interior background with weights and machines" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC9bK4h2DbML6N5UcKiugBu6cESIJUWdXL6IpHjtjWe8-2sVsMO4IixtwDJIXwDzZliPmXg5KM3RrO7k1QOwjx5KToh7E-830B6oUb7eKmqAJFuqZwxojB8kSmDOlkgfme0MKXZl-OB83l95M35tmjDgze2foY-civVofugnB3XThwRBDPujcLBL_fZ-_10OyRqirioQU0WBupHc2W1V3RlK1IiHX9oubQFKm4usOatbea_qO41Y1gKnJZTMajUFZtVdbKyD9mg_QU'); background-size: cover; background-position: center;">
+</div>
+<div class="relative z-10 flex min-h-screen w-full flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 glass-panel border-b border-border-color px-6 py-4 lg:px-10">
+<div class="mx-auto flex max-w-[1400px] items-center justify-between gap-4">
+<div class="flex items-center gap-8">
+<!-- Logo -->
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-3xl">ecg_heart</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-text-main">PulseGym</h1>
+</div>
+<!-- Navigation -->
+<nav class="hidden md:flex items-center gap-1 bg-surface/50 p-1 rounded-full border border-border-color">
+<a class="px-4 py-2 text-sm font-medium text-text-sub hover:text-text-main transition-colors" href="#">Dashboard</a>
+<a class="px-4 py-2 text-sm font-medium text-text-sub hover:text-text-main transition-colors" href="#">Members</a>
+<a class="bg-primary/20 text-text-main px-4 py-2 text-sm font-bold rounded-full transition-colors" href="#">Equipment</a>
+<a class="px-4 py-2 text-sm font-medium text-text-sub hover:text-text-main transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search Bar -->
+<div class="hidden lg:flex items-center rounded-xl bg-white/80 px-4 py-2.5 shadow-sm border border-border-color w-64 focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+<span class="material-symbols-outlined text-text-sub text-[20px]">search</span>
+<input class="ml-2 w-full bg-transparent text-sm text-text-main placeholder-text-sub outline-none border-none p-0 focus:ring-0" placeholder="Search equipment..." type="text"/>
+</div>
+<!-- Notifications -->
+<button class="relative flex h-10 w-10 items-center justify-center rounded-full bg-white border border-border-color hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined text-text-sub text-[24px]">notifications</span>
+<span class="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white"></span>
+</button>
+<!-- User Profile -->
+<div class="h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-sm cursor-pointer" data-alt="User profile picture of a fitness trainer" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDTBMfx9mu2m_wAGocaVHozcxhkvk6RaOkeouDc_PEnyGUi-a9Bwxyy_ldAWimxKV3ita98c16mmkH-Q5QGKEUGBengSw9MrtPJrBLp6xdIhMBpVpvWgB7Q43fDJtyW5p6MeuJpXxatQ2qGaE05Mq6KbSmXGCimmu9mHchV-hEYlHi9p1c3aCb__k9x7yXMeiBvyYHenhM4fNSxLTsOwGviEdt4WNTkeqMmpbg_aINXWE87eBewA73WoMOOvBVNjNFc-PsKQqDHkcI'); background-size: cover;">
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 px-6 py-8 lg:px-10">
+<div class="mx-auto max-w-[1400px] flex flex-col gap-8">
+<!-- Page Heading & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-2">
+<h2 class="text-4xl font-black tracking-tight text-text-main">Equipment Management</h2>
+<p class="text-text-sub font-medium max-w-2xl">Monitor status, schedule maintenance, and track utilization of all gym assets.</p>
+</div>
+<button class="group flex items-center gap-2 rounded-xl bg-primary hover:bg-green-400 text-text-main px-6 py-3 font-bold shadow-lg shadow-primary/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+<span class="material-symbols-outlined">add</span>
+<span>Add New Equipment</span>
+</button>
+</div>
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Total Machines -->
+<div class="glass-panel rounded-xl p-5 border-l-4 border-l-primary flex flex-col justify-between h-32 hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="text-text-sub font-medium text-sm">Total Machines</span>
+<div class="bg-primary/10 p-1.5 rounded-lg text-primary">
+<span class="material-symbols-outlined text-[20px]">fitness_center</span>
+</div>
+</div>
+<div>
+<span class="text-3xl font-bold text-text-main">142</span>
+<div class="flex items-center gap-1 mt-1 text-xs font-semibold text-primary">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+5 new this month</span>
+</div>
+</div>
+</div>
+<!-- In Maintenance -->
+<div class="glass-panel rounded-xl p-5 border-l-4 border-l-orange-400 flex flex-col justify-between h-32 hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="text-text-sub font-medium text-sm">In Maintenance</span>
+<div class="bg-orange-100 p-1.5 rounded-lg text-orange-500">
+<span class="material-symbols-outlined text-[20px]">build</span>
+</div>
+</div>
+<div>
+<span class="text-3xl font-bold text-text-main">3</span>
+<div class="flex items-center gap-1 mt-1 text-xs font-semibold text-orange-500">
+<span>2 scheduled return today</span>
+</div>
+</div>
+</div>
+<!-- Utilization Rate -->
+<div class="glass-panel rounded-xl p-5 border-l-4 border-l-blue-500 flex flex-col justify-between h-32 hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="text-text-sub font-medium text-sm">Avg. Utilization</span>
+<div class="bg-blue-100 p-1.5 rounded-lg text-blue-600">
+<span class="material-symbols-outlined text-[20px]">monitoring</span>
+</div>
+</div>
+<div>
+<span class="text-3xl font-bold text-text-main">87%</span>
+<div class="flex items-center gap-1 mt-1 text-xs font-semibold text-primary">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+<span>+12% vs last week</span>
+</div>
+</div>
+</div>
+<!-- Alert Card -->
+<div class="bg-red-50/80 backdrop-blur-sm rounded-xl p-5 border border-red-100 flex flex-col justify-between h-32 cursor-pointer hover:bg-red-50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-red-800 font-bold text-sm">Attention Required</span>
+<span class="material-symbols-outlined text-red-500 animate-pulse">warning</span>
+</div>
+<div>
+<p class="text-sm text-red-700 font-medium line-clamp-2">Row Machine 3 requires lubrication. Overdue by 2 days.</p>
+<div class="mt-2 flex items-center gap-1 text-xs font-bold text-red-600 uppercase tracking-wider">
+<span>View Details</span>
+<span class="material-symbols-outlined text-[12px]">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Grid Layout: Equipment List + Sidebar -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Left Column: Equipment Grid (2/3 width on large screens) -->
+<div class="xl:col-span-2 flex flex-col gap-6">
+<!-- Filters Toolbar -->
+<div class="glass-panel p-4 rounded-xl flex flex-wrap gap-4 items-center justify-between">
+<div class="flex items-center gap-2 overflow-x-auto hide-scrollbar">
+<button class="px-4 py-2 rounded-lg bg-text-main text-white text-sm font-medium whitespace-nowrap">All Equipment</button>
+<button class="px-4 py-2 rounded-lg hover:bg-white bg-transparent text-text-sub hover:text-text-main text-sm font-medium whitespace-nowrap transition-colors">Cardio</button>
+<button class="px-4 py-2 rounded-lg hover:bg-white bg-transparent text-text-sub hover:text-text-main text-sm font-medium whitespace-nowrap transition-colors">Strength</button>
+<button class="px-4 py-2 rounded-lg hover:bg-white bg-transparent text-text-sub hover:text-text-main text-sm font-medium whitespace-nowrap transition-colors">Free Weights</button>
+<button class="px-4 py-2 rounded-lg hover:bg-white bg-transparent text-text-sub hover:text-text-main text-sm font-medium whitespace-nowrap transition-colors">Recovery</button>
+</div>
+<div class="flex items-center gap-2 ml-auto">
+<button class="p-2 rounded-lg hover:bg-white text-text-sub hover:text-text-main transition-colors" title="Filter">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-white text-text-sub hover:text-text-main transition-colors" title="Sort">
+<span class="material-symbols-outlined">sort</span>
+</button>
+</div>
+</div>
+<!-- Equipment Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Card 1: Treadmill (In Use) -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-border-color hover:shadow-md transition-all group relative overflow-hidden">
+<div class="absolute top-4 right-4 z-10">
+<span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-bold text-blue-600 ring-1 ring-inset ring-blue-600/20">
+<span class="relative flex h-2 w-2 mr-1">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+</span>
+                                        In Use
+                                    </span>
+</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 flex-shrink-0 rounded-xl bg-gray-50 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Modern treadmill in a gym setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDG-VqUqmhk7lLp0XczLu_IUElhAjtVHd0DLFDGz98mR9HqB3mqkpDiZo-tEqDd5EikO8WuQuMvLuIU8PJfbkxfKWCkPZvTpSt8CoIu6WKfnUFCcQqhrMq8xNrp85OxZgIpe5plNiU3pN4Fidu3oq9k8cmP0gnM0NkPpdI9eQbKePl41w45nRtvpyxM3uD-B29EN-tFqCTuMjNXt6_v51iH3e10mf2o3AWr4LkI5eUwFNhnHxyEvZXezcHFEsEH7aE-LVj6MXXqO0"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-text-main text-lg">Treadmill Elite X1</h3>
+<p class="text-text-sub text-sm">Zone A • Cardio</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-text-sub hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-dashed border-border-color">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Last Maint.</span>
+<span class="text-xs font-medium text-text-main">Oct 12, 2023</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Usage</span>
+<span class="text-xs font-bold text-text-main">1,240 sessions</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform bg-gray-50/95 backdrop-blur-sm border-t border-border-color p-2 flex justify-around">
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">edit</span> Edit
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">calendar_add_on</span> Schedule
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-red-500">
+<span class="material-symbols-outlined text-[20px]">delete</span> Delete
+                                    </button>
+</div>
+</div>
+<!-- Card 2: Bench Press (Available) -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-border-color hover:shadow-md transition-all group relative overflow-hidden">
+<div class="absolute top-4 right-4 z-10">
+<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20">
+<span class="relative flex h-2 w-2 mr-1 bg-green-500 rounded-full"></span>
+                                        Available
+                                    </span>
+</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 flex-shrink-0 rounded-xl bg-gray-50 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Weight bench with dumbbells" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmtMdkKj8Tm1qwtgbADMFGpAnATGRBEU1NcFsJLxNP342xQLNX8o7z2xeNP-YCymf7LbQ-NExW72htq9tLyXHtxMQ9cb91_vAhtGaP9C4uAIi5UdxiMGuzYW2q2lppUSTfv32KWSV_WDC-qp8B6sXVZKWcAbP_6l3lUwVcmES0wWXTEZ57JFWvvRiPOm7Ot561w4N8U08oB_xlh1XVxx9WxT7ey2o05FOAhE5gT17dxpWdloBV_lBiTmxwoWzdYCz6SeSWF02CoWw"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-text-main text-lg">Olympic Bench</h3>
+<p class="text-text-sub text-sm">Zone B • Strength</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-text-sub hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-dashed border-border-color">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Last Maint.</span>
+<span class="text-xs font-medium text-text-main">Sep 28, 2023</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Usage</span>
+<span class="text-xs font-bold text-text-main">890 sessions</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform bg-gray-50/95 backdrop-blur-sm border-t border-border-color p-2 flex justify-around">
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">edit</span> Edit
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">calendar_add_on</span> Schedule
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-red-500">
+<span class="material-symbols-outlined text-[20px]">delete</span> Delete
+                                    </button>
+</div>
+</div>
+<!-- Card 3: Elliptical (Maintenance) -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-red-200 ring-1 ring-red-100 hover:shadow-md transition-all group relative overflow-hidden">
+<div class="absolute top-4 right-4 z-10">
+<span class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-bold text-red-700 ring-1 ring-inset ring-red-600/20">
+<span class="material-symbols-outlined text-[14px]">build</span>
+                                        Maintenance
+                                    </span>
+</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 flex-shrink-0 rounded-xl bg-gray-50 overflow-hidden relative">
+<div class="absolute inset-0 bg-red-500/10 z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 grayscale" data-alt="Elliptical machine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxsZGtSa00UQ7kSHQUgwWloqF2ETV7x1PzQ0ZinHJJ-fefEKURwUsCXOA0EoP6rUPTtT3LucJZRDbtEM2KwJfAUlkmaMNAFSl8JwQYOCh8tcLEKf9n_xTYui9dBWBVviI9oSpDGKuoJxLT6s14clGKIa4vr9wHsBsCW7vtgPMZJKZmF2zVFQ89HL-LnwPAR6NoYK5ngjxJyPbX_dahcnkSXVgmKSSbeFFdUKN1e7FAv9sGpF9z8mZts_aYWahoBCZc6GaAWHu-y8Y"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-text-main text-lg">Elliptical E-Series</h3>
+<p class="text-text-sub text-sm">Zone A • Cardio</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-text-sub hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-dashed border-border-color">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Est. Return</span>
+<span class="text-xs font-bold text-red-600">Tomorrow</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Usage</span>
+<span class="text-xs font-bold text-text-main">2,105 sessions</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform bg-gray-50/95 backdrop-blur-sm border-t border-border-color p-2 flex justify-around">
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">check_circle</span> Finish
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">sticky_note_2</span> Log
+                                    </button>
+</div>
+</div>
+<!-- Card 4: Cable Machine (Low Usage) -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-border-color hover:shadow-md transition-all group relative overflow-hidden">
+<div class="absolute top-4 right-4 z-10">
+<span class="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2 py-1 text-xs font-bold text-orange-700 ring-1 ring-inset ring-orange-600/20">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                        Low Usage
+                                    </span>
+</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 flex-shrink-0 rounded-xl bg-gray-50 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Cable crossover machine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWChDmIm7S1spJU0Uno_tHEWyLjEOdVBMWlaP-7qd6kOwnAbx-nmEomVMkohMYhyODdazlZ02TBx-WQ_VvXWze6y4u2lJsAWitn1XvcH6yXnjdUrp6Owm13l1kgFTeCCHjEmH1znKfTg0JUfq9wawRZJCvlRxXncUKQM7idzw64i4j66F5Bo6OcJsBoDZdeG8YMCzoofoDtRI_55j6nEOhTwFpA8KybYaRiuigWwoYKFfdC84uS9hfLka237MW4KH4fDR3c1gkyTc"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-text-main text-lg">Cable Crossover</h3>
+<p class="text-text-sub text-sm">Zone C • Strength</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-text-sub hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-dashed border-border-color">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Last Maint.</span>
+<span class="text-xs font-medium text-text-main">Aug 15, 2023</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Usage</span>
+<span class="text-xs font-bold text-orange-500">12 sessions</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform bg-gray-50/95 backdrop-blur-sm border-t border-border-color p-2 flex justify-around">
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">edit</span> Edit
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">campaign</span> Promote
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-red-500">
+<span class="material-symbols-outlined text-[20px]">delete</span> Delete
+                                    </button>
+</div>
+</div>
+<!-- Card 5: Rowing Machine (Available) -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-border-color hover:shadow-md transition-all group relative overflow-hidden">
+<div class="absolute top-4 right-4 z-10">
+<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20">
+<span class="relative flex h-2 w-2 mr-1 bg-green-500 rounded-full"></span>
+                                        Available
+                                    </span>
+</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 flex-shrink-0 rounded-xl bg-gray-50 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Rowing machine detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC60cYP00ochQG4xwJOONaJmHXE3N8egQK_rvfII1bbz3SQqVTHNGnu2L-PFdb3bhDnF8duRtWBzSgisyRGV_fUbb2CGA9-8Rm-dA6RiEIhdM8jLoE-JyaCVqT0KUo85voEkggDhZOhza6e0-F4WpYnf_3DNrEJmJ_rmJ_0VOFFMG0H0XCIQv1nG4TC4MwU_oI5zRTCUYINtYXftRRRMDOmWJRCOxsLSUA9dumUnqkwuqLpC7-4dzURIv3KP_A1GzwtwYCrutxtnUo"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-text-main text-lg">WaterRower S4</h3>
+<p class="text-text-sub text-sm">Zone B • Cardio</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-text-sub hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-dashed border-border-color">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Last Maint.</span>
+<span class="text-xs font-medium text-text-main">Nov 01, 2023</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Usage</span>
+<span class="text-xs font-bold text-text-main">340 sessions</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform bg-gray-50/95 backdrop-blur-sm border-t border-border-color p-2 flex justify-around">
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">edit</span> Edit
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">calendar_add_on</span> Schedule
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-red-500">
+<span class="material-symbols-outlined text-[20px]">delete</span> Delete
+                                    </button>
+</div>
+</div>
+<!-- Card 6: Dumbbell Rack (Available) -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-border-color hover:shadow-md transition-all group relative overflow-hidden">
+<div class="absolute top-4 right-4 z-10">
+<span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-bold text-green-700 ring-1 ring-inset ring-green-600/20">
+<span class="relative flex h-2 w-2 mr-1 bg-green-500 rounded-full"></span>
+                                        Available
+                                    </span>
+</div>
+<div class="flex gap-4">
+<div class="w-24 h-24 flex-shrink-0 rounded-xl bg-gray-50 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Full rack of dumbbells" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATjDy8VO412QMAfd4zGbSF1tXZyXC4UILCnpXP8TvdQ60vMtEBK2iuXhVW-xLePluuyhSkGsBm9P4RqN623ilsPvG2zdiz_Iosr1LjNS4DuVf5U8HLTA4id2MzcFxIji7qpbncBKxXl11R0CoX7gsowtTIg1c6otec3Hg04qovjtPw36IBSzQumMQPxRqBUv2tmnYBRvYHO0qIvpHhIrcD1NXc48B8nkZptA9O1Ie5ikBj7B1QM21rUzFKzIwEpHRYgRGxW4YTyi8"/>
+</div>
+<div class="flex flex-col flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-text-main text-lg">Pro Dumbbell Set</h3>
+<p class="text-text-sub text-sm">Zone D • Free Weights</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-text-sub hover:text-text-main">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-dashed border-border-color">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Last Check</span>
+<span class="text-xs font-medium text-text-main">Yesterday</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase font-bold text-text-sub tracking-wider">Usage</span>
+<span class="text-xs font-bold text-text-main">High</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hover Actions Overlay -->
+<div class="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform bg-gray-50/95 backdrop-blur-sm border-t border-border-color p-2 flex justify-around">
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">edit</span> Edit
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-text-main">
+<span class="material-symbols-outlined text-[20px]">calendar_add_on</span> Schedule
+                                    </button>
+<button class="flex-1 flex flex-col items-center gap-1 p-1 hover:bg-white rounded-lg transition-colors text-xs font-medium text-red-500">
+<span class="material-symbols-outlined text-[20px]">delete</span> Delete
+                                    </button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center pt-4">
+<nav class="flex items-center gap-2">
+<button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white border border-border-color hover:bg-gray-50 text-text-main">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg bg-primary text-text-main font-bold">1</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white border border-border-color hover:bg-gray-50 text-text-main font-medium">2</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white border border-border-color hover:bg-gray-50 text-text-main font-medium">3</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg bg-white border border-border-color hover:bg-gray-50 text-text-main">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</nav>
+</div>
+</div>
+<!-- Right Column: Analytics & Scheduler -->
+<div class="xl:col-span-1 flex flex-col gap-6">
+<!-- Maintenance Calendar -->
+<div class="glass-panel p-6 rounded-2xl border border-border-color">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-lg text-text-main">Maintenance Schedule</h3>
+<button class="text-xs font-bold text-primary hover:text-green-600 transition-colors uppercase tracking-wide">View Full</button>
+</div>
+<!-- Mini Calendar Implementation -->
+<div class="mb-4">
+<div class="flex items-center justify-between mb-2 px-1">
+<button><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<span class="text-sm font-bold">October 2023</span>
+<button><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+<div class="grid grid-cols-7 text-center text-xs gap-1">
+<div class="text-text-sub font-bold py-1">S</div>
+<div class="text-text-sub font-bold py-1">M</div>
+<div class="text-text-sub font-bold py-1">T</div>
+<div class="text-text-sub font-bold py-1">W</div>
+<div class="text-text-sub font-bold py-1">T</div>
+<div class="text-text-sub font-bold py-1">F</div>
+<div class="text-text-sub font-bold py-1">S</div>
+<!-- Days -->
+<div class="py-1 text-gray-300">29</div>
+<div class="py-1 text-gray-300">30</div>
+<div class="py-1">1</div>
+<div class="py-1">2</div>
+<div class="py-1">3</div>
+<div class="py-1 relative">4 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-red-500 rounded-full"></span></div>
+<div class="py-1 bg-primary text-text-main rounded-full font-bold">5</div> <!-- Today -->
+<div class="py-1">6</div>
+<div class="py-1">7</div>
+<div class="py-1">8</div>
+<div class="py-1 relative">9 <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full"></span></div>
+<div class="py-1">10</div>
+<div class="py-1">11</div>
+<div class="py-1">12</div>
+</div>
+</div>
+<!-- Upcoming Tasks List -->
+<div class="space-y-3">
+<div class="flex gap-3 items-start p-3 bg-white rounded-xl border border-border-color shadow-sm">
+<div class="bg-red-100 text-red-600 rounded-lg p-2 shrink-0">
+<span class="material-symbols-outlined text-[18px]">build</span>
+</div>
+<div>
+<p class="text-sm font-bold text-text-main">Elliptical Repair</p>
+<p class="text-xs text-text-sub">Technician: John Doe • 2pm Today</p>
+</div>
+</div>
+<div class="flex gap-3 items-start p-3 bg-white rounded-xl border border-border-color shadow-sm">
+<div class="bg-orange-100 text-orange-600 rounded-lg p-2 shrink-0">
+<span class="material-symbols-outlined text-[18px]">oil_barrel</span>
+</div>
+<div>
+<p class="text-sm font-bold text-text-main">Chain Lubrication</p>
+<p class="text-xs text-text-sub">Row Machines 1-4 • Oct 9</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Usage Chart -->
+<div class="glass-panel p-6 rounded-2xl border border-border-color flex-1">
+<div class="flex flex-col gap-2 mb-6">
+<h3 class="font-bold text-lg text-text-main">Peak Usage Hours</h3>
+<p class="text-xs text-text-sub">Based on equipment sensor data (Last 24h)</p>
+</div>
+<div class="relative h-48 w-full">
+<!-- Chart Bars -->
+<div class="flex h-full items-end justify-between gap-2">
+<div class="w-full bg-primary/20 rounded-t-md relative group hover:bg-primary/40 transition-colors" style="height: 20%">
+<span class="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-text-main text-white text-[10px] py-1 px-2 rounded">6am</span>
+</div>
+<div class="w-full bg-primary/20 rounded-t-md relative group hover:bg-primary/40 transition-colors" style="height: 45%"></div>
+<div class="w-full bg-primary/20 rounded-t-md relative group hover:bg-primary/40 transition-colors" style="height: 30%"></div>
+<div class="w-full bg-primary/20 rounded-t-md relative group hover:bg-primary/40 transition-colors" style="height: 60%"></div>
+<div class="w-full bg-primary/20 rounded-t-md relative group hover:bg-primary/40 transition-colors" style="height: 40%"></div>
+<div class="w-full bg-primary rounded-t-md relative group shadow-[0_0_15px_rgba(37,244,106,0.4)]" style="height: 90%">
+<span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-text-main text-white text-[10px] py-1 px-2 rounded font-bold shadow-lg">6pm</span>
+</div>
+<div class="w-full bg-primary/20 rounded-t-md relative group hover:bg-primary/40 transition-colors" style="height: 75%"></div>
+<div class="w-full bg-primary/20 rounded-t-md relative group hover:bg-primary/40 transition-colors" style="height: 30%"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] text-text-sub font-bold uppercase tracking-widest">
+<span>6am</span>
+<span>12pm</span>
+<span>6pm</span>
+<span>12am</span>
+</div>
+<div class="mt-6 pt-4 border-t border-border-color">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-xs text-text-sub">Current Occupancy</p>
+<p class="text-xl font-bold text-text-main">118 <span class="text-sm font-normal text-text-sub">/ 200</span></p>
+</div>
+<div class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined">group</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
